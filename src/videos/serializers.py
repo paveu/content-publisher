@@ -5,7 +5,7 @@ from .models import Video
 
 class VideoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Video 
+        model = Video
         fields = [
                     'id',
                     'title',
@@ -18,5 +18,7 @@ class VideoSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class VideoViewSet(viewsets.ModelViewSet):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
