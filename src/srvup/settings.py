@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import datetime
+from .utils import jwt_response_payload_handler
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -49,14 +51,6 @@ INSTALLED_APPS = (
     'videos',
 )
 CRISPY_TEMPLATE_PACK = "bootstrap3"
-
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
-}
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -134,3 +128,26 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "media")
 BRAINTREE_MERCHANT_ID = "v35fphbvqtvrp35k"
 BRAINTREE_PUBLIC_KEY = "kkhkgx4bmkswv5yp"
 BRAINTREE_PRIVATE_KEY = "7d8e596cb7ebe43e843ef95e9e068fa6"
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+}
+
+JWT_AUTH = {
+#     'JWT_RESPONSE_PAYLOAD_HANDLER': jwt_response_payload_handler,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=5),
+}
+
+"""
+curl -X POST -d "username=paveu&password=alamator" http://127.0.0.1:8000/api/auth/token/
+curl -H "Authorization: JWT " http://127.0.0.1:8000/api/videos/ 
+"""
