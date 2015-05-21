@@ -148,6 +148,6 @@ JWT_AUTH = {
 }
 
 """
-curl -X POST -d "username=paveu&password=alamator" http://127.0.0.1:8000/api/auth/token/
-curl -H "Authorization: JWT " http://127.0.0.1:8000/api/videos/ 
+curl -X POST -d "username=paveu&password=123" http://127.0.0.1:8000/api/auth/token/
+curl -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzIyNDE0NDF9.f_NiCO_XZNubcniosNCBhLpYw4ty854joeG28_2-CRs" http://127.0.0.1:8000/api/videos/ 
 """
