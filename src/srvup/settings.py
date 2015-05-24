@@ -144,7 +144,7 @@ REST_FRAMEWORK = {
 
 JWT_AUTH = {
 #     'JWT_RESPONSE_PAYLOAD_HANDLER': jwt_response_payload_handler,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=5),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=500000),
 }
 
 """

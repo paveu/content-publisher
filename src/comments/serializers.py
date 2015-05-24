@@ -1,6 +1,6 @@
-# from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework import routers, serializers, viewsets, permissions
-# from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework import serializers, viewsets, permissions
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from django.contrib.auth import get_user_model
 
@@ -34,16 +34,16 @@ class CommentSerializer(serializers.HyperlinkedModelSerializer):
                     'url',
                     'id',
                     'replies',
-#                     'parent',
+                    'parent',
                     'user',
-#                     'video',
+                    'video',
                     'text',
                    ]
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-#     authentication_classes = [SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication]
-#     permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
