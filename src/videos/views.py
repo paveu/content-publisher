@@ -12,11 +12,26 @@ from comments.forms import CommentForm
 from comments.models import Comment
 #################################
 
-from .serializers import CategorySerializer
+from .serializers import CategorySerializer, VideoSerializer
+
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework import serializers, viewsets, permissions
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+
+
+class VideoDetailAPIView(generics.RetrieveAPIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication]
+    queryset = Video.objects.all()
+    serializer_class = VideoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        cat_slug = self.kwargs["cat_slug"]
+        vid_slug = self.kwargs["vid_slug"]
+        category = get_object_or_404(Category, slug=cat_slug)
+        obj = get_object_or_404(Video, category=category, slug=vid_slug)
+        return obj
 
 
 class CategoryListAPIView(generics.ListAPIView):
@@ -26,16 +41,15 @@ class CategoryListAPIView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     paginate_by = 10
 
+
 class CategoryDetailAPIView(generics.RetrieveAPIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
-    
+
     def get_object(self):
-        print "args:", self.args
-        print "kwargs:", self.kwargs
-        slug = self.kwargs.pop("slug")
+        slug = self.kwargs["slug"]
         obj = get_object_or_404(Category, slug=slug)
         return obj
 
