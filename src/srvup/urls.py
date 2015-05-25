@@ -7,6 +7,7 @@ from django.views.generic import TemplateView
 from rest_framework import routers
 from videos.serializers import VideoViewSet, CategoryViewSet
 from comments.serializers import CommentViewSet
+from videos.views import CategoryListAPIView
 
 router = routers.DefaultRouter()
 router.register(r'categories', CategoryViewSet)
@@ -14,10 +15,10 @@ router.register(r'comments', CommentViewSet)
 router.register(r'videos', VideoViewSet)
 
 urlpatterns = patterns('',
+    url(r'^api2/projects/', CategoryListAPIView.as_view(), name='category_list_api'),
     # Examples:
     url(r'^$', 'srvup.views.home', name='home'),
     url(r'^contact_us/$', TemplateView.as_view(template_name='company/contact_us.html'), name='contact_us'),
-
 #     url(r'^staff/$', 'srvup.views.staff_home', name='staff'),
     url(r'^projects/$', 'videos.views.category_list', name='projects'),
     url(r'^projects/(?P<cat_slug>[\w-]+)/$', 'videos.views.category_detail', name='project_detail'),

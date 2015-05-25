@@ -12,6 +12,17 @@ from comments.forms import CommentForm
 from comments.models import Comment
 #################################
 
+from .serializers import CategorySerializer
+from rest_framework import generics
+
+class CategoryListAPIView(generics.ListAPIView):
+    #authentication_classes
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+#     permission_classes = (IsAdminUser,)
+    paginate_by = 2
+    
+
 #@login_required
 def video_detail(request, cat_slug, vid_slug):
     cat = get_object_or_404(Category, slug=cat_slug)
