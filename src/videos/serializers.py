@@ -4,8 +4,18 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from .models import Video, Category
 from comments.serializers import CommentSerializer
+from rest_framework.reverse import reverse
+
+class CategoryUrlHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
+#     lookup_field = 'slug'
+    def get_url(self, obj, view_name, request, format):
+        kwargs = {
+            'slug': obj.slug,
+        }
+        return reverse(view_name, kwargs=kwargs, request=request, format=format)
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    url = CategoryUrlHyperlinkedIdentityField(view_name='category_detail_api')
     class Meta:
         model = Category
         fields = [
