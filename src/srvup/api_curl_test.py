@@ -37,3 +37,16 @@ curl -X POST -d "text='great video comment'&user=1&video=http://127.0.0.1:8000/a
 ### Adding child comment to its parent comment with id=134 ###
 curl -X POST -d "text='great video comment CHILD CHILD'&user=1&parent=http://127.0.0.1:8000/api/comments/134/" http://127.0.0.1:8000/api/comments/.json -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzI5Njc2OTB9.sNOCSV6H89XOoWHVqTVGqet2btbFbPb5U_zT1tAheWg"
 {"url":"http://127.0.0.1:8000/api/comments/137/.json","id":137,"replies":[],"parent":"http://127.0.0.1:8000/api/comments/134/.json","user":1,"video":null,"text":"'great video comment CHILD CHILD'"}
+
+# API 2 with CBViews
+
+curl -X POST -d "text='great video comment CHILD CHILD'&user=1&parent=http://127.0.0.1:8000/api/comments/134/" http://127.0.0.1:8000/api2/projects/abc/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzMwNTMzODl9.vbe79XMAtY2iFZFOUDei-Oi2jxIdVHevOR0zpK1XF2E"
+{"detail":"Method \"POST\" not allowed."}
+
+curl -X DELETE -d "text='great video comment CHILD CHILD'&user=1&parent=http://127.0.0.1:8000/api/comments/134/" http://127.0.0.1:8000/api2/projects/abc/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzMwNTMzODl9.vbe79XMAtY2iFZFOUDei-Oi2jxIdVHevOR0zpK1XF2E"
+{"detail":"Method \"DELETE\" not allowed."}
+
+curl -X PUT -d "text='great video comment CHILD CHILD'&user=1&parent=http://127.0.0.1:8000/api/comments/134/" http://127.0.0.1:8000/api2/projects/abc/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzMwNTMzODl9.vbe79XMAtY2iFZFOUDei-Oi2jxIdVHevOR0zpK1XF2E"
+{"detail":"Method \"PUT\" not allowed."}
+
+curl -X GET http://127.0.0.1:8000/api2/projects/abc/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzMwNTMzODl9.vbe79XMAtY2iFZFOUDei-Oi2jxIdVHevOR0zpK1XF2E"
