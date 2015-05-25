@@ -1,4 +1,4 @@
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse 
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
@@ -14,14 +14,30 @@ from comments.models import Comment
 
 from .serializers import CategorySerializer
 from rest_framework import generics
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework import serializers, viewsets, permissions
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+
 
 class CategoryListAPIView(generics.ListAPIView):
-    #authentication_classes
+    authentication_classes = [SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-#     permission_classes = (IsAdminUser,)
-    paginate_by = 2
+    permission_classes = [permissions.IsAuthenticated]
+    paginate_by = 10
+
+class CategoryDetailAPIView(generics.RetrieveAPIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication]
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAuthenticated]
     
+    def get_object(self):
+        print "args:", self.args
+        print "kwargs:", self.kwargs
+        slug = self.kwargs.pop("slug")
+        obj = get_object_or_404(Category, slug=slug)
+        return obj
 
 #@login_required
 def video_detail(request, cat_slug, vid_slug):
