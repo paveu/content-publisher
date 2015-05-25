@@ -2,12 +2,17 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import render, Http404, HttpResponseRedirect, get_object_or_404
-
+from rest_framework import generics, mixins
 # Create your views here.
 from notifications.signals import notify
 from videos.models import Video
 from .models import Comment
 from .forms import CommentForm
+
+from .serializers import CommentCreateSerializer
+
+class CommentAPICreateView(generics.CreateAPIView):
+    serializer_class = CommentCreateSerializer
 
 @login_required
 def comment_thread(request, id):
