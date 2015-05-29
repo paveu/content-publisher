@@ -28,6 +28,7 @@ class ChildCommentSerializer(serializers.HyperlinkedModelSerializer):
                    ]
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField("comment_detail_api", lookup_field="id")
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     replies = serializers.SerializerMethodField(read_only=True)
     

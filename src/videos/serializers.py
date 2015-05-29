@@ -53,16 +53,17 @@ class VideoViewSet(viewsets.ModelViewSet):
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
 
-class CategoryUrlHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
-#     lookup_field = 'slug'
-    def get_url(self, obj, view_name, request, format):
-        kwargs = {
-            'slug': obj.slug,
-        }
-        return reverse(view_name, kwargs=kwargs, request=request, format=format)
+# class CategoryUrlHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
+# #     lookup_field = 'slug'
+#     def get_url(self, obj, view_name, request, format):
+#         kwargs = {
+#             'slug': obj.slug,
+#         }
+#         return reverse(view_name, kwargs=kwargs, request=request, format=format)
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
-    url = CategoryUrlHyperlinkedIdentityField(view_name='category_detail_api', lookup_field='slug')
+#     url = CategoryUrlHyperlinkedIdentityField(view_name='category_detail_api', lookup_field='slug')
+    url = serializers.HyperlinkedIdentityField('category_detail_api', lookup_field='slug')
     video_set = VideoSerializer(many=True)
     class Meta:
         model = Category

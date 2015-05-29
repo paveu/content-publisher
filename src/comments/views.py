@@ -14,6 +14,11 @@ from .serializers import CommentCreateSerializer
 class CommentAPICreateView(generics.CreateAPIView):
     serializer_class = CommentCreateSerializer
 
+class CommentDetailAPIView(generics.RetrieveAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentCreateSerializer
+    lookup_field = 'id'
+
 @login_required
 def comment_thread(request, id):
     comment = get_object_or_404(Comment, id=id)
