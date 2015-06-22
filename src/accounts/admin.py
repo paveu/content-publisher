@@ -4,8 +4,8 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 from .models import MyUser, UserProfile
-
 from .forms import UserChangeForm, UserCreationForm
+
 
 class MyUserAdmin(UserAdmin):
     # The forms to add and change user instances
@@ -15,8 +15,13 @@ class MyUserAdmin(UserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('__unicode__', 'email', 'username', 'is_admin', 'first_name', 'is_member')
-    list_filter = ('is_admin','is_member',)
+    list_display = ('__unicode__',
+                    'email',
+                    'username',
+                    'is_admin',
+                    'first_name',
+                    'is_member')
+    list_filter = ('is_admin', 'is_member',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name')}),
@@ -27,10 +32,17 @@ class MyUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'email', 'password1', 'password2','first_name', 'last_name')}
-        ),
+            'fields': ('username',
+                       'email',
+                       'password1',
+                       'password2',
+                       'first_name',
+                       'last_name')}),
     )
-    search_fields = ('email','username','first_name', 'last_name')
+    search_fields = ('email',
+                     'username',
+                     'first_name',
+                     'last_name')
     ordering = ('username',)
     filter_horizontal = ()
 

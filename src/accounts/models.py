@@ -15,6 +15,7 @@ braintree.Configuration.configure(braintree.Environment.Sandbox,
 from billing.models import Membership, UserMerchantId
 from notifications.signals import notify
 
+
 class MyUserManager(BaseUserManager):
     def create_user(self, username=None, email=None, password=None):
         """
@@ -27,7 +28,7 @@ class MyUserManager(BaseUserManager):
             raise ValueError('Users must have an email address')
 
         user = self.model(
-            username = username,
+            username=username,
             email=self.normalize_email(email),
         )
 
@@ -41,13 +42,14 @@ class MyUserManager(BaseUserManager):
         """
         user = self.create_user(
             username=username,
-            email=email,            
-            password=password,  
+            email=email,
+            password=password,
         )
         user.is_admin = True
         user.save(using=self._db)
         return user
-   
+
+
 class MyUser(AbstractBaseUser):
     username = models.CharField(
         max_length=255,
@@ -63,10 +65,10 @@ class MyUser(AbstractBaseUser):
                                   blank=True
                                   )
     last_name = models.CharField(max_length=120,
-                                  null=True,
-                                  blank=True
-                                  )
-    is_member = models.BooleanField(default=False, verbose_name="Is Paid Member")
+                                 null=True,
+                                 blank=True)
+    is_member = models.BooleanField(default=False,
+                                    verbose_name="Is Paid Member")
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
@@ -102,13 +104,12 @@ class MyUser(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
-     
 
 def user_logged_in_signal(sender, signal, request, user, **kwargs):
 #     print "user.is_member", user.is_member
 #     print "user.membership.date_start:", user.membership.date_start
 #     print "user.membership.date_end:", user.membership.date_end
-     
+
     request.session.set_expiry(60000)
     membership_obj, created = Membership.objects.get_or_create(user=user)
     if created:
@@ -117,8 +118,9 @@ def user_logged_in_signal(sender, signal, request, user, **kwargs):
         user.is_member = True
         user.save()
     user.membership.update_status()
- 
+
 user_logged_in.connect(user_logged_in_signal)
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(MyUser)
@@ -134,6 +136,7 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return self.user.username
+
 
 def new_user_receiver(sender, instance, created, *args, **kwargs):
     if created:
@@ -156,8 +159,8 @@ def new_user_receiver(sender, instance, created, *args, **kwargs):
         #print "user account already exists"
     except:
         new_customer_result = braintree.Customer.create({
-                            "email": instance.email
-                            })
+                                                         "email": instance.email
+                                                         })
         if new_customer_result.is_success:
             merchant_obj, created = UserMerchantId.objects.get_or_create(user=instance)
             merchant_obj.customer_id = new_customer_result.customer.id

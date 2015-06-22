@@ -4,14 +4,14 @@ from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 from django.http.response import HttpResponseRedirect
 from django.core.urlresolvers import reverse
- 
+
 from billing.models import Transaction
 from notifications.models import Notification
 
 from .models import MyUser
 from .forms import LoginForm, RegisterForm
-
 # Create your views here.
+
 
 @login_required
 def account_home(request):
@@ -21,6 +21,7 @@ def account_home(request):
                "transactions": transactions,
                }
     return render(request, "accounts/account_home.html", context)
+
 
 def auth_logout(request):
     logout(request)
@@ -57,6 +58,7 @@ def auth_login(request):
                }
     return render(request, "accounts/account_login_register.html", context)
 
+
 def auth_register(request):
     form = RegisterForm(request.POST or None)
     if form.is_valid():
@@ -75,8 +77,7 @@ def auth_register(request):
     title = "Register"
     submit_btn = "Create free account"
 
-    context = {
-               "form": form,
+    context = {"form": form,
                "action_url": action_url,
                "title": title,
                "submit_btn": submit_btn,
