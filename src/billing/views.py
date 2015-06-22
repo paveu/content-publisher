@@ -17,6 +17,7 @@ braintree.Configuration.configure(braintree.Environment.Sandbox,
 
 PLAN_ID = "monthly_plan"
 
+
 @login_required
 def cancel_subscription(request):
     sub_id = request.user.usermerchantid.subscription_id
@@ -47,7 +48,7 @@ def upgrade(request):
         merchant_customer_id = merchant_obj.customer_id
         print merchant_customer_id
         client_token = braintree.ClientToken.generate({
-                "customer_id": merchant_customer_id
+                                                       "customer_id": merchant_customer_id
         })
         if request.method == "POST":
             nonce = request.POST.get("payment_method_nonce", None)
@@ -96,7 +97,8 @@ def upgrade(request):
 
                 if did_update_sub and not did_create_sub:
                     messages.success(request, "Your plan has been updated")
-                    membership_dates_update.send(membership_instance, new_date_start=timezone.now())
+                    membership_dates_update.send(membership_instance,
+                                                 new_date_start=timezone.now())
                     return redirect("account_upgrade")
                 elif did_create_sub and not did_update_sub:
                     merchant_obj.subscription_id = create_sub.subscription.id
@@ -111,7 +113,8 @@ def upgrade(request):
                         trans_timestamp = new_tran.timestamp
                         trans_success = new_tran.success
 
-                    membership_dates_update.send(membership_instance, new_date_start=trans_timestamp)
+                    membership_dates_update.send(membership_instance,
+                                                 new_date_start=trans_timestamp)
                     messages.success(request, "Welcome to our service")
                     return redirect("billing_history")
                 else:
@@ -131,7 +134,7 @@ def get_or_create_model_transaction(user, braintree_transaction):
         created = True
         payment_type = braintree_transaction.payment_instrument_type
         amount = braintree_transaction.amount
-    
+
         # customer_card = braintree.Customer.find(merchant_customer_id).credit_card[0].token
         if payment_type == braintree.PaymentInstrumentType.PayPalAccount:
             trans = Transaction.objects.create_new(user, trans_id, amount, "Paypal")
@@ -140,16 +143,20 @@ def get_or_create_model_transaction(user, braintree_transaction):
             credit_card_details = braintree_transaction.credit_card_details
             card_type = credit_card_details.card_type
             last_4 = credit_card_details.last_4
-            trans = Transaction.objects.create_new(user, trans_id, amount, card_type, last_four=last_4)
+            trans = Transaction.objects.create_new(user,
+                                                   trans_id,
+                                                   amount,
+                                                   card_type,
+                                                   last_four=last_4)
         else:
             created = False
             trans = None
     return trans, created
 
+
 def update_transaction(user):
     bt_transactions = braintree.Transaction.search(
-                braintree.TransactionSearch.customer_id == user.usermerchantid.customer_id
-            )
+                braintree.TransactionSearch.customer_id == user.usermerchantid.customer_id)
     try:
         django_transactions = user.transaction_set.all()
     except:
@@ -160,9 +167,10 @@ def update_transaction(user):
         else:
             for bt_tran in bt_transactions.items:
                 new_tran, created = get_or_create_model_transaction(user, bt_tran)
-@login_required             
+
+
+@login_required
 def billing_history(request):
     update_transaction(request.user)
     history = Transaction.objects.filter(user=request.user).filter(success=True)
     return render(request, "billing/history.html", {"queryset": history})
-
