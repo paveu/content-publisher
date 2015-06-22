@@ -27,16 +27,17 @@ def cancel_subscription(request):
             request.user.usermerchantid.save()
             messages.success(request, "Your account has been successfully cancelled")
         else:
-            messages.error(request, "There was an error with your account, please contact us")            
+            messages.error(request, "There was an error with your account, please contact us")
     else:
         messages.success(request, "You do not have an active subscription")
     return redirect("billing_history")
+
 
 @login_required
 def upgrade(request):
     if request.user.is_authenticated():
         try:
-            #something to get the current customer id stored somewhere
+            # something to get the current customer id stored somewhere
             merchant_obj = UserMerchantId.objects.get(user=request.user)
             print "user account already exists"
         except:
@@ -101,7 +102,7 @@ def upgrade(request):
                     merchant_obj.subscription_id = create_sub.subscription.id
                     merchant_obj.plan_id = PLAN_ID
                     merchant_obj.save()
-                    
+
                     bt_tran = create_sub.subscription.transactions[0]
                     new_tran, created = get_or_create_model_transaction(request.user, bt_tran)
                     trans_success = False
@@ -119,6 +120,7 @@ def upgrade(request):
 
     context = {"client_token": client_token}
     return render(request, "billing/upgrade.html", context)
+
 
 def get_or_create_model_transaction(user, braintree_transaction):
     trans_id = braintree_transaction.id

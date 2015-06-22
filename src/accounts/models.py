@@ -106,9 +106,9 @@ class MyUser(AbstractBaseUser):
 
 
 def user_logged_in_signal(sender, signal, request, user, **kwargs):
-#     print "user.is_member", user.is_member
-#     print "user.membership.date_start:", user.membership.date_start
-#     print "user.membership.date_end:", user.membership.date_end
+    # print "user.is_member", user.is_member
+    # print "user.membership.date_start:", user.membership.date_start
+    # print "user.membership.date_end:", user.membership.date_end
 
     request.session.set_expiry(60000)
     membership_obj, created = Membership.objects.get_or_create(user=user)
@@ -130,9 +130,9 @@ class UserProfile(models.Model):
                                      blank=True,
                                      verbose_name='Facebook profile URL')
     twitter_handle = models.CharField(max_length=320,
-                                     null=True,
-                                     blank=True,
-                                     verbose_name='Twitter handle')
+                                      null=True,
+                                      blank=True,
+                                      verbose_name='Twitter handle')
 
     def __unicode__(self):
         return self.user.username
@@ -141,22 +141,21 @@ class UserProfile(models.Model):
 def new_user_receiver(sender, instance, created, *args, **kwargs):
     if created:
         new_profile, is_created = UserProfile.objects.get_or_create(user=instance)
-        #print "new_profile.username:", new_profile.user
-        #print "is_created:", is_created
-        notify.send(
-                    instance, 
-#                     action=new_comment, 
-#                     target=new_comment.video, 
+        # print "new_profile.username:", new_profile.user
+        # print "is_created:", is_created
+        notify.send(instance,
+                    # action=new_comment,
+                    # target=new_comment.video,
                     recipient=MyUser.objects.get(username='paveu'),
                     verb='new user created',
                     affected_users=None,
-#                     affected_users=[MyUser.objects.get(username=new_profile.user)],
+                    # affected_users=[MyUser.objects.get(username=new_profile.user)],
                     )
     # merchant account customer id -- stripe vs braintree
     try:
-        #something to get the current customer id stored somewhere
+        # something to get the current customer id stored somewhere
         merchant_obj = UserMerchantId.objects.get(user=instance)
-        #print "user account already exists"
+        # print "user account already exists"
     except:
         new_customer_result = braintree.Customer.create({
                                                          "email": instance.email

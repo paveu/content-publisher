@@ -11,6 +11,7 @@ braintree.Configuration.configure(braintree.Environment.Sandbox,
 
 from .signals import membership_dates_update
 
+
 def check_membership_status(subscription_id):
     sub = braintree.Subscription.find(subscription_id)
     if sub.status == "Active":
@@ -22,6 +23,7 @@ def check_membership_status(subscription_id):
     # checking in braintree
     return status, next_billing_date
 
+
 def update_braintree_membership(user):
     user = user
     membership = user.membership
@@ -31,23 +33,22 @@ def update_braintree_membership(user):
     if membership.date_end <= timezone.now() and subscription_id is not None:
         status, next_billing_date = check_membership_status(subscription_id)
         if status:
-            small_time = datetime.time(0,0,0,1)
+            small_time = datetime.time(0, 0, 0, 1)
             print "small_time:", small_time
-            datetime_obj = datetime.datetime.combine(next_billing_date, small_time)
+            datetime_obj = datetime.datetime.combine(next_billing_date,
+                                                     small_time)
             print "datetime_obj:", datetime_obj
-            datetime_aware = timezone.make_aware(datetime_obj, timezone.get_current_timezone())
+            datetime_aware = timezone.make_aware(datetime_obj,
+                                                 timezone.get_current_timezone())
             print "datetime_aware:", datetime_aware
 
-            membership_dates_update.send(membership, new_date_start=datetime_aware)
-        #check membership
-        #if active, then update status
+            membership_dates_update.send(membership,
+                                         new_date_start=datetime_aware)
+        # check membership
+        # if active, then update status
         else:
             membership.update_status()
     elif subscription_id is None:
         membership.update_status()
     else:
         pass
-        
-        
-        
-        

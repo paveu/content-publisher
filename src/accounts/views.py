@@ -66,7 +66,7 @@ def auth_register(request):
         email = form.cleaned_data['email']
         password = form.cleaned_data['password2']
 
-#         MyUser.objects.create_user(username=username, email=email, password=password)
+        # MyUser.objects.create_user(username=username, email=email, password=password)
         new_user = MyUser()
         new_user.username = username
         new_user.email = email
