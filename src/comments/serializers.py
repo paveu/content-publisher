@@ -8,12 +8,14 @@ from .models import Comment
 
 User = get_user_model()
 
+
 class CommentUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = [
                   'text'
                   ]
+
 
 class CommentCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,8 +26,10 @@ class CommentCreateSerializer(serializers.ModelSerializer):
                   'video',
                   ]
 
+
 class ChildCommentSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+
     class Meta:
         model = Comment
         fields = [
@@ -34,17 +38,21 @@ class ChildCommentSerializer(serializers.HyperlinkedModelSerializer):
                     'text',
                    ]
 
+
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField("comment_detail_api", lookup_field="id")
+    url = serializers.HyperlinkedIdentityField("comment_detail_api",
+                                               lookup_field="id")
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     replies = serializers.SerializerMethodField(read_only=True)
-    
+
     def get_replies(self, instance):
-#         queryset = instance.get_children()
+        # queryset = instance.get_children()
         queryset = Comment.objects.filter(parent__pk=instance.pk)
-        serializer = ChildCommentSerializer(queryset, context={"request": instance}, many=True)
+        serializer = ChildCommentSerializer(queryset,
+                                            context={"request": instance},
+                                            many=True)
         return serializer.data
-    
+
     class Meta:
         model = Comment
         fields = [
@@ -59,8 +67,9 @@ class CommentSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    authentication_classes = [SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication]
+    authentication_classes = [SessionAuthentication,
+                              BasicAuthentication,
+                              JSONWebTokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-

@@ -20,7 +20,12 @@ class CommentManager(models.Manager):
             limit_to = 6
         return self.get_queryset().filter(active=True).filter(parent=None)[:limit_to]
 
-    def create_comment(self, user=None, path=None, text=None, video=None, parent=None):
+    def create_comment(self,
+                       user=None,
+                       path=None,
+                       text=None,
+                       video=None,
+                       parent=None):
         if not path:
             raise ValueError("Must include a path when adding a Comment")
         if not user:
@@ -37,6 +42,7 @@ class CommentManager(models.Manager):
         comment.save(using=self._db)
 
         return comment
+
 
 class Comment(models.Model):
     user = models.ForeignKey(MyUser)

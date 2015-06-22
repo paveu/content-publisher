@@ -7,13 +7,14 @@ from django.shortcuts import render, Http404, HttpResponseRedirect, redirect, ge
 
 from .models import Notification
 
+
 @login_required
 def all(request):
     notifications = Notification.objects.all_for_user(request.user)
-    context = {
-               "notifications" : notifications,
+    context = {"notifications": notifications,
                }
     return render(request, "notifications/all.html", context)
+
 
 @login_required
 def read(request, id):
@@ -33,6 +34,7 @@ def read(request, id):
     except:
         return redirect("notifications_all")
 
+
 @login_required
 def get_notifications_ajax(request):
     if request.is_ajax() and request.method == "POST":
@@ -41,7 +43,7 @@ def get_notifications_ajax(request):
         notes = []
         for note in notifications:
             notes.append(str(note.get_link))
-    
+
         data = {
                 "notifications": notes,
                 "count": count,
