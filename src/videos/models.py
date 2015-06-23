@@ -9,6 +9,7 @@ from django.utils.text import slugify
 
 from .utils import get_vid_for_direction
 
+
 # Create your models here.
 class VideoQuerySet(models.query.QuerySet):
     def active(self):
@@ -16,19 +17,20 @@ class VideoQuerySet(models.query.QuerySet):
 
     def featured(self):
         return self.filter(featured=True)
-    
+
     def has_embed(self):
         return self.filter(embed_code__isnull=False).exclude(embed_code__exact="")
-    
+
+
 class VideoManager(models.Manager):
     def get_queryset(self):
         return VideoQuerySet(self.model, using=self._db)
 
     def get_featured(self):
-#         Video.objects.filter(featured=True)
-#         return super(VideoManager, self).filter(featured=True)
+        # Video.objects.filter(featured=True)
+        # return super(VideoManager, self).filter(featured=True)
         return self.get_queryset().active().featured()
-    
+
     def all(self):
         return self.get_queryset().active().has_embed()
 
@@ -48,6 +50,8 @@ PageView.objects.filter(primary_content_type=video_type)\
 #one item
 PageView.objects.filter(primary_content_type=video_type, primary_object_id=2)
 """
+
+
 class Video(models.Model):
     title = models.CharField(max_length=120)
     embed_code = models.CharField(max_length=500, null=True, blank=True)
@@ -59,11 +63,15 @@ class Video(models.Model):
     featured = models.BooleanField(default=False)
     free_preview = models.BooleanField(default=False)
     category = models.ForeignKey("Category", default=1)
-    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False, null=True)
-    updated = models.DateTimeField(auto_now_add=False, auto_now=True, null=True)
-    
+    timestamp = models.DateTimeField(auto_now_add=True,
+                                     auto_now=False,
+                                     null=True)
+    updated = models.DateTimeField(auto_now_add=False,
+                                   auto_now=True,
+                                   null=True)
+
     objects = VideoManager()
-    
+
     class Meta:
         unique_together = ('slug', 'category')
         ordering = ['order', '-timestamp']
@@ -72,15 +80,18 @@ class Video(models.Model):
         return self.title
 
     def get_absolute_url(self):
-#         print "get_absolute_url id", self.id
-        return reverse('video_detail', kwargs={"vid_slug": self.slug, "cat_slug": self.category.slug})
+        # print "get_absolute_url id", self.id
+        return reverse('video_detail', kwargs={"vid_slug": self.slug,
+                                               "cat_slug": self.category.slug})
 
     def get_share_link(self):
-        full_url = "%s%s" % (settings.FULL_DOMAIN_NAME, self.get_absolute_url())
+        full_url = "%s%s" % (settings.FULL_DOMAIN_NAME,
+                             self.get_absolute_url())
         return full_url
-        
+
     def get_share_message(self):
-        full_url = "%s%s" % (settings.FULL_DOMAIN_NAME, self.get_absolute_url())
+        full_url = "%s%s" % (settings.FULL_DOMAIN_NAME,
+                             self.get_absolute_url())
         return urllib2.quote("%s%s" % (full_url, self.share_message))
 
     def get_next_url(self):
@@ -94,19 +105,23 @@ class Video(models.Model):
         if video is not None:
             return video.get_absolute_url()
         return None
+
     @property
     def has_preview(self):
         if self.free_preview:
             return True
         return False
 
-    
+
 def video_post_save_receiver(sender, instance, created, *args, **kwargs):
     if created:
         slug_title = slugify(instance.title)
-        new_slug = "%s %s %s" % (instance.title, instance.category.slug, instance.id)
+        new_slug = "%s %s %s" % (instance.title,
+                                 instance.category.slug,
+                                 instance.id)
         try:
-            obj_exists = Video.objects.get(slug=slug_title, category=instance.category)
+            obj_exists = Video.objects.get(slug=slug_title,
+                                           category=instance.category)
             instance.slug = slugify(new_slug)
             instance.save()
             print "model exists, new slug generated"
@@ -131,15 +146,17 @@ class CategoryQuerySet(models.query.QuerySet):
     def featured(self):
         return self.filter(featured=True)
 
+
 class CategoryManager(models.Manager):
     def get_queryset(self):
         return VideoQuerySet(self.model, using=self._db)
 
     def get_featured(self):
         return self.get_queryset().active().featured()
-    
+
     def all(self):
         return self.get_queryset().active()
+
 
 class Category(models.Model):
     title = models.CharField(max_length=120)
@@ -153,21 +170,20 @@ class Category(models.Model):
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
     featured = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
-    
+
     objects = CategoryManager()
-    
+
     def __unicode__(self):
         return self.title
-    
+
     def get_absolute_url(self):
-#         return reverse('category_detail', kwargs={"cat_slug": self.category.slug})
+        # return reverse('category_detail', kwargs={"cat_slug": self.category.slug})
         return reverse("project_detail", kwargs={"cat_slug": self.slug})
-    
+
     def get_image_url(self):
         return "%s%s" % (settings.MEDIA_URL, self.image)
-    
-TAG_CHOICES = (
-               ("python", "python"),
+
+TAG_CHOICES = (("python", "python"),
                ("django", "django"),
                ("css", "css"),
                ("bootstrap", "bootstrap"),
@@ -175,14 +191,12 @@ TAG_CHOICES = (
 
 
 class TaggedItem(models.Model):
-#     category = models.ForeignKey(Category, null=True)
-#     video = models.ForeignKey(Video)
+    # category = models.ForeignKey(Category, null=True)
+    #  video = models.ForeignKey(Video)
     tag = models.SlugField(choices=TAG_CHOICES)
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
-    
+
     def __unicode__(self):
         return self.tag
-    
-    

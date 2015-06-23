@@ -13,4 +13,3 @@ def get_vid_for_direction(instance, direction):
         except IndexError:
             next_vid = None
     return next_vid
- 

@@ -1,27 +1,27 @@
-from django.core.urlresolvers import reverse 
+from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.contrib.contenttypes.models import ContentType
-from django.http.response import Http404, HttpResponseRedirect
+# from django.contrib.auth.decorators import login_required
+# from django.contrib.contenttypes.models import ContentType
+from django.http.response import HttpResponseRedirect
 
 # Create your views here.
-from .models import Video, Category, TaggedItem
-from analytics.signals import page_view 
-########## Commments stuff ####
+from .models import Video, Category
+from analytics.signals import page_view
+# ######### Commments stuff ####
 from comments.forms import CommentForm
-from comments.models import Comment
+# from comments.models import Comment
 #################################
 
 from .serializers import CategorySerializer, VideoSerializer
 
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework import serializers, viewsets, permissions
+from rest_framework import permissions
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 
 class VideoDetailAPIView(generics.RetrieveAPIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -35,7 +35,9 @@ class VideoDetailAPIView(generics.RetrieveAPIView):
 
 
 class CategoryListAPIView(generics.ListAPIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication]
+    authentication_classes = [SessionAuthentication,
+                              BasicAuthentication,
+                              JSONWebTokenAuthentication]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -43,7 +45,9 @@ class CategoryListAPIView(generics.ListAPIView):
 
 
 class CategoryDetailAPIView(generics.RetrieveAPIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication]
+    authentication_classes = [SessionAuthentication,
+                              BasicAuthentication,
+                              JSONWebTokenAuthentication]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -53,14 +57,14 @@ class CategoryDetailAPIView(generics.RetrieveAPIView):
         obj = get_object_or_404(Category, slug=slug)
         return obj
 
-#@login_required
+
+# @login_required
 def video_detail(request, cat_slug, vid_slug):
     cat = get_object_or_404(Category, slug=cat_slug)
     obj = get_object_or_404(Video, slug=vid_slug, category=cat)
-    page_view.send(
-                   request.user, 
-                   page_path=request.get_full_path(), 
-                   primary_obj=obj, 
+    page_view.send(request.user,
+                   page_path=request.get_full_path(),
+                   primary_obj=obj,
                    secondary_obj=cat
                    )
     if request.user.is_authenticated() or obj.has_preview:
@@ -78,14 +82,13 @@ def video_detail(request, cat_slug, vid_slug):
             #     print "obj.tags.all()", obj.tags.all()
             #     print "tags", tags
             #     print "content_type", content_type
-    
+
         #         comments = Comment.objects.filter(video=obj)
-            context = {
-                       "obj":obj,
-                       "comments":comments,
+            context = {"obj": obj,
+                       "comments": comments,
                        "comment_form": comment_form,
                        }
-            return render(request, "videos/video_detail.html", context )
+            return render(request, "videos/video_detail.html", context)
         else:
             next_url = obj.get_absolute_url()
             return HttpResponseRedirect("%s?next=%s" % (reverse('account_upgrade'), next_url))
@@ -94,35 +97,35 @@ def video_detail(request, cat_slug, vid_slug):
         next_url = obj.get_absolute_url()
         return HttpResponseRedirect("%s?next=%s" % (reverse('login'), next_url))
 
+
 def category_list(request):
     queryset = Category.objects.all()
 #     print "queryset", queryset
-    context = {
-               "queryset": queryset
+    context = {"queryset": queryset
                }
     return render(request, "videos/category_list.html", context)
 
+
 # @login_required
 def category_detail(request, cat_slug):
-#     print request.get_full_path() # /projects/cat-1/
-#     path =  request.get_full_path()
-#     comments = Comment.objects.filter(path=path)
-#     print "comments", comments
+    # print request.get_full_path() # /projects/cat-1/
+    # path =  request.get_full_path()
+    # comments = Comment.objects.filter(path=path)
+    # print "comments", comments
     obj = get_object_or_404(Category, slug=cat_slug)
     queryset = obj.video_set.all()
-    page_view.send(
-                   request.user, 
-                   page_path=request.get_full_path(), 
-                   primary_obj=obj, 
+    page_view.send(request.user,
+                   page_path=request.get_full_path(),
+                   primary_obj=obj,
                    )
-    return render(request, "videos/video_list.html", {
-                                                      "obj": obj, 
-                                                      "queryset": queryset, 
-    #                                                  "comments": comments
+    return render(request, "videos/video_list.html", {"obj": obj,
+                                                      "queryset": queryset,
+                                                      # "comments": comments
                                                       })
 
 
-    
+
+
 # def video_edit(request):
 #     return render(request, "videos/video_single.html", {})
 # 

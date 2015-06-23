@@ -31,8 +31,7 @@ class CommentDetailAPIView(mixins.UpdateModelMixin, generics.RetrieveAPIView):
 def comment_thread(request, id):
     comment = get_object_or_404(Comment, id=id)
     form = CommentForm()
-    context = {
-               "form": form,
+    context = {"form": form,
                "comment": comment
                }
     return render(request, "comments/comment_thread.html", context)

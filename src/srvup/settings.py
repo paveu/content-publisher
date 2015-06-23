@@ -67,13 +67,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
-    "django.core.context_processors.request",    
+    "django.core.context_processors.request",
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages"
 )
-
-
 
 ROOT_URLCONF = 'srvup.urls'
 
@@ -110,15 +108,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(os.path.dirname(BASE_DIR),"static", "static_dirs"),
-#     '/var/www/static/',
+    os.path.join(os.path.dirname(BASE_DIR), "static", "static_dirs"),
+    # '/var/www/static/',
 )
 
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"static", "static_root")
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static_root")
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR,"templates"),
-#     '/var/www/static/',
+    os.path.join(BASE_DIR, "templates"),
+    # '/var/www/static/',
 )
 
 MEDIA_URL = '/media/'
@@ -132,7 +130,7 @@ BRAINTREE_PRIVATE_KEY = "7d8e596cb7ebe43e843ef95e9e068fa6"
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -143,7 +141,7 @@ REST_FRAMEWORK = {
 }
 
 JWT_AUTH = {
-#     'JWT_RESPONSE_PAYLOAD_HANDLER': jwt_response_payload_handler,
+    # 'JWT_RESPONSE_PAYLOAD_HANDLER': jwt_response_payload_handler,
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=500000),
 }
 

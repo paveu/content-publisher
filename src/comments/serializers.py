@@ -12,16 +12,13 @@ User = get_user_model()
 class CommentUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = [
-                  'text'
-                  ]
+        fields = ['text']
 
 
 class CommentCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = [
-                  'text',
+        fields = ['text',
                   'user',
                   'video',
                   ]
@@ -32,11 +29,10 @@ class ChildCommentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Comment
-        fields = [
-                    'id',
-                    'user',
-                    'text',
-                   ]
+        fields = ['id',
+                  'user',
+                  'text',
+                  ]
 
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
@@ -55,15 +51,14 @@ class CommentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Comment
-        fields = [
-                    'url',
-                    'id',
-                    'replies',
-                    'parent',
-                    'user',
-                    'video',
-                    'text',
-                   ]
+        fields = ['url',
+                  'id',
+                  'replies',
+                  'parent',
+                  'user',
+                  'video',
+                  'text',
+                  ]
 
 
 class CommentViewSet(viewsets.ModelViewSet):
