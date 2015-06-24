@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from rest_framework import routers
 from videos.serializers import VideoViewSet, CategoryViewSet
 from comments.serializers import CommentViewSet
-from comments.views import CommentAPICreateView, CommentDetailAPIView
+from comments.views import CommentAPICreateView, CommentDetailAPIView, CommentListAPIView
 from videos.views import CategoryListAPIView, CategoryDetailAPIView, VideoDetailAPIView
 
 router = routers.DefaultRouter()
@@ -16,6 +16,7 @@ router.register(r'comments', CommentViewSet)
 router.register(r'videos', VideoViewSet)
 
 urlpatterns = patterns('',
+    url(r'^api2/comment/$', CommentListAPIView.as_view(), name='comment_list_api'),
     url(r'^api2/comment/create/$', CommentAPICreateView.as_view(), name='comment_create_api'),
     url(r'^api2/comment/(?P<id>\d+)/$', CommentDetailAPIView.as_view(), name='comment_detail_api'),
 
