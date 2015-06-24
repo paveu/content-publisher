@@ -16,6 +16,7 @@ router.register(r'comments', CommentViewSet)
 router.register(r'videos', VideoViewSet)
 
 urlpatterns = patterns('',
+    url(r'^api2/$', 'srvup.views.api_home_abc', name='api_home'),
     url(r'^api2/comment/$', CommentListAPIView.as_view(), name='comment_list_api'),
     url(r'^api2/comment/create/$', CommentAPICreateView.as_view(), name='comment_create_api'),
     url(r'^api2/comment/(?P<id>\d+)/$', CommentDetailAPIView.as_view(), name='comment_detail_api'),

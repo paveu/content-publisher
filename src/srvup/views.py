@@ -5,7 +5,9 @@ from django.db.models import Count
 from django.shortcuts import render
 # from django.utils.safestring import mark_safe
 # from django.http.response import HttpResponseRedirect
-
+from rest_framework.decorators import api_view
+from rest_framework.response import Response as RestResponse
+from rest_framework.reverse import reverse as api_reverse
 # ######## Accounts #####
 from accounts.forms import RegisterForm, LoginForm
 # from accounts.models import MyUser
@@ -14,7 +16,21 @@ from videos.models import Video, Category
 from analytics.signals import page_view
 from analytics.models import PageView
 from comments.models import Comment
-# @login_required(login_url='/enroll/login/')
+
+@api_view(["GET"])
+def api_home_abc(request):
+    data = {
+        "projects": {
+            "count": Category.objects.all().count(),
+            "url": api_reverse("category_list_api"),
+
+        },
+        "comments": {
+            "count": Comment.objects.all().count(),
+            "url": api_reverse("comment_list_api"),
+            },
+    }
+    return RestResponse(data)
 
 
 def home(request):
