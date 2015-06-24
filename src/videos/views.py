@@ -6,6 +6,7 @@ from django.http.response import HttpResponseRedirect
 
 # Create your views here.
 from .models import Video, Category
+from .permissions import IsMember
 from analytics.signals import page_view
 # ######### Commments stuff ####
 from comments.forms import CommentForm
@@ -24,7 +25,8 @@ class VideoDetailAPIView(generics.RetrieveAPIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsMember]
+    # add permission for membership & free preview on obj
 
     def get_object(self):
         cat_slug = self.kwargs["cat_slug"]
