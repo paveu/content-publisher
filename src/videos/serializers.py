@@ -9,8 +9,6 @@ from rest_framework.reverse import reverse
 
 class VideoUrlHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
     def get_url(self, obj, view_name, request, format):
-        print "1cat_slug", obj.category.slug
-        print "1vid_slug", obj.slug
 
         kwargs = {
             'cat_slug': obj.category.slug,
