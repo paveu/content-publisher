@@ -36,6 +36,10 @@ class CommentDetailAPIView(mixins.DestroyModelMixin,
     permission_classes = [IsOwnerOrReadOnly, ]
     lookup_field = 'id'
 
+    def get_queryset(self, *args, **kwargs):
+        queryset = Comment.objects.filter(pk__gte=0)
+        return queryset
+
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
