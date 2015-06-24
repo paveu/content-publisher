@@ -1,7 +1,6 @@
 ### GET TOKEN for JWT Authentication ###
 curl -X POST -d "username=paveu&password=123" http://127.0.0.1:8000/api/auth/token/
-{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzI5Njc2OTB9.sNOCSV6H89XOoWHVqTVGqet2btbFbPb5U_zT1tAheWg"}
-
+{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzU2NDEyMjd9.5oketGtnvxivf6cdMM_daIB_OIOvovzUEZpZ-EUNvOA"}
 ### JWT AUTH NOT PROVIDED ###
 curl -X POST -d "text='Some text'" http://127.0.0.1:8000/api/comments/.json
 {"detail":"Authentication credentials were not provided."}
@@ -50,3 +49,12 @@ curl -X PUT -d "text='great video comment CHILD CHILD'&user=1&parent=http://127.
 {"detail":"Method \"PUT\" not allowed."}
 
 curl -X GET http://127.0.0.1:8000/api2/projects/abc/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzMwNTMzODl9.vbe79XMAtY2iFZFOUDei-Oi2jxIdVHevOR0zpK1XF2E"
+
+curl -X PUT -d "text='YET ANOTHER AWESOME NEW  COMMENT'" http://127.0.0.1:8000/api2/comment/134/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzU2NDEyMjd9.5oketGtnvxivf6cdMM_daIB_OIOvovzUEZpZ-EUNvOA"
+{"id":134,"user":"paveu","text":"'YET ANOTHER AWESOME NEW  COMMENT'"}
+
+curl -X DELETE http://127.0.0.1:8000/api2/comment/134/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzU2NDEyMjd9.5oketGtnvxivf6cdMM_daIB_OIOvovzUEZpZ-EUNvOA"
+{"detail":"Method \"DELETE\" not allowed."}
+
+curl -X DELETE http://127.0.0.1:8000/api2/comment/131/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzU2NDEyMjd9.5oketGtnvxivf6cdMM_daIB_OIOvovzUEZpZ-EUNvOA"
+{"detail":"You do not have permission to perform this action."}
