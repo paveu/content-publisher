@@ -37,6 +37,7 @@ class VideoSerializer(serializers.HyperlinkedModelSerializer):
                   'title',
                   'order',
                   'embed_code',
+                  'free_preview',
                   'share_message',
                   'timestamp',
                   # 'category', # taken from serialized Category class
