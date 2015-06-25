@@ -64,7 +64,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-CORS_URLS_REGEX = r'^/api2/.*'
+CORS_URLS_REGEX = r'^/api.*'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
     'localhost',
