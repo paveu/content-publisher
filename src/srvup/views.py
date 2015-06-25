@@ -79,6 +79,11 @@ def home(request):
         template = "accounts/home_visitor.html"
     return render(request, template, context)
 
+
+def jquery_test_view(request):
+    return render(request, "jquery_test/view_temp.html", {})
+
+
 # @login_required(login_url='/staff/login/')
 # def staff_home(request):
 #     context = {
