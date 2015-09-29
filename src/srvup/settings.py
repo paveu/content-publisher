@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 FULL_DOMAIN_NAME = 'http://doha.slyip.com'
 
-AUTH_USER_MODEL = 'accounts.MyUser'
+# AUTH_USER_MODEL = 'accounts.MyUser'
 RECENT_COMMENT_NUMBER = 10
 # Application definition
 

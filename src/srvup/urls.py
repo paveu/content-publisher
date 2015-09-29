@@ -26,6 +26,10 @@ urlpatterns = patterns('',
     url(r'^api2/projects/(?P<slug>[\w-]+)/$', CategoryDetailAPIView.as_view(), name='category_detail_api'),
     url(r'^api2/projects/(?P<cat_slug>[\w-]+)/(?P<vid_slug>[\w-]+)/$', VideoDetailAPIView.as_view(), name='video_detail_api'),
 
+    url(r'^api/auth/token/$', 'rest_framework_jwt.views.obtain_jwt_token'),
+    url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/', include(router.urls)),
+
     # Examples:
     url(r'^$', 'srvup.views.home', name='home'),
     url(r'^contact_us/$', TemplateView.as_view(template_name='company/contact_us.html'), name='contact_us'),
@@ -33,9 +37,6 @@ urlpatterns = patterns('',
     url(r'^projects/(?P<cat_slug>[\w-]+)/$', 'videos.views.category_detail', name='project_detail'),
     url(r'^projects/(?P<cat_slug>[\w-]+)/(?P<vid_slug>[\w-]+)/$', 'videos.views.video_detail', name='video_detail'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/auth/token/$', 'rest_framework_jwt.views.obtain_jwt_token'),
-    url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^api/', include(router.urls)),
 )
 
 if settings.DEBUG:
