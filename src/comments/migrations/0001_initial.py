@@ -2,14 +2,13 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('videos', '0012_video_share_message'),
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('accounts', '0001_initial'),
+        ('videos', '0018_auto_20150330_1407'),
     ]
 
     operations = [
@@ -22,10 +21,12 @@ class Migration(migrations.Migration):
                 ('updated', models.DateTimeField(auto_now=True)),
                 ('timestamp', models.DateTimeField(auto_now_add=True)),
                 ('active', models.BooleanField(default=True)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-                ('vide', models.ForeignKey(blank=True, to='videos.Video', null=True)),
+                ('parent', models.ForeignKey(blank=True, to='comments.Comment', null=True)),
+                ('user', models.ForeignKey(to='accounts.MyUser')),
+                ('video', models.ForeignKey(blank=True, to='videos.Video', null=True)),
             ],
             options={
+                'ordering': ['-timestamp'],
             },
             bases=(models.Model,),
         ),

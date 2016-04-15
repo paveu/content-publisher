@@ -1,5 +1,4 @@
-Srvup project init txt
+Project for selling out videos on demand
 
 08/05/2015
-
-testing out cloud9
+15/04/2016
