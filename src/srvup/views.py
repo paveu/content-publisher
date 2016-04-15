@@ -8,10 +8,9 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response as RestResponse
 from rest_framework.reverse import reverse as api_reverse
+
 # ######## Accounts #####
 from accounts.forms import RegisterForm, LoginForm
-# from accounts.models import MyUser
-########################
 from videos.models import Video, Category
 from analytics.signals import page_view
 from analytics.models import PageView
@@ -33,22 +32,32 @@ def api_home_abc(request):
     return RestResponse(data)
 
 
+
 def home(request):
-    page_view.send(request.user,
-                   page_path=request.get_full_path()
-                   )
+    """
+    Main view function, it is displayed everytime when a user hits "/" root website
+    """
+    
+    # Log a hit to a website into "page_view" page
+    page_view.send(request.user, page_path=request.get_full_path())
+    
+    # Folowing content will be displayed only for those users who are logged in
     if request.user.is_authenticated():
+        
+        # Filter five recent added videos to categories taken from all viewed videos
         page_view_obj = request.user.pageview_set.get_videos()[:5]
         recent_videos = []
         for item in page_view_obj:
             if item.primary_object not in recent_videos:
                 recent_videos.append(item.primary_object)
+        
+        # Get 10 recent added comments
         recent_comments = Comment.objects.recent()
 
-        # top items
+        # Get top 5 most viewed
         video_type = ContentType.objects.get_for_model(Video)
-        popular_videos_list = PageView.objects.filter(primary_content_type=video_type).values('primary_object_id').annotate(the_count=Count('primary_object_id')).order_by('-the_count')[:4]
-        # print "popular_videos_list", popular_videos_list
+        popular_videos_list = PageView.objects.filter(primary_content_type=video_type).values('primary_object_id').annotate(the_count=Count('primary_object_id')).order_by('-the_count')[:5]
+        print "popular_videos_list", popular_videos_list # popular_videos_list [{'the_count': 12, 'primary_object_id': 1}, {'the_count': 1, 'primary_object_id': 2}]
 
         popular_videos = {}
 
@@ -59,14 +68,13 @@ def home(request):
                 the_count = item['the_count']
             popular_videos[new_video] = the_count
 
-        # one item
-        PageView.objects.filter(primary_content_type=video_type, primary_object_id=2)
         context = {"recent_videos": recent_videos,
                    "recent_comments": recent_comments,
                    "popular_videos": popular_videos,
                    }
         template = "home_logged_in.html"
     else:
+        # If visitor is not logged in then:
         featured_categories = Category.objects.get_featured()
         featured_videos = Video.objects.get_featured()
         login_form = LoginForm()
@@ -83,27 +91,3 @@ def home(request):
 def jquery_test_view(request):
     return render(request, "jquery_test/view_temp.html", {})
 
-
-# @login_required(login_url='/staff/login/')
-# def staff_home(request):
-#     context = {
-#                }
-#     return render(request, "home.html", context)
-
-# def home(request):
-#     print(request.user)
-#     if request.user.is_authenticated():
-#         name = "Justin"
-#         videos = Video.objects.all()
-#         embeds = []
-#         for vid in videos:
-#             code = mark_safe(vid.embed_code)
-#             embeds.append("%s" % code)
-#         context = {"the_name": name,
-#                    "number": videos.count(),
-#                    "videos": videos,
-#                    "embeds": embeds,
-#                    }
-#         return render(request, "home.html", context)
-#     else:
-#         return HttpResponseRedirect("/login/")

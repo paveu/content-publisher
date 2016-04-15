@@ -30,7 +30,7 @@ urlpatterns = patterns('',
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include(router.urls)),
 
-    # Examples:
+    # Project main navigation
     url(r'^$', 'srvup.views.home', name='home'),
     url(r'^contact_us/$', TemplateView.as_view(template_name='company/contact_us.html'), name='contact_us'),
     url(r'^projects/$', 'videos.views.category_list', name='projects'),

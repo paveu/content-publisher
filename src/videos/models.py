@@ -10,7 +10,6 @@ from django.utils.text import slugify
 from .utils import get_vid_for_direction
 
 
-# Create your models here.
 class VideoQuerySet(models.query.QuerySet):
     def active(self):
         return self.filter(active=True)
@@ -34,7 +33,6 @@ class VideoManager(models.Manager):
     def all(self):
         return self.get_queryset().active().has_embed()
 
-DEFAULT_MESSAGE = "Check out this awesome video."
 """
 >>> from analytics.models import PageView
 >>> from videos.models import Video
@@ -51,6 +49,7 @@ PageView.objects.filter(primary_content_type=video_type)\
 PageView.objects.filter(primary_content_type=video_type, primary_object_id=2)
 """
 
+DEFAULT_MESSAGE = "Check out this awesome video."
 
 class Video(models.Model):
     title = models.CharField(max_length=120)
@@ -94,7 +93,6 @@ class Video(models.Model):
                              self.get_absolute_url())
         return urllib2.quote("%s%s" % (full_url, self.share_message))
 
-#
     def get_next_url(self):
         video = get_vid_for_direction(self, "next")
         if video is not None:
@@ -113,8 +111,10 @@ class Video(models.Model):
             return True
         return False
 
-
 def video_post_save_receiver(sender, instance, created, *args, **kwargs):
+    """
+        Automatically create a slug for newly created Video
+    """
     if created:
         slug_title = slugify(instance.title)
         new_slug = "%s %s %s" % (instance.title,
@@ -185,16 +185,21 @@ class Category(models.Model):
         return "%s%s" % (settings.MEDIA_URL, self.image)
 
 
-TAG_CHOICES = (("python", "python"),
-               ("django", "django"),
-               ("css", "css"),
-               ("bootstrap", "bootstrap"),
-               )
+TAG_CHOICES = (
+    ("python", "python"),
+    ("django", "django"),
+    ("css", "css"),
+    ("bootstrap", "bootstrap"),
+    ("music", "music"),
+
+    )
 
 class TaggedItem(models.Model):
     # category = models.ForeignKey(Category, null=True)
     #  video = models.ForeignKey(Video)
     tag = models.SlugField(choices=TAG_CHOICES)
+    
+    # Get access to all models in the project
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
