@@ -94,6 +94,7 @@ class Video(models.Model):
                              self.get_absolute_url())
         return urllib2.quote("%s%s" % (full_url, self.share_message))
 
+#
     def get_next_url(self):
         video = get_vid_for_direction(self, "next")
         if video is not None:
@@ -183,12 +184,12 @@ class Category(models.Model):
     def get_image_url(self):
         return "%s%s" % (settings.MEDIA_URL, self.image)
 
+
 TAG_CHOICES = (("python", "python"),
                ("django", "django"),
                ("css", "css"),
                ("bootstrap", "bootstrap"),
                )
-
 
 class TaggedItem(models.Model):
     # category = models.ForeignKey(Category, null=True)

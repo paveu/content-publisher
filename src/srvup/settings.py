@@ -28,9 +28,9 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-FULL_DOMAIN_NAME = 'http://doha.slyip.com'
+FULL_DOMAIN_NAME = 'https://srvup-rest-pawelste-1.c9users.io'
 
-# AUTH_USER_MODEL = 'accounts.MyUser'
+AUTH_USER_MODEL = 'accounts.MyUser'
 RECENT_COMMENT_NUMBER = 10
 # Application definition
 

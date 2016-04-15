@@ -143,6 +143,7 @@ def new_user_receiver(sender, instance, created, *args, **kwargs):
         new_profile, is_created = UserProfile.objects.get_or_create(user=instance)
         # print "new_profile.username:", new_profile.user
         # print "is_created:", is_created
+
         notify.send(instance,
                     # action=new_comment,
                     # target=new_comment.video,
@@ -155,6 +156,7 @@ def new_user_receiver(sender, instance, created, *args, **kwargs):
     try:
         # something to get the current customer id stored somewhere
         merchant_obj = UserMerchantId.objects.get(user=instance)
+        print("merchant_obj", merchant_obj)
         # print "user account already exists"
     except:
         new_customer_result = braintree.Customer.create({
