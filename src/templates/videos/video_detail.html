@@ -39,22 +39,22 @@
 	</style>
     <div class='row'>
 	    <div class='col-sm-8'>
-	    <h1>{{ obj.title }}</h1>
+	    <h1>{{ video.title }}</h1>
 	    </div>
 	    <div class='col-sm-4' style='text-align:right;'>
-			{% if obj.get_previous_url %}
-			<a href='{{ obj.get_previous_url }}'><i class='fa fa-3x fa-arrow-circle-o-left'></i></a>
+			{% if video.get_previous_url %}
+			<a href='{{ video.get_previous_url }}'><i class='fa fa-3x fa-arrow-circle-o-left'></i></a>
 			{% endif %}
-			{% if obj.get_next_url %}   
-			<a href='{{ obj.get_next_url }}'><i class='fa fa-3x fa-arrow-circle-o-right'></i></a>
+			{% if video.get_next_url %}   
+			<a href='{{ video.get_next_url }}'><i class='fa fa-3x fa-arrow-circle-o-right'></i></a>
 			{% endif %}
-			<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ obj.get_share_link }}">
+			<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ video.get_share_link }}">
 		    <i class="fa fa-facebook-square fa-3x"></i>
 		    </a>
-		    <a target="_blank" href="https://twitter.com/home?status={{ obj.get_share_message|safe }}">
+		    <a target="_blank" href="https://twitter.com/home?status={{ video.get_share_message|safe }}">
 		    <i class="fa fa-twitter fa-3x"></i>
 		    </a>
-		    <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url={{ obj.get_share_link }}&title={{ obj.get_share_message|safe }}&summary={{ obj.get_share_message|safe }}&source={{ obj.get_share_link }}">
+		    <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url={{ video.get_share_link }}&title={{ video.get_share_message|safe }}&summary={{ video.get_share_message|safe }}&source={{ video.get_share_link }}">
 		    <i class="fa fa-linkedin-square fa-3x"></i>
 		    </a>  
 	    </div>
@@ -65,14 +65,14 @@
     <hr />
 
     <div class='col-sm-10' id='main_video'>
-	    {{ obj.embed_code|safe }}
+	    {{ video.embed_code|safe }}
 	    <br/>
     </div>
 
-    {% if obj.tags %}
+    {% if video.tags %}
     <div class='col-sm-10'>
     <ul>
-        {% for tag in obj.tags.all %}
+        {% for tag in video.tags.all %}
             <li>{{ tag }}</li>
         {% endfor %}
     </ul>
@@ -86,7 +86,7 @@
 	<div class='col-sm-12'>
 	    <h1>Comments/Questions</h1>
 		<form method="POST" action='{% url "comment_create" %}'>{% csrf_token %}
-			<input type='hidden' name='video_id' value='{{ obj.id }}'/>
+			<input type='hidden' name='video_id' value='{{ video.id }}'/>
 			<input type='hidden' name='origin_path' value='{{ request.get_full_path }}'/>
 	        {% crispy comment_form comment_form.helper %}
 	    </form>
@@ -108,7 +108,7 @@
 		                         <a href='{{ comment.get_absolute_url }}'>View Thread</a> | <a href='#' class='reply_btn'>Reply</a>
 					             <div class='reply_comment'>                     
 		                            <form method="POST" action="{% url 'comment_create' %}"> {% csrf_token %}
-						                <input type='hidden' name='video_id' value='{{ obj.id }}'/>
+						                <input type='hidden' name='video_id' value='{{ video.id }}'/>
 						                <input type='hidden' name='origin_path' value='{{ comment.get_origin }}'/>
 						                <input type='hidden' name='parent_id' value='{{ comment.id }}' />
 		                                {% crispy comment_form comment_form.helper %}

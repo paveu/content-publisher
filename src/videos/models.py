@@ -79,7 +79,6 @@ class Video(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        # print "get_absolute_url id", self.id
         return reverse('video_detail', kwargs={"vid_slug": self.slug,
                                                "cat_slug": self.category.slug})
 

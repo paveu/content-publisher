@@ -16,12 +16,10 @@ router.register(r'comments', CommentViewSet)
 router.register(r'videos', VideoViewSet)
 
 urlpatterns = patterns('',
-    url(r'^jquery-test/$', 'srvup.views.jquery_test_view'),
     url(r'^api2/$', 'srvup.views.api_home_abc', name='api_home'),
     url(r'^api2/comment/$', CommentListAPIView.as_view(), name='comment_list_api'),
     url(r'^api2/comment/create/$', CommentAPICreateView.as_view(), name='comment_create_api'),
     url(r'^api2/comment/(?P<id>\d+)/$', CommentDetailAPIView.as_view(), name='comment_detail_api'),
-
     url(r'^api2/projects/$', CategoryListAPIView.as_view(), name='category_list_api'),
     url(r'^api2/projects/(?P<slug>[\w-]+)/$', CategoryDetailAPIView.as_view(), name='category_detail_api'),
     url(r'^api2/projects/(?P<cat_slug>[\w-]+)/(?P<vid_slug>[\w-]+)/$', VideoDetailAPIView.as_view(), name='video_detail_api'),
@@ -36,6 +34,7 @@ urlpatterns = patterns('',
     url(r'^projects/$', 'videos.views.category_list', name='projects'),
     url(r'^projects/(?P<cat_slug>[\w-]+)/$', 'videos.views.category_detail', name='project_detail'),
     url(r'^projects/(?P<cat_slug>[\w-]+)/(?P<vid_slug>[\w-]+)/$', 'videos.views.video_detail', name='video_detail'),
+    url(r'^jquery-test/$', 'srvup.views.jquery_test_view'),
     url(r'^admin/', include(admin.site.urls)),
 )
 

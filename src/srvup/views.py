@@ -31,8 +31,6 @@ def api_home_abc(request):
     }
     return RestResponse(data)
 
-
-
 def home(request):
     """
     Main view function, it is displayed everytime when a user hits "/" root website
@@ -54,10 +52,10 @@ def home(request):
         # Get 10 recent added comments
         recent_comments = Comment.objects.recent()
 
-        # Get top 5 most viewed
+        # Get top 5 most viewed videos
         video_type = ContentType.objects.get_for_model(Video)
         popular_videos_list = PageView.objects.filter(primary_content_type=video_type).values('primary_object_id').annotate(the_count=Count('primary_object_id')).order_by('-the_count')[:5]
-        print "popular_videos_list", popular_videos_list # popular_videos_list [{'the_count': 12, 'primary_object_id': 1}, {'the_count': 1, 'primary_object_id': 2}]
+        # print "popular_videos_list", popular_videos_list # popular_videos_list [{'the_count': 12, 'primary_object_id': 1}, {'the_count': 1, 'primary_object_id': 2}]
 
         popular_videos = {}
 

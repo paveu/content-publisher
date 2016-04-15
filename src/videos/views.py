@@ -1,20 +1,14 @@
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404
-# from django.contrib.auth.decorators import login_required
-# from django.contrib.contenttypes.models import ContentType
 from django.http.response import HttpResponseRedirect
 
-# Create your views here.
 from .models import Video, Category
 from .permissions import IsMember
 from analytics.signals import page_view
-# ######### Commments stuff ####
 from comments.forms import CommentForm
-# from comments.models import Comment
-#################################
 
+# Rest api
 from .serializers import CategorySerializer, VideoSerializer
-
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework import permissions
@@ -59,77 +53,63 @@ class CategoryDetailAPIView(generics.RetrieveAPIView):
         obj = get_object_or_404(Category, slug=slug)
         return obj
 
-
-# @login_required
 def video_detail(request, cat_slug, vid_slug):
+    """
+    Take a look at videos, check if user has a premium account.
+    List free videos if possible.
+    """
     cat = get_object_or_404(Category, slug=cat_slug)
-    obj = get_object_or_404(Video, slug=vid_slug, category=cat)
+    video = get_object_or_404(Video, slug=vid_slug, category=cat)
+    
+    # Log that video page is viewed for analytics purpose
     page_view.send(request.user,
                    page_path=request.get_full_path(),
-                   primary_obj=obj,
+                   primary_obj=video,
                    secondary_obj=cat
                    )
-    if request.user.is_authenticated() or obj.has_preview:
+    
+    if request.user.is_authenticated() or video.has_preview:
         try:
             is_member = request.user.is_member
         except:
             is_member = None
-        if is_member or obj.has_preview:
+        if is_member or video.has_preview:
             comment_form = CommentForm()
-            comments = obj.comment_set.all()
-#             for c in comments:
-#                 print "!!!!comment!!!: %s !!!!get_children!!!: %s" % (c, c.get_children())
-            #     content_type = ContentType.objects.get_for_model(obj)
-            #     tags = TaggedItem.objects.filter(content_type=content_type, object_id=obj.id)
-            #     print "obj.tags.all()", obj.tags.all()
-            #     print "tags", tags
-            #     print "content_type", content_type
+            comments = video.comment_set.all()
 
-        #         comments = Comment.objects.filter(video=obj)
-            context = {"obj": obj,
+            context = {"video": video,
                        "comments": comments,
                        "comment_form": comment_form,
                        }
             return render(request, "videos/video_detail.html", context)
         else:
-            next_url = obj.get_absolute_url()
+            # If viewer has no premium account, ask for it
+            next_url = video.get_absolute_url()
             return HttpResponseRedirect("%s?next=%s" % (reverse('account_upgrade'), next_url))
     else:
-        # upgrade account
-        next_url = obj.get_absolute_url()
+        # If viewer is not logged in ask to log in
+        next_url = video.get_absolute_url()
         return HttpResponseRedirect("%s?next=%s" % (reverse('login'), next_url))
 
-
 def category_list(request):
-    queryset = Category.objects.all()
-#     print "queryset", queryset
-    context = {"queryset": queryset
-               }
+    """
+    Get all created categories
+    """
+    all_cat = Category.objects.all()
+    context = {"all_cat": all_cat }
     return render(request, "videos/category_list.html", context)
 
-
-# @login_required
 def category_detail(request, cat_slug):
-    # print request.get_full_path() # /projects/cat-1/
-    # path =  request.get_full_path()
-    # comments = Comment.objects.filter(path=path)
-    # print "comments", comments
-    obj = get_object_or_404(Category, slug=cat_slug)
-    queryset = obj.video_set.all()
+    """
+    Get all videos bound to specific category
+    """
+    cat = get_object_or_404(Category, slug=cat_slug)
+    all_videos = cat.video_set.all()
     page_view.send(request.user,
                    page_path=request.get_full_path(),
-                   primary_obj=obj,
+                   primary_obj=cat,
                    )
-    return render(request, "videos/video_list.html", {"obj": obj,
-                                                      "queryset": queryset,
+    return render(request, "videos/video_list.html", {"cat": cat,
+                                                      "all_videos": all_videos,
                                                       # "comments": comments
                                                       })
-
-
-
-
-# def video_edit(request):
-#     return render(request, "videos/video_single.html", {})
-# 
-# def video_create(request):
-#     return render(request, "videos/video_single.html", {})

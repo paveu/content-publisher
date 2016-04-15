@@ -10,7 +10,7 @@
 </div>
 
 <div class='row'>
-	{%for item in queryset %}
+	{%for item in all_cat %}
 		<div class='col-sm-4'>
 		   <a href="{{ item.get_absolute_url }}">{{ item }}</a><br />
 		   <a href="{{ item.get_absolute_url }}"><img src='{{ item.get_image_url }}' class='img-responsive'></a><br />

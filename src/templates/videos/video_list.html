@@ -7,10 +7,10 @@
 		<div class='container'>
 		    <div class='row'>
 		        <div class='col-sm-6'>
-		            <h1>{{ obj.title }}</h1>
+		            <h1>{{ cat.title }}</h1>
 				</div>
 		        <div class='col-sm-6'>
-		           <img src="{{ obj.get_image_url }}" class='img-responsive'/>
+		           <img src="{{ cat.get_image_url }}" class='img-responsive'/>
 		        </div>
 			</div>
 		</div>
@@ -20,16 +20,16 @@
 
 {% block content %}
 <div class='col-sm-8 col-sm-offset-2'>
-    {% if queryset %}
+    {% if all_videos %}
 	<table class='table'>
 		<thead>
 			<th>#</th>
 			<th>Title</th>
 		</thead>
-		{% for item in queryset %}
+		{% for video in all_videos %}
 		<tr>
 			<td>{{ forloop.counter }}</td> 
-			<td>{% if request.user.is_authenticated or item.has_preview %}<a href='{{ item.get_absolute_url }}'>{{ item }}</a>{% else %}{{ item }}{% endif %}</td>
+			<td>{% if request.user.is_authenticated or video.has_preview %}<a href='{{ video.get_absolute_url }}'>{{ video }}</a>{% else %}{{ video }}{% endif %}</td>
 		    <br/>
 		</tr>
 		{% endfor %}
