@@ -111,5 +111,4 @@ def category_detail(request, cat_slug):
                    )
     return render(request, "videos/video_list.html", {"cat": cat,
                                                       "all_videos": all_videos,
-                                                      # "comments": comments
                                                       })

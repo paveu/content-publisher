@@ -26,36 +26,21 @@ class VideoManager(models.Manager):
         return VideoQuerySet(self.model, using=self._db)
 
     def get_featured(self):
-        # Video.objects.filter(featured=True)
-        # return super(VideoManager, self).filter(featured=True)
         return self.get_queryset().active().featured()
 
     def all(self):
         return self.get_queryset().active().has_embed()
 
-"""
->>> from analytics.models import PageView
->>> from videos.models import Video
->>> from django.db.models import Count
->>> from django.contrib.contenttypes.models import ContentType
-
-#top items
-PageView.objects.filter(primary_content_type=video_type)\
-.values('primary_object_id')\
-.annotate(the_count=Count('primary_object_id'))\
-.order_by('-the_count')
-
-#one item
-PageView.objects.filter(primary_content_type=video_type, primary_object_id=2)
-"""
-
 DEFAULT_MESSAGE = "Check out this awesome video."
+
 
 class Video(models.Model):
     title = models.CharField(max_length=120)
     embed_code = models.CharField(max_length=500, null=True, blank=True)
     share_message = models.TextField(default=DEFAULT_MESSAGE)
     order = models.PositiveIntegerField(default=1)
+    # https://docs.djangoproject.com/en/1.9/ref/contrib/contenttypes/
+    # TaggedItem(models.Model)
     tags = GenericRelation("TaggedItem", null=True, blank=True)
     slug = models.SlugField(null=True, blank=True)
     active = models.BooleanField(default=True)
@@ -160,12 +145,11 @@ class CategoryManager(models.Manager):
 
 class Category(models.Model):
     title = models.CharField(max_length=120)
-#     videos = models.ManyToManyField(Video, null=True, blank=True)
     description = models.TextField(max_length=5000, null=True, blank=True)
+    # TaggedItem(models.Model):
     tags = GenericRelation("TaggedItem", null=True, blank=True)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     slug = models.SlugField(default='abc', unique=True)
-#     publish_date = models.DateTimeField(auto_now_add=False, auto_now=Falses)
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
     featured = models.BooleanField(default=False)
@@ -177,12 +161,10 @@ class Category(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        # return reverse('category_detail', kwargs={"cat_slug": self.category.slug})
-        return reverse("project_detail", kwargs={"cat_slug": self.slug})
+        return reverse("cat_detail", kwargs={"cat_slug": self.slug})
 
     def get_image_url(self):
         return "%s%s" % (settings.MEDIA_URL, self.image)
-
 
 TAG_CHOICES = (
     ("python", "python"),
@@ -190,14 +172,10 @@ TAG_CHOICES = (
     ("css", "css"),
     ("bootstrap", "bootstrap"),
     ("music", "music"),
-
-    )
+)
 
 class TaggedItem(models.Model):
-    # category = models.ForeignKey(Category, null=True)
-    #  video = models.ForeignKey(Video)
     tag = models.SlugField(choices=TAG_CHOICES)
-    
     # Get access to all models in the project
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()

@@ -1,9 +1,11 @@
+import random
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, Http404
 from django.utils import timezone
-import random
+
 # Create your views here.
 from .models import Transaction, Membership, UserMerchantId
 from .signals import membership_dates_update
@@ -16,7 +18,6 @@ braintree.Configuration.configure(braintree.Environment.Sandbox,
                                   private_key=settings.BRAINTREE_PRIVATE_KEY)
 
 PLAN_ID = "monthly_plan"
-
 
 @login_required
 def cancel_subscription(request):

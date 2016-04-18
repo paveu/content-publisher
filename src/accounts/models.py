@@ -106,10 +106,9 @@ class MyUser(AbstractBaseUser):
 
 
 def user_logged_in_signal(sender, signal, request, user, **kwargs):
-    # print "user.is_member", user.is_member
-    # print "user.membership.date_start:", user.membership.date_start
-    # print "user.membership.date_end:", user.membership.date_end
-
+    """
+    Call it when user has been logged in
+    """
     request.session.set_expiry(60000)
     membership_obj, created = Membership.objects.get_or_create(user=user)
     if created:
@@ -139,11 +138,11 @@ class UserProfile(models.Model):
 
 
 def new_user_receiver(sender, instance, created, *args, **kwargs):
+    """
+    If MyUser is created then get or create braintree account details
+    """
     if created:
         new_profile, is_created = UserProfile.objects.get_or_create(user=instance)
-        # print "new_profile.username:", new_profile.user
-        # print "is_created:", is_created
-
         notify.send(instance,
                     # action=new_comment,
                     # target=new_comment.video,
@@ -156,7 +155,6 @@ def new_user_receiver(sender, instance, created, *args, **kwargs):
     try:
         # something to get the current customer id stored somewhere
         merchant_obj = UserMerchantId.objects.get(user=instance)
-        print("merchant_obj", merchant_obj)
         # print "user account already exists"
     except:
         new_customer_result = braintree.Customer.create({

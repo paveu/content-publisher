@@ -14,7 +14,6 @@ import datetime
 from .utils import jwt_response_payload_handler
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -31,17 +30,22 @@ ALLOWED_HOSTS = []
 FULL_DOMAIN_NAME = 'https://srvup-rest-pawelste-1.c9users.io'
 
 AUTH_USER_MODEL = 'accounts.MyUser'
+
 RECENT_COMMENT_NUMBER = 10
+
 # Application definition
 
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
+    # https://docs.djangoproject.com/en/1.9/ref/contrib/contenttypes/
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    # https://github.com/ottoyiu/django-cors-headers
+    # http://www.html5rocks.com/en/tutorials/cors/
     'corsheaders',
     'rest_framework',
     'accounts',
@@ -51,10 +55,13 @@ INSTALLED_APPS = (
     'notifications',
     'videos',
 )
+
 CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    # https://github.com/ottoyiu/django-cors-headers
+    # http://www.html5rocks.com/en/tutorials/cors/
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -75,6 +82,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
+    # for templates mostly (requests)
     "django.core.context_processors.request",
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
@@ -84,7 +92,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 ROOT_URLCONF = 'srvup.urls'
 
 WSGI_APPLICATION = 'srvup.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -108,7 +115,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
@@ -134,7 +140,6 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "media")
 BRAINTREE_MERCHANT_ID = "v35fphbvqtvrp35k"
 BRAINTREE_PUBLIC_KEY = "kkhkgx4bmkswv5yp"
 BRAINTREE_PRIVATE_KEY = "7d8e596cb7ebe43e843ef95e9e068fa6"
-
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (

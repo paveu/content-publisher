@@ -7,6 +7,7 @@ def get_vid_for_direction(instance, direction):
     else:
         new_qs = video_qs.filter(order__lt=instance.order).reverse()
     next_vid = None
+ 
     if len(new_qs) >= 1:
         try:
             next_vid = new_qs[0]

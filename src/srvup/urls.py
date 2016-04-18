@@ -32,7 +32,7 @@ urlpatterns = patterns('',
     url(r'^$', 'srvup.views.home', name='home'),
     url(r'^contact_us/$', TemplateView.as_view(template_name='company/contact_us.html'), name='contact_us'),
     url(r'^projects/$', 'videos.views.category_list', name='projects'),
-    url(r'^projects/(?P<cat_slug>[\w-]+)/$', 'videos.views.category_detail', name='project_detail'),
+    url(r'^projects/(?P<cat_slug>[\w-]+)/$', 'videos.views.category_detail', name='cat_detail'),
     url(r'^projects/(?P<cat_slug>[\w-]+)/(?P<vid_slug>[\w-]+)/$', 'videos.views.video_detail', name='video_detail'),
     url(r'^jquery-test/$', 'srvup.views.jquery_test_view'),
     url(r'^admin/', include(admin.site.urls)),
@@ -40,7 +40,6 @@ urlpatterns = patterns('',
 
 if settings.DEBUG:
     urlpatterns += patterns('',) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 
 # enrollment
 urlpatterns += patterns('billing.views',
@@ -62,8 +61,6 @@ urlpatterns += patterns('comments.views',
     url(r'^comment/(?P<id>\d+)/$', 'comment_thread', name='comment_thread'),
     url(r'^comment/create/$', 'comment_create_view', name='comment_create'),
 )
-
-
 
 # Notifications Thread
 urlpatterns += patterns('notifications.views',

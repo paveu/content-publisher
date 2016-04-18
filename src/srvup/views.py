@@ -1,15 +1,10 @@
-# from django.contrib.auth import authenticate, login, logout
-# from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Count
 from django.shortcuts import render
-# from django.utils.safestring import mark_safe
-# from django.http.response import HttpResponseRedirect
 from rest_framework.decorators import api_view
 from rest_framework.response import Response as RestResponse
 from rest_framework.reverse import reverse as api_reverse
 
-# ######## Accounts #####
 from accounts.forms import RegisterForm, LoginForm
 from videos.models import Video, Category
 from analytics.signals import page_view
