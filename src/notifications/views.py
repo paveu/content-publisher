@@ -11,6 +11,7 @@ from .models import Notification
 @login_required
 def all(request):
     notifications = Notification.objects.all_for_user(request.user)
+    print("notifications", notifications)
     context = {"notifications": notifications,
                }
     return render(request, "notifications/all.html", context)
@@ -37,6 +38,8 @@ def read(request, id):
 
 @login_required
 def get_notifications_ajax(request):
+    notifications = Notification.objects.all_for_user(request.user).recent()
+    print("notifications", notifications)
     if request.is_ajax() and request.method == "POST":
         notifications = Notification.objects.all_for_user(request.user).recent()
         print("notifications", notifications)
