@@ -64,7 +64,7 @@ class Comment(models.Model):
     def __unicode__(self):
         return self.get_comment
 
-    def get_absolute(self):
+    def get_absolute_url(self):
         return reverse('comment_thread', kwargs={"id": self.id})
 
     @property
