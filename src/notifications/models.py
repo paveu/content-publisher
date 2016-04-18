@@ -9,29 +9,50 @@ from django.core.urlresolvers import reverse
 # Create your models here.
 class NotificationQuerySet(models.query.QuerySet):
     def get_user(self, user):
+        """
+        Filter notifications based on user name
+        """
         return self.filter(recipient=user)
 
     def mark_targetless(self, recipient):
+        """
+        Mark notifaction as unread for specific user if there is no target model
+        """
         qs = self.unread().get_user(recipient)
         qs_no_target = qs.filter(target_object_id=None)
         if qs_no_target:
             qs_no_target.update(read=True)
 
-    def mark_all_read(self, recipient):
-        qs = self.unread().get_user(recipient)
-        qs.update(read=True)
+    # def mark_all_read(self, recipient):
+    #     """
+    #     Mark all notifications as read for specific recipient
+    #     """
+    #     qs = self.unread().get_user(recipient)
+    #     qs.update(read=True)
 
-    def mark_all_unread(self, recipient):
-        qs = self.read().get_user(recipient)
-        qs.update(read=False)
+    # def mark_all_unread(self, recipient):
+    #     """
+    #     Mark all notifications as unread for specific recipient
+    #     """
+    #     qs = self.read().get_user(recipient)
+    #     qs.update(read=False)
 
     def unread(self):
+        """
+        Show unread notifications
+        """
         return self.filter(read=False)
 
     def read(self):
+        """
+        Show read notifications
+        """
         return self.filter(read=True)
 
     def recent(self):
+        """
+        Show first five unread notifications
+        """
         return self.unread()[:5]
 
 
@@ -47,7 +68,7 @@ class NotificationManager(models.Manager):
     # def all_read(self, user):
     #     return get_queryset().get_user(user).read()
 
-    # it could be shorted into one QuerySet line
+    # it could be shorten into one QuerySet line
     def all_for_user(self, user):
         self.get_queryset().mark_targetless(recipient=user)
         return self.get_queryset().get_user(user)
