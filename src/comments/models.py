@@ -91,6 +91,7 @@ class Comment(models.Model):
         if self.is_child:
             return None
         else:
+            # parent
             return Comment.objects.filter(parent=self)
 
     def get_affected_users(self):

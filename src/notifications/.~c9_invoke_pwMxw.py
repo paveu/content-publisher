@@ -39,7 +39,6 @@ def read(request, id):
 def get_notifications_ajax(request):
     if request.is_ajax() and request.method == "POST":
         notifications = Notification.objects.all_for_user(request.user).recent()
-        print("notifications", notifications)
         count = notifications.count()
         notes = []
         for note in notifications:
@@ -53,3 +52,93 @@ def get_notifications_ajax(request):
         return HttpResponse(json_data, content_type='application/json')
     else:
         raise Http404
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -49,6 +49,9 @@ class CommentDetailAPIView(mixins.DestroyModelMixin,
 
 @login_required
 def comment_thread(request, id):
+    """
+    Get comment thread by providing comment id
+    """
     comment = get_object_or_404(Comment, id=id)
     form = CommentForm()
     context = {"form": form,
@@ -65,7 +68,6 @@ def comment_create_view(request):
 
         # origin_path variable is used only for new comment that doesn't have parent
         origin_path = request.POST.get("origin_path")
-        ###
 
         try:
             video = Video.objects.get(id=video_id)
@@ -86,7 +88,7 @@ def comment_create_view(request):
         form = CommentForm(request.POST)
         if form.is_valid():
             comment_text = form.cleaned_data['comment']
-
+            # parent comment section
             if parent_comment is not None:
                 new_comment = Comment.objects.create_comment(user=request.user,
                                                              # path=request.get_full_path(),
@@ -99,16 +101,16 @@ def comment_create_view(request):
                 messages.success(request,
                                  "Thank you for your response",
                                  extra_tags='alert-warning')
-                notify.send(
-                            request.user,
+                notify.send(request.user,
                             action=new_comment,
                             target=parent_comment,
                             recipient=parent_comment.user,
                             affected_users=parent_comment.get_affected_users(),
                             verb='replied to'
                             )
-                # print "parent_comment.get_absolute_url()", parent_comment.get_absolute_url()
                 return HttpResponseRedirect(parent_comment.get_absolute_url())
+            
+            # Child comment section
             else:
                 new_comment = Comment.objects.create_comment(user=request.user,
                                                              #
@@ -119,16 +121,15 @@ def comment_create_view(request):
                                                              video=video,
                                                              )
                 # option to send to super user or staff users
-#                 notify.send(
-#                             request.user,
-#                             action=new_comment,
-#                             target=new_comment.video,
-#                             recipient=request.user,
-#                             verb='commented on'
-#                             )
+                notify.send(
+                            request.user,
+                            action=new_comment,
+                            target=new_comment.video,
+                            recipient=request.user,
+                            verb='commented on'
+                            )
                 messages.success(request, "Thank you for the comment.")
                 # notify.send(request.user, recipient=request.user, action='new comment')
-                # print "new_comment.get_absolute_url()", new_comment.get_absolute_url()
                 return HttpResponseRedirect(new_comment.get_absolute_url())
         else:
             messages.error(request, "There was an error with your comment.")
