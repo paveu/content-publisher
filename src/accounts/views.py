@@ -30,17 +30,13 @@ def auth_logout(request):
 
 def auth_login(request):
     form = LoginForm(request.POST or None)
-#     next_url = request.GET.get('next')
     if form.is_valid():
         username = form.cleaned_data['username']
         password = form.cleaned_data['password']
-#         print(username, password)
         # returns already created user in db or None
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-#             if next_url is not None:
-#                 return HttpResponseRedirect(next_url)
             return HttpResponseRedirect('/')
 
     action_url = reverse("login")

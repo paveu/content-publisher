@@ -44,8 +44,12 @@ class RegisterForm(forms.Form):
 
 
 class UserCreationForm(forms.ModelForm):
-    """A form for creating new users. Includes all the required
-    fields, plus a repeated password."""
+    """
+    A form for creating new users. Includes all the required
+    fields, plus a repeated password.
+    
+    It will replace default creation form for creating new user
+    """
     password1 = forms.CharField(label='Password',
                                 widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation',
@@ -97,5 +101,8 @@ class UserChangeForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
+    """
+    Common Login form for getting sign in
+    """
     username = forms.CharField(label="Username")
     password = forms.CharField(widget=forms.PasswordInput())

@@ -8,8 +8,6 @@ from django.utils import timezone
 from .signals import page_view
 from videos.models import Video, Category
 
-
-# ############## START - Object Query methods ###########
 class PageViewQuerySet(models.query.QuerySet):
     def videos(self):
         content_type = ContentType.objects.get_for_model(Video)
@@ -29,7 +27,6 @@ class PageViewManager(models.Manager):
 
     def get_categories(self):
         return self.get_queryset().categories()
-# ############## END - Object Query methods ###########
 
 
 class PageView(models.Model):
@@ -53,7 +50,6 @@ class PageView(models.Model):
     secondary_object = GenericForeignKey("secondary_content_type",
                                          "secondary_object_id")
 
-#    count = models.PositiveIntegerField(default=1)
     timestamp = models.DateTimeField(default=timezone.now())
 
     objects = PageViewManager()
@@ -64,9 +60,12 @@ class PageView(models.Model):
     class Meta:
         ordering = ['-timestamp']
 
-
-# Connect() to .signals module and use data sent through page_view.sent().
 def page_view_received(sender, **kwargs):
+    """
+    Create new page_view object for analytic purpose
+    Note:
+    Connect() to .signals module and use data sent through page_view.sent().
+    """
     kwargs.pop('signal', None)
     page_path = kwargs.pop('page_path')
     primary_obj = kwargs.pop('primary_obj', None)

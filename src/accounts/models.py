@@ -51,6 +51,9 @@ class MyUserManager(BaseUserManager):
 
 
 class MyUser(AbstractBaseUser):
+    """
+    Main User model for the project
+    """
     username = models.CharField(
         max_length=255,
         unique=True,
@@ -107,7 +110,7 @@ class MyUser(AbstractBaseUser):
 
 def user_logged_in_signal(sender, signal, request, user, **kwargs):
     """
-    Call it when user has been logged in
+    Call it when user is logged in
     """
     request.session.set_expiry(60000)
     membership_obj, created = Membership.objects.get_or_create(user=user)

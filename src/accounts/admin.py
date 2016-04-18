@@ -10,6 +10,8 @@ from .forms import UserChangeForm, UserCreationForm
 class MyUserAdmin(UserAdmin):
     # The forms to add and change user instances
     form = UserChangeForm
+    
+    # we will use customized form for creating new user
     add_form = UserCreationForm
 
     # The fields to be used in displaying the User model.

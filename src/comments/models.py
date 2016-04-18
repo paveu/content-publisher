@@ -48,6 +48,7 @@ class Comment(models.Model):
     user = models.ForeignKey(MyUser)
     parent = models.ForeignKey("self", null=True, blank=True)
     # path field will be used as a return path for new comments
+    # It's gonna be some kind of unique identifier for comment
     path = models.CharField(max_length=350)
     video = models.ForeignKey(Video, null=True, blank=True)
     text = models.TextField()
@@ -63,7 +64,7 @@ class Comment(models.Model):
     def __unicode__(self):
         return self.get_comment
 
-    def get_absolute_url(self):
+    def get_absolute(self):
         return reverse('comment_thread', kwargs={"id": self.id})
 
     @property
