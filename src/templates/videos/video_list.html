@@ -11,7 +11,6 @@
         <div class="portfolio-centered">
             <div class="recentitems portfolio">
 				{% for item in all_videos %}
-					{% if request.user.is_authenticated or video.has_preview %}
 						<div class="portfolio-item books">
 		                	<div class="he-wrap tpl6">
 								<img src="{{ item.get_image_url }}" alt="">
@@ -24,11 +23,7 @@
 								</div><!-- he view -->		
 							</div><!-- he wrap -->
 						</div><!-- end col-12 -->
-					{% else %}
-						<p>There is no free videos for you, come again later!</p>
-					{% endif %}
                	{% endfor %}
-     
             </div><!-- portfolio -->
         </div><!-- portfolio container -->
 	 </div><!--/Portfoliowrap -->

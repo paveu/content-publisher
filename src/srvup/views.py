@@ -67,15 +67,18 @@ def home(request):
                    }
         template = "accounts/home_logged_in.html"
     else:
+        latest_vids = Video.objects.order_by('-pk')
         # If visitor is not logged in then:
         featured_categories = Category.objects.get_featured()
         featured_videos = Video.objects.get_featured()
         login_form = LoginForm()
         register_form = RegisterForm()
-        context = {"register_form": register_form,
-                   "login_form": login_form,
-                   "featured_videos": featured_videos,
-                   "featured_categories": featured_categories,
+        context = {
+                "latest_vids": latest_vids,
+                "register_form": register_form,
+                "login_form": login_form,
+                "featured_videos": featured_videos,
+                "featured_categories": featured_categories,
                    }
         template = "accounts/home_visitor.html"
     return render(request, template, context)
