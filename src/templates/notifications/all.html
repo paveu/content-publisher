@@ -1,13 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<div class='row'>
+	<div class='row' style='width: 50%; margin: 0 auto; margin-top: 100px; margin-bottom: 50px;'>
 		<div class='col-sm-10 col-sm-offset-1'>
 			<h1>Notifications</h1>
 		</div>
-	{% if notifications %}
-		</div>
-		<div class='row'>
+		{% if notifications %}
+
 			<div class='col-sm-10 col-sm-offset-1'>
 			    <table class='table'>
 				    {% for note in notifications %}
@@ -15,11 +14,9 @@
 				    {% endfor %}
 			    </table>
 		    </div>
-	    </div>
-	{% else %}
-	<p class='lead'>
-	This is where your notfications will apear once you have them.
-	</p>
-    {% endif %}
+   </div>
+		{% else %}
+		<p class='lead'> This is where your notfications will apear once you have them.</p>
+    	{% endif %}
 
 {% endblock %}
