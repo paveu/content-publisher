@@ -65,7 +65,7 @@ def home(request):
                    "recent_comments": recent_comments,
                    "popular_videos": popular_videos,
                    }
-        template = "home_logged_in.html"
+        template = "accounts/home_logged_in.html"
     else:
         # If visitor is not logged in then:
         featured_categories = Category.objects.get_featured()

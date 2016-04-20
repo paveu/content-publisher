@@ -1,246 +1,269 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% load crispy_forms_tags %}
-{% block title %}Welcome | {% endblock %}
-	{% block style %}
-		.jumbotron {
-			background-image: url("http://www.transparenttextures.com/patterns/batthern.png");
-		    background-color: #005880;
-		}
-		.jumbotron h1, .lead-jumbotron {
-		    color: #FFF;
-		}
-
-	    .navbar-default {
-	        margin-bottom: 0px;
-	    }
-	    .panel {
-	        margin-top: 20px;
-	    }
-
-		/* MARKETING CONTENT
-		-------------------------------------------------- */
-		
-		/* Center align the text within the three columns below the carousel */
-		.marketing .col-lg-4 {
-		  margin-bottom: 20px;
-		  text-align: center;
-		}
-		.marketing h2 {
-		  font-weight: normal;
-		}
-		.marketing .col-lg-4 p {
-		  margin-right: 10px;
-		  margin-left: 10px;
-		}
-		
-		
-		/* Featurettes
-		------------------------- */
-		
-		.featurette-divider {
-		  margin: 80px 0; /* Space out the Bootstrap <hr> more */
-		}
-		
-		/* Thin out the marketing headings */
-		.featurette-heading {
-		  font-weight: 300;
-		  line-height: 1;
-		  letter-spacing: -1px;
-		}
-		
-		
-		/* RESPONSIVE CSS
-		-------------------------------------------------- */
-		
-		@media (min-width: 768px) {
-		  /* The navbar becomes detached from the top, so we round the corners */
-		  .navbar-wrapper .navbar {
-		    border-radius: 4px;
-		  }
-		
-		  /* Bump up size of carousel content */
-		  .carousel-caption p {
-		    margin-bottom: 20px;
-		    font-size: 21px;
-		    line-height: 1.4;
-		  }
-		
-		  .featurette-heading {
-		    font-size: 50px;
-		  }
-		}
-		
-		@media (min-width: 992px) {
-		  .featurette-heading {
-		    <!--  margin-top: 120px; -->
-		  }
-		}
-{% endblock %}
-
-{% block jumbotron %}
-<div class="container-fluid">
-	<div class="jumbotron">
-	    <div class="container">
-	    <div class='row'>
-	        <div class='col-sm-7'>
-	            <h1>Welcome</h1>
-	            <p class='lead-jumbotron'>This is our site</p>
-	        </div>
-	        <div class='col-sm-5'>
-	            <div role="tabpanel">
-	            
-	              <!-- Nav tabs -->
-	              <ul class="nav nav-tabs nav-tabs-jumbotron" role="tablist">
-	                <li role="presentation" class="active">
-	                	<a href="#register" aria-controls="register" role="tab" data-toggle="tab">Register</a></li>
-	                <li role="presentation">
-	                	<a href="#login" aria-controls="login" role="tab" data-toggle="tab">Login</a></li>
-	              </ul>
-	            
-	              <!-- Tab panes -->
-	              <div class="tab-content">
-	                <div role="tabpanel" class="tab-pane active" id="register">
-	                    <div class="panel panel-jumbotron panel-default">
-	                          <div class="panel-body">
-	                                <form method='POST' action='{% url "register" %}'>{% csrf_token %}
-	                                    {{ register_form|crispy }}
-	                                    <input class='btn btn-default btn-block btn-large' type='submit' value='Register' />
-	                                </form>
-	                                <br />
-	                                <p>By registering you agree to our <a href='#'>terms</a></p>
-	                          </div>
-	                    </div>
-	
-	                </div> 
-	                <div role="tabpanel" class="tab-pane" id="login">
-	                    <div class="panel panel-jumbotron panel-default ">
-	                          <div class="panel-body">
-	                                <form method='POST' action='{% url "login" %}'>{% csrf_token %}
-	                                    {{ login_form|crispy }}
-	                                    <input class='btn btn-default btn-block btn-large' type='submit' value='Login' />
-	                                </form>
-	                          </div>
-	                </div>
-	              </div>
-	            
-	            </div>
-	           </div>
-	
-	        </div>
-	    </div>
-      </div>
-	</div>
-</div>
-{% endblock %}
 
 {% block content %}
 
+	<!-- *****************************************************************************************************************
+	 HEADERWRAP
+	 ***************************************************************************************************************** -->
+	<div id="headerwrap">
+	    <div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<h3>Sell out your videos</h3>
+					<h1>Start Making money!</h1>
+					<h5>Start today!</h5>
+					<!--<img src="{% static 'img/browser.png' %}" class="img-responsive">-->
+				</div>
+				<div class="col-md-6">
+			        <div role="tabpanel">
+			              <!-- Nav tabs -->
+			              <ul class="nav nav-tabs nav-tabs-jumbotron" role="tablist">
+			                <li role="presentation" class="active">
+			                	<a href="#register" aria-controls="register" role="tab" data-toggle="tab">Register</a></li>
+			                <li role="presentation">
+			                	<a href="#login" aria-controls="login" role="tab" data-toggle="tab">Login</a></li>
+			              </ul>
+			              <!-- Tab panes -->
+			              <div class="tab-content">
+				                <div role="tabpanel" class="tab-pane active" id="register">
+				                    <div class="panel panel-jumbotron panel-default">
+				                          <div class="panel-body">
+				                                <form method='POST' action='{% url "register" %}'>{% csrf_token %}
+				                                    {{ register_form|crispy }}
+				                                    <input class='btn btn-default btn-block btn-large' type='submit' value='Register' />
+				                                </form>
+				                                <br />
+				                                <p>By registering you agree to our <a href='#'>terms</a></p>
+				                          </div>
+				                    </div>
+				
+				                </div> 
+				                <div role="tabpanel" class="tab-pane" id="login">
+				                    <div class="panel panel-jumbotron panel-default ">
+				                          <div class="panel-body">
+				                                <form method='POST' action='{% url "login" %}'>{% csrf_token %}
+				                                    {{ login_form|crispy }}
+				                                    <input class='btn btn-default btn-block btn-large' type='submit' value='Login' />
+				                                </form>
+				                          </div>
+				                	</div>
+				               </div>
+			              </div>
+			         </div>
 
-    <!-- Marketing messaging and featurettes
-    ================================================== -->
-    <!-- Wrap the rest of the page in another container to center all the content. -->
+				</div>
 
-    <div class="container marketing">
+			</div><!-- /row -->
+	    </div> <!-- /container -->
+	</div><!-- /headerwrap -->
 
-      <!-- Three columns of text below the carousel -->
-      <div class="row">
-        <div class="col-lg-4">
-          <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-          <h2>Latest music videos</h2>
-          <p>Metallica, SOAD, Queen</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-          <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-          <h2>Latest music videos</h2>
-          <p>Metallica, SOAD, Queen</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-          <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-          <h2>Latest music videos</h2>
-          <p>Metallica, SOAD, Queen</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-      </div><!-- /.row -->
+	<!-- *****************************************************************************************************************
+	 SERVICE LOGOS
+	 ***************************************************************************************************************** -->
+	 <div id="service">
+	 	<div class="container">
+ 			<div class="row centered">
+ 				<div class="col-md-4">
+ 					<i class="fa fa-heart-o"></i>
+ 					<h4>Handsomely Crafted</h4>
+ 					<p>All Videos are made by professionals in IT</p>
+ 					<p><br/><a href="#" class="btn btn-theme">More Info</a></p>
+ 				</div>
+ 				<div class="col-md-4">
+ 					<i class="fa fa-flask"></i>
+ 					<h4>Up-to-dated</h4>
+ 					<p>You may excpect to receive lots of updated to videos</p>
+ 					<p><br/><a href="#" class="btn btn-theme">More Info</a></p>
+ 				</div>
+ 				<div class="col-md-4">
+ 					<i class="fa fa-trophy"></i>
+ 					<h4>Video high quality</h4>
+ 					<p>All the work made hare is delivered with high quality, 1080p resolution</p>
+ 					<p><br/><a href="#" class="btn btn-theme">More Info</a></p>
+ 				</div>		 				
+	 		</div>
+	 	</div><! --/container -->
+	 </div><! --/service -->
 
+	<!-- *****************************************************************************************************************
+	 PORTFOLIO SECTION
+	 ***************************************************************************************************************** -->
+	 <div id="portfoliowrap">
+        <h3>LATEST WORKS</h3>
 
-      <!-- START THE FEATURETTES -->
+        <div class="portfolio-centered">
+            <div class="recentitems portfolio">
+				<div class="portfolio-item graphic-design">
+					<div class="he-wrap tpl6">
+					<img src="{% static 'img/portfolio/portfolio/portfolio_09.jpg' %}" alt="">
+						<div class="he-view">
+							<div class="bg a0" data-animate="fadeIn">
+                                <h3 class="a1" data-animate="fadeInDown">A Graphic Design Item</h3>
+                                <a data-rel="prettyPhoto" href="{% static 'img/portfolio/portfolio/portfolio_09.jpg' %}" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-search"></i></a>
+                                <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
+                        	</div><!-- he bg -->
+						</div><!-- he view -->		
+					</div><!-- he wrap -->
+				</div><!-- end col-12 -->
+                            
+                <div class="portfolio-item web-design">
+                    <div class="he-wrap tpl6">
+					<img src="{% static 'img/portfolio/portfolio_02.jpg' %}" alt="">
+						<div class="he-view">
+							<div class="bg a0" data-animate="fadeIn">
+                                <h3 class="a1" data-animate="fadeInDown">A Web Design Item</h3>
+                                <a data-rel="prettyPhoto" href="{% static 'img/portfolio/portfolio_02.jpg' %}" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-search"></i></a>
+                                <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
+                        	</div><!-- he bg -->
+						</div><!-- he view -->		
+					</div><!-- he wrap -->
+				</div><!-- end col-12 -->
+        
+                <div class="portfolio-item graphic-design">
+                    <div class="he-wrap tpl6">
+					<img src="{% static 'img/portfolio/portfolio_03.jpg' %}" alt="">
+						<div class="he-view">
+							<div class="bg a0" data-animate="fadeIn">
+                                <h3 class="a1" data-animate="fadeInDown">A Graphic Design Item</h3>
+                                <a data-rel="prettyPhoto" href="{% static 'img/portfolio/portfolio_03.jpg' %}" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-search"></i></a>
+                                <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
+                        	</div><!-- he bg -->
+						</div><!-- he view -->		
+					</div><!-- he wrap -->
+				</div><!-- end col-12 -->
+        
+                <div class="portfolio-item graphic-design">
+                    <div class="he-wrap tpl6">
+					<img src="{% static 'img/portfolio/portfolio_04.jpg' %}"  alt="">
+						<div class="he-view">
+							<div class="bg a0" data-animate="fadeIn">
+                                <h3 class="a1" data-animate="fadeInDown">A Graphic Design Item</h3>
+                                <a data-rel="prettyPhoto" href="{% static 'img/portfolio/portfolio_04.jpg' %}" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-search"></i></a>
+                                <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
+                        	</div><!-- he bg -->
+						</div><!-- he view -->		
+					</div><!-- he wrap -->
+				</div><!-- end col-12 -->
+                                        
+                <div class="portfolio-item books">
+                    <div class="he-wrap tpl6">
+					<img src="{% static 'img/portfolio/portfolio_05.jpg' %}" alt="">
+						<div class="he-view">
+							<div class="bg a0" data-animate="fadeIn">
+                                <h3 class="a1" data-animate="fadeInDown">A Book Design Item</h3>
+                                <a data-rel="prettyPhoto" href="{% static 'img/portfolio/portfolio_05.jpg' %}" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-search"></i></a>
+                                <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
+                        	</div><!-- he bg -->
+						</div><!-- he view -->		
+					</div><!-- he wrap -->
+				</div><!-- end col-12 -->
+                                        
+                <div class="portfolio-item graphic-design">
+                    <div class="he-wrap tpl6">
+					<img src="{% static 'img/portfolio/portfolio_06.jpg' %}" alt="">
+						<div class="he-view">
+							<div class="bg a0" data-animate="fadeIn">
+                                <h3 class="a1" data-animate="fadeInDown">A Graphic Design Item</h3>
+                                <a data-rel="prettyPhoto" href="{% static 'img/portfolio/portfolio_06.jpg' %}" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-search"></i></a>
+                                <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
+                        	</div><!-- he bg -->
+						</div><!-- he view -->		
+					</div><!-- he wrap -->
+				</div><!-- end col-12 -->
+                    
+                <div class="portfolio-item books">
+                    <div class="he-wrap tpl6">
+					<img src="{% static 'img/portfolio/portfolio_07.jpg' %}" alt="">
+						<div class="he-view">
+							<div class="bg a0" data-animate="fadeIn">
+                                <h3 class="a1" data-animate="fadeInDown">A Book Design Item</h3>
+                                <a data-rel="prettyPhoto" href="{% static 'img/portfolio/portfolio_07.jpg' %}" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-search"></i></a>
+                                <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
+                        	</div><!-- he bg -->
+						</div><!-- he view -->		
+					</div><!-- he wrap -->
+				</div><!-- end col-12 -->
+                    
+                <div class="portfolio-item graphic-design">
+                    <div class="he-wrap tpl6">
+					<img src="{% static 'img/portfolio/portfolio_08.jpg' %}" alt="">
+						<div class="he-view">
+							<div class="bg a0" data-animate="fadeIn">
+                                <h3 class="a1" data-animate="fadeInDown">A Graphic Design Item</h3>
+                                <a data-rel="prettyPhoto" href="{% static 'img/portfolio/portfolio_08.jpg' %}" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-search"></i></a>
+                                <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
+                        	</div><!-- he bg -->
+						</div><!-- he view -->		
+					</div><!-- he wrap -->
+				</div><!-- end col-12 -->
+                                        
+                <div class="portfolio-item web-design">
+                    <div class="he-wrap tpl6">
+					<img src="{% static 'img/portfolio/portfolio_01.jpg' %}"alt="">
+						<div class="he-view">
+							<div class="bg a0" data-animate="fadeIn">
+                                <h3 class="a1" data-animate="fadeInDown">A Web Design Item</h3>
+                                <a data-rel="prettyPhoto" href="{% static 'img/portfolio/portfolio_01.jpg' %}" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-search"></i></a>
+                                <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
+                        	</div><!-- he bg -->
+						</div><!-- he view -->		
+					</div><!-- he wrap -->
+				</div><!-- end col-12 -->
+    
+			<div class="portfolio-item books">
+                <div class="he-wrap tpl6">
+					<img src="{% static 'img/portfolio/portfolio_10.jpg' %}" alt="">
+						<div class="he-view">
+							<div class="bg a0" data-animate="fadeIn">
+                                <h3 class="a1" data-animate="fadeInDown">A Book Design Item</h3>
+                                <a data-rel="prettyPhoto" href="{% static 'img/portfolio/portfolio_10.jpg' %}" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-search"></i></a>
+                                <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
+                        	</div><!-- he bg -->
+						</div><!-- he view -->		
+					</div><!-- he wrap -->
+				</div><!-- end col-12 -->
+                    
+            </div><!-- portfolio -->
+        </div><!-- portfolio container -->
+	 </div><!--/Portfoliowrap -->
+	 
+	 
+	<!-- *****************************************************************************************************************
+	 MIDDLE CONTENT
+	 ***************************************************************************************************************** -->
 
-      <hr class="featurette-divider">
-
-      <div class="row featurette">
-        <div class="col-sm-7">
-          <h2 class="featurette-heading">The best content in the world<br /><span class="text-muted">It'll blow your mind.</span></h2>
-        </div>
-        <div class="col-sm-5">
-
-	       {% if featured_categories %}	    
-	                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-	                      <!-- Indicators -->
-	                      <ol class="carousel-indicators">
-	                        {% for cat in featured_categories %}
-	                           <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.count }}" class="{% if forloop.first %}active{% endif %}"></li>
-	                        {% endfor %}
-	                      </ol>
-	                    
-	                      <!-- Wrapper for slides -->
-	                      <div class="carousel-inner" role="listbox">
-	                        {% for cat in featured_categories %}
-	                        <div class="item {% if forloop.first %} active {% endif %}">
-	                          <a href='{{ cat.get_absolute_url }}'>
-	                              <img src="{{ cat.get_image_url }}" class='img-responsive'>
-	                          </a>
-	                          <!-- <div class="carousel-caption">
-	                               <a href='{{ cat.get_absolute_url }}'>{{ cat.title }}</a>
-	                          </div>
-	                          -->
-	                        </div>
-	                        {% endfor %}
-	                
-	                      </div>
-	                    
-	                      <!-- Controls -->
-	                      <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-	                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-	                        <span class="sr-only">Previous</span>
-	                      </a>
-	                      <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-	                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-	                        <span class="sr-only">Next</span>
-	                      </a>
-	                    </div>
-	        {% endif %}
-
-        </div>
-      </div>
-
-      <hr class="featurette-divider">
-
-      <div class="row featurette">
-        <div class="col-sm-5">
-	        {% if featured_videos %}
-	                    <div class="panel panel-default">
-	                       <div class="panel-heading">
-	                           <h3 class="panel-title">Featured Videos</h3>
-	                       </div>
-	                              <table class="table table-striped">
-	                                {% for vid in featured_videos %}
-	                                    <tr><td><a href='{{ vid.get_absolute_url }}'>{{ vid.title }}</a> {% if vid.free_preview %}Free Preview {% endif %}</td></tr>
-	                                {% endfor %}
-	                             </table>
-	                    </div>
-	        {% endif %}
-        </div>
-        <div class="col-sm-7">
-          <h2 class="featurette-heading">Videos available all day long. <span class="text-muted">See for yourself.</span></h2>
-        </div>
-      </div>
-
-      <!-- /END THE FEATURETTES -->
-
-    </div><!-- /.container -->
-
+	 <div class="container mtb">
+	 	<div class="row">
+	 		<div class="col-lg-4 col-lg-offset-1">
+		 		<h4>More About Our Agency.</h4>
+		 		<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p>
+ 				<p><br/><a href="about.html" class="btn btn-theme">More Info</a></p>
+	 		</div>
+	 		
+	 		<div class="col-lg-3">
+	 			<h4>Frequently Asked</h4>
+	 			<div class="hline"></div>
+	 			<p><a href="#">How cool is this theme?</a></p>
+	 			<p><a href="#">Need a nice good-looking site?</a></p>
+	 			<p><a href="#">Is this theme retina ready?</a></p>
+	 			<p><a href="#">Which version of Font Awesome uses?</a></p>
+	 			<p><a href="#">Free support is integrated?</a></p>
+	 		</div>
+	 		
+	 		<div class="col-lg-3">
+	 			<h4>Latest Posts</h4>
+	 			<div class="hline"></div>
+	 			<p><a href="single-post.html">Our new site is live now.</a></p>
+	 			<p><a href="single-post.html">Retina ready is not an option.</a></p>
+	 			<p><a href="single-post.html">Bootstrap 3 framework is the best.</a></p>
+	 			<p><a href="single-post.html">You need this theme, buy it now.</a></p>
+	 			<p><a href="single-post.html">This theme is what you need.</a></p>
+	 		</div>
+	 		
+	 	</div><! --/row -->
+	 </div><! --/container --
+{% include 'testimontials.html' %}
 
 {% endblock %}
-

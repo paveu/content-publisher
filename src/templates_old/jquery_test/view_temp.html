@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<!-- Optional bootstrap theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <title>Testing with jQuery</title>
+</head>
+<body>
+
+<div class='col-sm-6 col-sm-offset-3'>
+<h1>Testing with jQuery</h1>
+<button class='btn btn-default' id='ajaxBtn'>
+    Hello
+</button>
+
+<div id='itemContainer' style='color:red;'>
+
+</div>
+
+
+<!-- curl -X POST -d "text='NEW COMMENT'&user=1&parent=146" http://127.0.0.1:8000/api2/comment/create/ -->
+</div>
+
+
+
+<script src='https://code.jquery.com/jquery-1.11.3.min.js'></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#ajaxBtn").click(function(){
+            $("#itemContainer").html("<h1>Hi</h1>");
+        //      $.ajax({
+        //       type: "POST",
+        //       url: "http://127.0.0.1:8000/api/auth/token/",
+        //       data: {
+        //         // 
+        //         "username": "jmitchel3",
+        //         "password": 123
+        //       },
+        //       success: function(data){
+        //         $("#itemContainer").html(data.token);
+        //        console.log(data);
+        //       },
+        //       error: function(data){
+        //         console.log(data);
+        //       },
+        //    });
+        // });
+             $.ajax({
+              type: "POST",
+              headers: {
+                "Authorization": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzU3Mzg5OTB9.KFyDYnOJJ0pK8NaYIDvELFYjz5m-QRVPkBy8d9iA2ck",
+              },
+              url: "http://127.0.0.1:8000/api2/comment/create/",
+              data: {
+                // 
+                "text": "jquery test api",
+                "user": 1,
+                "video": 7,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+              },
+              success: function(data){
+                $("#itemContainer").html(data.text);
+                console.log(data);
+              },
+              error: function(data){
+                console.log(data);
+              },
+           });
+        });
+    });
+</script>
+<!--
+curl -X POST -d "text='!!!!!!@@@@@@@@@@'&user=1&video=7" http://127.0.0.1:8000/api2/comment/create/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzU3Mzg5OTB9.KFyDYnOJJ0pK8NaYIDvELFYjz5m-QRVPkBy8d9iA2ck"
+
+
+curl -X PUT -d "text='!!!!!!@@@@@@@@@@'" http://127.0.0.1:8000/api2/comment/134/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzU3Mzg5OTB9.KFyDYnOJJ0pK8NaYIDvELFYjz5m-QRVPkBy8d9iA2ck"
+{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzU3Mzg5OTB9.KFyDYnOJJ0pK8NaYIDvELFYjz5m-QRVPkBy8d9iA2ck"}
+  -->
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+</body>
+</html>

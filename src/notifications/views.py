@@ -10,6 +10,8 @@ from .models import Notification
 
 @login_required
 def all(request):
+    """
+    """
     notifications = Notification.objects.all_for_user(request.user)
     print("notifications", notifications)
     context = {"notifications": notifications,
@@ -19,6 +21,8 @@ def all(request):
 
 @login_required
 def read(request, id):
+    """
+    """
     notification = get_object_or_404(Notification, id=id)
     try:
         # getting next value i.e. : /notifications/read/11/?next=/comment/92/
@@ -35,9 +39,10 @@ def read(request, id):
     except:
         return redirect("notifications_all")
 
-
 @login_required
 def get_notifications_ajax(request):
+    """
+    """
     notifications = Notification.objects.all_for_user(request.user).recent()
     print("notifications", notifications)
     if request.is_ajax() and request.method == "POST":

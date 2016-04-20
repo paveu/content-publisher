@@ -36,6 +36,7 @@ DEFAULT_MESSAGE = "Check out this awesome video."
 
 class Video(models.Model):
     title = models.CharField(max_length=120)
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
     embed_code = models.CharField(max_length=500, null=True, blank=True)
     share_message = models.TextField(default=DEFAULT_MESSAGE)
     order = models.PositiveIntegerField(default=1)
@@ -94,6 +95,9 @@ class Video(models.Model):
         if self.free_preview:
             return True
         return False
+
+    def get_image_url(self):
+        return "%s%s" % (settings.MEDIA_URL, self.image)
 
 def video_post_save_receiver(sender, instance, created, *args, **kwargs):
     """

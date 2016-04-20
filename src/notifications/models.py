@@ -109,6 +109,10 @@ class Notification(models.Model):
     objects = NotificationManager()
 
     def __unicode__(self):
+        """
+        pawel replied to <a href='/notifications/read/3/?next=/comment/5/'>drugi watek</a> with asd
+        pawel replied to <a href='/notifications/read/4/?next=/comment/5/'>drugi watek</a> with werwer
+        """
         try:
             target_url = self.target_object.get_absolute_url()
         except:
@@ -135,6 +139,9 @@ class Notification(models.Model):
 
     @property
     def get_link(self):
+        """
+        TBD
+        """
         try:
             target_url = self.target_object.get_absolute_url()
         except:
@@ -145,8 +152,7 @@ class Notification(models.Model):
             "verb": self.verb,
             "action": self.action_object,
             "target": self.target_object,
-            "verify_read": reverse("notifications_read", kwargs={"id":
-                                                                 self.id}),
+            "verify_read": reverse("notifications_read", kwargs={"id": self.id}),
             "target_url": target_url,
         }
 
@@ -157,6 +163,9 @@ class Notification(models.Model):
 
 
 def new_notification(sender, **kwargs):
+    """
+    TBD
+    """
     print("kwargs", kwargs)
     # new_notification_create = Notification.objects.create(recipient=recipient, action=action)
     recipient = kwargs.pop('recipient')
@@ -167,13 +176,13 @@ def new_notification(sender, **kwargs):
     action = kwargs.pop('action', None)
     
     if affected_users is not None:
-        for u in affected_users:
-            if u == sender:
-                print("a sender user:", u)
+        for usr in affected_users:
+            if usr == sender:
+                print("a sender user:", usr)
                 pass
             else:
-                print("not a sender users:", u)
-                new_note = Notification(recipient=u,
+                print("not a sender users:", usr)
+                new_note = Notification(recipient=usr,
                                         verb=verb,
                                         sender_content_type=ContentType.objects.get_for_model(sender),
                                         sender_object_id=sender.id
