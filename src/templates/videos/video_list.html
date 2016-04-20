@@ -1,41 +1,36 @@
 {% extends "base.html" %}
 {% block title %}{% endblock %}
 
-{% block jumbotron %}
-<div class='container-fluid'>
-	<div class='jumbotron'>
-		<div class='container'>
-		    <div class='row'>
-		        <div class='col-sm-6'>
-		            <h1>{{ cat.title }}</h1>
-				</div>
-		        <div class='col-sm-6'>
-		           <img src="{{ cat.get_image_url }}" class='img-responsive'/>
-		        </div>
-			</div>
-		</div>
-	</div>
-</div>
-{% endblock %}
-
 {% block content %}
-<div class='col-sm-8 col-sm-offset-2'>
-    {% if all_videos %}
-	<table class='table'>
-		<thead>
-			<th>#</th>
-			<th>Title</th>
-		</thead>
-		{% for video in all_videos %}
-		<tr>
-			<td>{{ forloop.counter }}</td> 
-			<td>{% if request.user.is_authenticated or video.has_preview %}<a href='{{ video.get_absolute_url }}'>{{ video }}</a>{% else %}{{ video }}{% endif %}</td>
-		    <br/>
-		</tr>
-		{% endfor %}
-	</table>
-	{% else %}
-	 <h3 style='text-align:center;'>Project is coing soon</h3>
-	{% endif %}
-</div>
-{% endblock %} 
+	<!-- *****************************************************************************************************************
+	 PORTFOLIO SECTION
+	 ***************************************************************************************************************** -->
+	 <div id="portfoliowrap" style='width: 50%; margin: 0 auto; margin-top: 50px; margin-bottom: 50px;'>
+        <h3>Videos</h3>
+
+        <div class="portfolio-centered">
+            <div class="recentitems portfolio">
+				{% for item in all_videos %}
+					{% if request.user.is_authenticated or video.has_preview %}
+						<div class="portfolio-item books">
+		                	<div class="he-wrap tpl6">
+								<img src="{{ item.get_image_url }}" alt="">
+								<div class="he-view">
+									<div class="bg a0" data-animate="fadeIn">
+		                                <h3 class="a1" data-animate="fadeInDown">{{ item }}</h3>
+		                                <!--<a data-rel="prettyPhoto" href="{{ item.get_image_url }}" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-search"></i></a>-->
+		                                <a href="{{ item.get_absolute_url }}" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
+		                        	</div><!-- he bg -->
+								</div><!-- he view -->		
+							</div><!-- he wrap -->
+						</div><!-- end col-12 -->
+					{% else %}
+						<p>There is no free videos for you, come again later!</p>
+					{% endif %}
+               	{% endfor %}
+     
+            </div><!-- portfolio -->
+        </div><!-- portfolio container -->
+	 </div><!--/Portfoliowrap -->
+
+{% endblock %}

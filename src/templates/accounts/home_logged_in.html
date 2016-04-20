@@ -18,7 +18,7 @@
 						    {% for vid in recent_videos %}
 						        <a href='{{ vid.get_absolute_url }}'>{{ vid.title }}</a><br />
 						        {% if forloop.counter == 1 %}
-						            <a href='{{ vid.get_absolute_url }}'><img src='{{ vid.category.get_image_url }}' class='img-responsive' /></a><br />
+						            <a href='{{ vid.get_absolute_url }}'><img src='{{ vid.get_image_url }}' class='img-responsive' /></a><br />
 						        {% endif %}
 						    {% endfor %}
 		                    <hr />
@@ -29,9 +29,6 @@
 			                <h1>Popular Videos</h1>
 			                {% for vid, count in popular_videos.items %}
 			                    <a href='{{ vid.get_absolute_url }}'>{{ vid.title }}</a> - <small>Hit counter: {{ count }}</small><br />
-			                    {% if forloop.counter == 1 %}
-			                        <a href='{{ vid.get_absolute_url }}'><img src='{{ vid.category.get_image_url }}' class='img-responsive' /></a><br />
-			                    {% endif %}
 			                {% endfor %}
 			                <hr />
 			            </div>
