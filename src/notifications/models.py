@@ -138,7 +138,7 @@ class Notification(models.Model):
             # target url points where the change was made, it says http://srvup-rest-pawelste-1.c9users.io/notifications/read/8/?next=/comment/5/
             "target_url": target_url,
         }
-        print("reverse", reverse("notifications_read", kwargs={"id": self.id}))
+        # print("reverse", reverse("notifications_read", kwargs={"id": self.id}))
         if self.target_object:
             if self.action_object and target_url:
                 # http://doha.slyip.com/notifications/read/11/?next=/comment/92/

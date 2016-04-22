@@ -32,15 +32,13 @@ class VideoManager(models.Manager):
     def all(self):
         return self.get_queryset().active().has_embed()
 
-DEFAULT_MESSAGE = "Check out this awesome video."
-
 
 class Video(models.Model):
     user = models.ForeignKey(MyUser)
     title = models.CharField(max_length=120)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     embed_code = models.CharField(max_length=500, null=True, blank=True)
-    share_message = models.TextField(default=DEFAULT_MESSAGE)
+    description = models.TextField(max_length=5000, null=True, blank=True)
     order = models.PositiveIntegerField(default=1)
     # https://docs.djangoproject.com/en/1.9/ref/contrib/contenttypes/
     # TaggedItem(models.Model)
@@ -78,7 +76,7 @@ class Video(models.Model):
     def get_share_message(self):
         full_url = "%s%s" % (settings.FULL_DOMAIN_NAME,
                              self.get_absolute_url())
-        return urllib2.quote("%s%s" % (full_url, self.share_message))
+        return urllib2.quote("%s%s" % (full_url, self.description))
 
     def get_next_url(self):
         video = get_vid_for_direction(self, "next")
