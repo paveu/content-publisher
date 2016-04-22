@@ -67,5 +67,4 @@ urlpatterns += patterns('notifications.views',
     url(r'^notifications/$', 'all', name='notifications_all'),
     url(r'^notifications/ajax/$', 'get_notifications_ajax', name='get_notifications_ajax'),
     url(r'^notifications/read/(?P<id>\d+)/$', 'read', name='notifications_read'),
-#     url(r'^notifications/read/$', 'all', name='notifications_all'),
 )

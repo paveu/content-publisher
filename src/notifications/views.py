@@ -43,22 +43,22 @@ def read(request, id):
 @login_required
 def get_notifications_ajax(request):
     """
+    It gets notification for particular user through ajax post call.
+    As a result it returns notifications and its count number
     """
     notifications = Notification.objects.all_for_user(request.user).recent()
-    print("notifications", notifications)
     if request.is_ajax() and request.method == "POST":
         notifications = Notification.objects.all_for_user(request.user).recent()
-        print("notifications", notifications)
         count = notifications.count()
         notes = []
         for note in notifications:
             notes.append(str(note.get_link))
-
         data = {
                 "notifications": notes,
-                "count": count,
+                "count": count, # count var will be usefull to dermine if we have any notifications
         }
         json_data = json.dumps(data)
+        # json format for java script processing
         return HttpResponse(json_data, content_type='application/json')
     else:
         raise Http404
