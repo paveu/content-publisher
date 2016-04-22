@@ -146,14 +146,14 @@ def new_user_receiver(sender, instance, created, *args, **kwargs):
     """
     if created:
         new_profile, is_created = UserProfile.objects.get_or_create(user=instance)
-        notify.send(instance,
-                    # action=new_comment,
-                    # target=new_comment.video,
-                    recipient=MyUser.objects.get(username='paveu'),
-                    verb='new user created',
-                    affected_users=None,
-                    # affected_users=[MyUser.objects.get(username=new_profile.user)],
-                    )
+        # notify.send(instance,
+        #             # action=new_comment,
+        #             # target=new_comment.video,
+        #             recipient=MyUser.objects.get(username='paveu'),
+        #             verb='new user created',
+        #             affected_users=None,
+        #             # affected_users=[MyUser.objects.get(username=new_profile.user)],
+        #             )
     # merchant account customer id -- stripe vs braintree
     try:
         # something to get the current customer id stored somewhere
