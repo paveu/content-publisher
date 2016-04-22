@@ -37,6 +37,13 @@
 		    display: none;
 		}n
 	</style>
+	
+
+
+
+
+
+
 <div class='row' style='width: 50%; margin: 0 auto; margin-top: 100px; margin-bottom: 50px;'>
 	<div class='col-sm-8'>
 	    	<h1>{{ video.title }}</h1>
@@ -64,18 +71,30 @@
 	    {{ video.embed_code|safe }}
 	    <br/>
     </div>
+</div>
 
-    {% if video.tags %}
-    <div class='col-sm-10'>
-	    <p>Tags:</p>
-	    <ul>
-	        {% for tag in video.tags.all %}
-	            <li>{{ tag }}</li>
-	        {% endfor %}
-	    </ul>
-    </div>
-    {% endif %}
-    
+<div class="container mt">
+ <div class="row">
+
+ 	<div class="col-lg-5 col-lg-offset-1">
+	 	<div class="spacing"></div>
+ 		<h4>Description</h4>
+ 		<p>{{ video.share_message }} </p>
+ 	</div>
+ 	
+ 	<div class="col-lg-4 col-lg-offset-1">
+	 	<div class="spacing"></div>
+ 		<h4>Video Details</h4>
+ 		<div class="hline"></div>
+ 		<p><b>Date:</b> {{ video.timestamp }}</p>
+ 		<p><b>Author:</b> {{ video.user.get_full_name }}</p>
+ 		<p><b>Categories:</b> {{ video.category }}</p>
+ 		<p><b>Tagged:</b> {% if video.tags %} {% for tag in video.tags.all %}{{ tag }}, {% endfor %}{% endif %}</p>
+
+ 	</div>
+ 	
+ </div><! --/row -->
+
 	<div class='col-sm-12'>
 	    <h1>Comments/Questions</h1>
 		<form method="POST" action='{% url "comment_create" %}'>{% csrf_token %}

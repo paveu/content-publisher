@@ -45,7 +45,7 @@ class CommentManager(models.Manager):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(MyUser)
+    user = models.ForeignKey(MyUser, blank=True, null=True)
     parent = models.ForeignKey("self", null=True, blank=True)
     # path field will be used as a return path for new comments
     # It's gonna be some kind of unique identifier for comment

@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.utils.text import slugify
+from accounts.models import MyUser
 
 from .utils import get_vid_for_direction
 
@@ -35,6 +36,7 @@ DEFAULT_MESSAGE = "Check out this awesome video."
 
 
 class Video(models.Model):
+    user = models.ForeignKey(MyUser)
     title = models.CharField(max_length=120)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     embed_code = models.CharField(max_length=500, null=True, blank=True)
