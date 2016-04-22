@@ -11,9 +11,9 @@ from .models import Notification
 @login_required
 def all(request):
     """
+    Get all notification for particular user. It mixes read and unread messages
     """
     notifications = Notification.objects.all_for_user(request.user)
-    print("notifications", notifications)
     context = {"notifications": notifications,
                }
     return render(request, "notifications/all.html", context)
@@ -22,6 +22,7 @@ def all(request):
 @login_required
 def read(request, id):
     """
+    It marks particular notification as a read only if it's unread
     """
     notification = get_object_or_404(Notification, id=id)
     try:

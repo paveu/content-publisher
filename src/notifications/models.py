@@ -10,7 +10,7 @@ from django.core.urlresolvers import reverse
 class NotificationQuerySet(models.query.QuerySet):
     def get_user(self, user):
         """
-        Filter notifications based on user name
+        Filter notifications for partiular user
         """
         return self.filter(recipient=user)
 
@@ -19,6 +19,7 @@ class NotificationQuerySet(models.query.QuerySet):
         Mark notifaction as unread for specific user if there is no target model
         """
         qs = self.unread().get_user(recipient)
+        # if there is no target make it as a read
         qs_no_target = qs.filter(target_object_id=None)
         if qs_no_target:
             qs_no_target.update(read=True)
@@ -70,10 +71,16 @@ class NotificationManager(models.Manager):
 
     # it could be shorten into one QuerySet line
     def all_for_user(self, user):
+        """
+        Get all notfication for particular user
+        """
         self.get_queryset().mark_targetless(recipient=user)
         return self.get_queryset().get_user(user)
 
     def get_recent_for_user(self, user):
+        """
+        Get six recent notfication for particular user
+        """
         return self.get_queryset().get_user(user)[:6]
 
 
@@ -110,10 +117,12 @@ class Notification(models.Model):
 
     def __unicode__(self):
         """
-        pawel replied to <a href='/notifications/read/3/?next=/comment/5/'>drugi watek</a> with asd
-        pawel replied to <a href='/notifications/read/4/?next=/comment/5/'>drugi watek</a> with werwer
+        Getting well formatted print out for the objects. It's needed for pretty
+        printing out all data stored in the model. Just to have:
+        sender, recipient, verb, target, action in one place.
         """
         try:
+            # It points where the change was made which is our target
             target_url = self.target_object.get_absolute_url()
         except:
             target_url = None
@@ -122,18 +131,20 @@ class Notification(models.Model):
             "verb": self.verb,
             "action": self.action_object,
             "target": self.target_object,
-            # test it out, not sure whether it's working fine or not
-            "verify_read": reverse("notifications_read", kwargs={"id":
-                                                                 self.id}),
+            ###TODO: test it out, not sure whether it's working fine or not
+            # it checks whether id instance notification was read or not, if not it marks it as a read
+            # reverse function covnerts it to URL i.e. ''/notifications/read/1/'
+            "verify_read": reverse("notifications_read", kwargs={"id": self.id}),
+            # target url points where the change was made, it says http://srvup-rest-pawelste-1.c9users.io/notifications/read/8/?next=/comment/5/
             "target_url": target_url,
         }
+        print("reverse", reverse("notifications_read", kwargs={"id": self.id}))
         if self.target_object:
             if self.action_object and target_url:
                 # http://doha.slyip.com/notifications/read/11/?next=/comment/92/
                 return "%(sender)s %(verb)s <a href='%(verify_read)s?next=%(target_url)s'>%(target)s</a> with %(action)s" % context
             if self.action_object and not target_url:
                 return "%(sender)s %(verb)s %(target)s with %(action)s" % context
-
             return "%(sender)s %(verb)s %(target)s" % context
         return "%(sender)s %(verb)s" % context
 

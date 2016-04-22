@@ -5,6 +5,9 @@ from .models import Video, Category, TaggedItem
 
 
 class TaggedItemInline(GenericTabularInline):
+    """
+    Content type framework, getting an access to tags for specific model
+    """
     model = TaggedItem
 
 

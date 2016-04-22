@@ -179,6 +179,10 @@ TAG_CHOICES = (
 )
 
 class TaggedItem(models.Model):
+    """
+    It allows to bind specific model with a tag.
+    Additional configuration in admin file is needed
+    """
     tag = models.SlugField(choices=TAG_CHOICES)
     # Get access to all models in the project
     content_type = models.ForeignKey(ContentType)
