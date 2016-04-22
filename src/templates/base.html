@@ -92,6 +92,15 @@
             }
             // for debug purpose
             console.log(data.notifications);
+						try {
+            	console.log(data.username[0]);
+						}
+						catch (e) {
+						   // statements to handle any exceptions
+						   //console.log(e);
+            	$("#notification_dropdown").html('<li role="presentation" class="dropdown-header"><font color="red">Sign in to see notifications</font></li>');
+						}
+
           },
           error: function(rs, e) {
             // for debug purpose, log any errors

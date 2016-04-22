@@ -46,9 +46,11 @@ def get_notifications_ajax(request):
     It gets notification for particular user through ajax post call.
     As a result it returns notifications and its count number
     """
+    username = request.user.username,
     notifications = Notification.objects.all_for_user(request.user).recent()
     if request.is_ajax() and request.method == "POST":
         notifications = Notification.objects.all_for_user(request.user).recent()
+        print("username", request.user.username)
         count = notifications.count()
         notes = []
         for note in notifications:
@@ -56,6 +58,7 @@ def get_notifications_ajax(request):
         data = {
                 "notifications": notes,
                 "count": count, # count var will be usefull to dermine if we have any notifications
+                "username": username,
         }
         json_data = json.dumps(data)
         # json format for java script processing
