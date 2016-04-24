@@ -12,11 +12,13 @@ from .signals import membership_dates_update
 
 import braintree
 
-braintree.Configuration.configure(braintree.Environment.Sandbox,
+# it's in sandbox mode if you want to turn it into prodiciton change this line
+braintree.Configuration.configure(braintree.Environment.Sandbox, 
                                   merchant_id=settings.BRAINTREE_MERCHANT_ID,
                                   public_key=settings.BRAINTREE_PUBLIC_KEY,
                                   private_key=settings.BRAINTREE_PRIVATE_KEY)
 
+# it defines how ofthen it charges customers. Recurring billing
 PLAN_ID = "monthly_plan"
 
 @login_required
@@ -40,21 +42,24 @@ def cancel_subscription(request):
 @login_required
 def upgrade(request):
     """
+    It upgrades regular user account into premium one. It is done based
+    on transaction information.
     """
     if request.user.is_authenticated():
         try:
-            # something to get the current customer id stored somewhere
+            # get the current 'customer id' stored in UserMerchantId model
             merchant_obj = UserMerchantId.objects.get(user=request.user)
-            print "user account already exists"
         except:
             messages.error(request, "There was an error with your account. Please contact us.")
             return redirect("contact_us")
 
         merchant_customer_id = merchant_obj.customer_id
-        print merchant_customer_id
+        
+        # client_taken is needed for javascript frontend.
+        # it's gonna be rendered into JS code
         client_token = braintree.ClientToken.generate({
                                                        "customer_id": merchant_customer_id
-        })
+                                                    })
         if request.method == "POST":
             nonce = request.POST.get("payment_method_nonce", None)
             if nonce is None:
@@ -102,6 +107,8 @@ def upgrade(request):
 
                 if did_update_sub and not did_create_sub:
                     messages.success(request, "Your plan has been updated")
+                    # membership_dates_update signal is used to update membership
+                    # premium account with new end time date
                     membership_dates_update.send(membership_instance,
                                                  new_date_start=timezone.now())
                     return redirect("account_upgrade")

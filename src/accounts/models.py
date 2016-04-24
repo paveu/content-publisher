@@ -110,7 +110,7 @@ class MyUser(AbstractBaseUser):
 
 def user_logged_in_signal(sender, signal, request, user, **kwargs):
     """
-    Call it when user is logged in. It creates a new Member and checks whether
+    Calls it when user is logged in. It creates a new Member and checks whether
     it has a premium account
     """
     request.session.set_expiry(60000)

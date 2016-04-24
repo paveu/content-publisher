@@ -38,6 +38,11 @@ class Membership(models.Model):
         return str(self.user.username)
 
     def update_status(self):
+        """
+        Checking whether user is a member or not
+        """
+        # if end date is greater or equal with current date then
+        # mark user as member 
         if self.date_end >= timezone.now():
             self.user.is_member = True
             self.user.save()
@@ -63,8 +68,11 @@ def update_membership_status(sender, **kwargs):
 
 post_save.connect(update_membership_status, sender=Membership)
 
-
 def update_membership_dates(sender, new_date_start, **kwargs):
+    """
+    It actually updates membership time for particular account when
+    new transaction is made. So this signal method is bound to transactions
+    """
     membership = sender
     current_date_end = membership.date_end
 
@@ -86,6 +94,7 @@ membership_dates_update.connect(update_membership_dates)
 
 class TransactionManager(models.Manager):
     """
+    Custumized version of creatig new object for Transaction model
     """
     def create_new(self,
                    user,
@@ -163,6 +172,11 @@ class Transaction(models.Model):
 
 
 class UserMerchantId(models.Model):
+    """
+    It stores information about braintree customer on this site.
+    it keeps braintree_id plan_id and subscription_id. All
+    these information are coming from Braintree
+    """
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
     customer_id = models.CharField(max_length=120)
     subscription_id = models.CharField(max_length=120, null=True, blank=True)
