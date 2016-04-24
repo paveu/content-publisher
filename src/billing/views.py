@@ -21,6 +21,8 @@ PLAN_ID = "monthly_plan"
 
 @login_required
 def cancel_subscription(request):
+    """
+    """
     sub_id = request.user.usermerchantid.subscription_id
     if sub_id:
         result = braintree.Subscription.cancel(sub_id)
@@ -37,6 +39,8 @@ def cancel_subscription(request):
 
 @login_required
 def upgrade(request):
+    """
+    """
     if request.user.is_authenticated():
         try:
             # something to get the current customer id stored somewhere
@@ -127,6 +131,8 @@ def upgrade(request):
 
 
 def get_or_create_model_transaction(user, braintree_transaction):
+    """
+    """
     trans_id = braintree_transaction.id
     try:
         trans = Transaction.objects.get(user=user, transaction_id=trans_id)
@@ -156,6 +162,8 @@ def get_or_create_model_transaction(user, braintree_transaction):
 
 
 def update_transaction(user):
+    """
+    """
     bt_transactions = braintree.Transaction.search(
                 braintree.TransactionSearch.customer_id == user.usermerchantid.customer_id)
     try:
@@ -172,6 +180,9 @@ def update_transaction(user):
 
 @login_required
 def billing_history(request):
+    """
+    It prints out all successful transactions associated with particular user
+    """
     update_transaction(request.user)
     history = Transaction.objects.filter(user=request.user).filter(success=True)
     return render(request, "billing/history.html", {"queryset": history})

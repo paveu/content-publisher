@@ -14,6 +14,8 @@ from .utils import update_braintree_membership
 
 
 def user_logged_in_receiver(sender, user, **kwargs):
+    """
+    """
     try:
         update_braintree_membership(user)
     except:
@@ -23,6 +25,9 @@ user_logged_in.connect(user_logged_in_receiver)
 
 
 class Membership(models.Model):
+    """
+    Check whether user has a premium account
+    """
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
     date_start = models.DateTimeField(default=timezone.now(),
                                       verbose_name='Start Date')
@@ -36,6 +41,8 @@ class Membership(models.Model):
         if self.date_end >= timezone.now():
             self.user.is_member = True
             self.user.save()
+        # if user premium account is expired then mark its membership
+        # account as a false
         elif self.date_end < timezone.now():
             self.user.is_member = False
             self.user.save()
@@ -44,12 +51,14 @@ class Membership(models.Model):
 
 
 def update_membership_status(sender, **kwargs):
+    """
+    Update membership status just after you save changes on the
+    Membership model
+    """
     created = kwargs['created']
     instance = kwargs['instance']
 
     if not created:
-        print "update_membership_status, created:", created
-        print "update_membership_status, instance:", instance
         instance.update_status()
 
 post_save.connect(update_membership_status, sender=Membership)
@@ -76,6 +85,8 @@ membership_dates_update.connect(update_membership_dates)
 
 
 class TransactionManager(models.Manager):
+    """
+    """
     def create_new(self,
                    user,
                    transaction_id,
@@ -89,6 +100,8 @@ class TransactionManager(models.Manager):
 
         if not user:
             raise ValueError("Must complete a transaction to add new")
+        
+        # Create an order id based on our unique ID
         new_order_id = "%s%s%s" % (transaction_id[:2],
                                    random.randint(1, 9),
                                    transaction_id[2:])
@@ -116,13 +129,27 @@ class TransactionManager(models.Manager):
 
 
 class Transaction(models.Model):
+    """
+    This model is used to track all transaction that was issued by credit card.
+    It keeps sucessfull and failures transactions.
+    It's not supposed to store subscription info, it's only to storing transaction history
+    """
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    transaction_id = models.CharField(max_length=120)  # braintreee or stripe
+    # braintree, stripe or payu transaction id that comes from those systems
+    transaction_id = models.CharField(max_length=120)
+    # we gonna create our own order_id based on transaction_id field
+    # it's usefull for not not using internal payment system id but rather ours
     order_id = models.CharField(max_length=120)
+    # how much we actually we are charging them(customers) for. It's final amount.
     amount = models.DecimalField(max_digits=100, decimal_places=2)
+    # we will store information whether transaction was actually success or not
     success = models.BooleanField(default=True)
-    transaction_status = models.CharField(max_length=220, null=True, blank=True)  # if fails
-    card_type = models.CharField(max_length=120)  # paypal
+    # if fails store transaction status
+    transaction_status = models.CharField(max_length=220, null=True, blank=True)
+    # we make card_type field as a CharField just beacause it can turn to be paypal
+    card_type = models.CharField(max_length=120)
+    # we do same sas above, if we get paypal then we can't provide any last_four
+    # digits
     last_four = models.PositiveIntegerField(null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
 
