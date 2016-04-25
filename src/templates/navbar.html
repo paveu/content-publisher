@@ -15,7 +15,7 @@
         <div class="navbar-collapse collapse navbar-right">
           <ul class="nav navbar-nav">
             <li class="active"><a href="/">HOME</a></li>
-            <li><a href="{% url 'projects' %}">CATEGORIES</a></li>
+            <li><a href="{% url 'categories' %}">CATEGORIES</a></li>
             <!--<li><a href="about.html">ABOUT</a></li>-->
             <li><a href="{% url 'contact_us' %}">CONTACT</a></li>
           {% if user.is_authenticated %}

@@ -14,7 +14,7 @@ from comments.models import Comment
 @api_view(["GET"])
 def api_home_abc(request):
     data = {
-        "projects": {
+        "categories": {
             "count": Category.objects.all().count(),
             "url": api_reverse("category_list_api"),
 

@@ -39,16 +39,16 @@ curl -X POST -d "text='great video comment CHILD CHILD'&user=1&parent=http://127
 
 # API 2 with CBViews
 
-curl -X POST -d "text='great video comment CHILD CHILD'&user=1&parent=http://127.0.0.1:8000/api/comments/134/" http://127.0.0.1:8000/api2/projects/abc/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzMwNTMzODl9.vbe79XMAtY2iFZFOUDei-Oi2jxIdVHevOR0zpK1XF2E"
+curl -X POST -d "text='great video comment CHILD CHILD'&user=1&parent=http://127.0.0.1:8000/api/comments/134/" http://127.0.0.1:8000/api2/categories/abc/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzMwNTMzODl9.vbe79XMAtY2iFZFOUDei-Oi2jxIdVHevOR0zpK1XF2E"
 {"detail":"Method \"POST\" not allowed."}
 
-curl -X DELETE -d "text='great video comment CHILD CHILD'&user=1&parent=http://127.0.0.1:8000/api/comments/134/" http://127.0.0.1:8000/api2/projects/abc/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzMwNTMzODl9.vbe79XMAtY2iFZFOUDei-Oi2jxIdVHevOR0zpK1XF2E"
+curl -X DELETE -d "text='great video comment CHILD CHILD'&user=1&parent=http://127.0.0.1:8000/api/comments/134/" http://127.0.0.1:8000/api2/categories/abc/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzMwNTMzODl9.vbe79XMAtY2iFZFOUDei-Oi2jxIdVHevOR0zpK1XF2E"
 {"detail":"Method \"DELETE\" not allowed."}
 
-curl -X PUT -d "text='great video comment CHILD CHILD'&user=1&parent=http://127.0.0.1:8000/api/comments/134/" http://127.0.0.1:8000/api2/projects/abc/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzMwNTMzODl9.vbe79XMAtY2iFZFOUDei-Oi2jxIdVHevOR0zpK1XF2E"
+curl -X PUT -d "text='great video comment CHILD CHILD'&user=1&parent=http://127.0.0.1:8000/api/comments/134/" http://127.0.0.1:8000/api2/categories/abc/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzMwNTMzODl9.vbe79XMAtY2iFZFOUDei-Oi2jxIdVHevOR0zpK1XF2E"
 {"detail":"Method \"PUT\" not allowed."}
 
-curl -X GET http://127.0.0.1:8000/api2/projects/abc/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzMwNTMzODl9.vbe79XMAtY2iFZFOUDei-Oi2jxIdVHevOR0zpK1XF2E"
+curl -X GET http://127.0.0.1:8000/api2/categories/abc/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzMwNTMzODl9.vbe79XMAtY2iFZFOUDei-Oi2jxIdVHevOR0zpK1XF2E"
 
 curl -X PUT -d "text='YET ANOTHER AWESOME NEW  COMMENT'" http://127.0.0.1:8000/api2/comment/134/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzU2NDEyMjd9.5oketGtnvxivf6cdMM_daIB_OIOvovzUEZpZ-EUNvOA"
 {"id":134,"user":"paveu","text":"'YET ANOTHER AWESOME NEW  COMMENT'"}
