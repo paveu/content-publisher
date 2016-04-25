@@ -15,6 +15,8 @@ from .utils import update_braintree_membership
 
 def user_logged_in_receiver(sender, user, **kwargs):
     """
+    It updates project membership account with braintree membership end time
+    It will be run whenever user logs in.
     """
     try:
         update_braintree_membership(user)
@@ -53,7 +55,6 @@ class Membership(models.Model):
             self.user.save()
         else:
             pass
-
 
 def update_membership_status(sender, **kwargs):
     """

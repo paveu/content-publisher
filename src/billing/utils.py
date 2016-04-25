@@ -13,6 +13,10 @@ from .signals import membership_dates_update
 
 
 def check_membership_status(subscription_id):
+    """
+    this function check status of a current subscription and returns its status
+    and next billing date
+    """
     sub = braintree.Subscription.find(subscription_id)
     if sub.status == "Active":
         status = True
@@ -25,27 +29,37 @@ def check_membership_status(subscription_id):
 
 
 def update_braintree_membership(user):
+    """
+    Updates premium membership account with new end date. If subscription is
+    not active then it marks MyUser.s_member as a False.
+    
+    This function is run everytime when user is logged in.
+    """
     user = user
     membership = user.membership
     now = timezone.now()
     subscription_id = user.usermerchantid.subscription_id
-
+    
+    # update premium account end time based on information coming from
+    # braintree subscription end time value
     if membership.date_end <= timezone.now() and subscription_id is not None:
         status, next_billing_date = check_membership_status(subscription_id)
+        # if subscription is active and customer was charged then calculate
+        # new end time
         if status:
+            # next_billing_date returns only date which is not datetime obj
+            # so convert it to datetime obj
             small_time = datetime.time(0, 0, 0, 1)
-            print "small_time:", small_time
             datetime_obj = datetime.datetime.combine(next_billing_date,
                                                      small_time)
-            print "datetime_obj:", datetime_obj
             datetime_aware = timezone.make_aware(datetime_obj,
                                                  timezone.get_current_timezone())
-            print "datetime_aware:", datetime_aware
 
+            # update premium account(membership) with new start time date
+            # update_membership_dates receiver exists in billing/models.py
             membership_dates_update.send(membership,
                                          new_date_start=datetime_aware)
-        # check membership
-        # if active, then update status
+        # if not active, then update status and mark is_member as a False
         else:
             membership.update_status()
     elif subscription_id is None:

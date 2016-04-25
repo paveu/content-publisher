@@ -24,6 +24,7 @@ PLAN_ID = "monthly_plan"
 @login_required
 def cancel_subscription(request):
     """
+    It canceles subscription based on saved sub_ui in django.merchant model
     """
     sub_id = request.user.usermerchantid.subscription_id
     if sub_id:
@@ -198,13 +199,23 @@ def get_or_create_model_transaction(user, braintree_transaction):
 
 def update_transaction(user):
     """
+    The main reason to have this function is to have synchronzied transaction
+    between braintree.transacations and django.transaction model
+    
+    It checks whether billing_history() function has up-to-dated history.
+    If it's not up to dated if it doesn't have all transactions stored in
+    django transaction model then interate through braintree.transaction and take
+    those missing transaction and save it to django.transaction model.
+    
     """
+    # bt_transactions object returns generator
     bt_transactions = braintree.Transaction.search(
                 braintree.TransactionSearch.customer_id == user.usermerchantid.customer_id)
     try:
         django_transactions = user.transaction_set.all()
     except:
         django_transactions = None
+        
     if bt_transactions is not None and django_transactions is not None:
         if bt_transactions.maximum_size <= django_transactions.count():
             pass
