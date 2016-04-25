@@ -62,6 +62,10 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
 
 class ChildCommentSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Seperate serializer needed to get replies for parent comment.
+    It only lists out replies to parent comment
+    """
     # user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     user = serializers.CharField(source='user.username', read_only=True)
     class Meta:
@@ -73,16 +77,29 @@ class ChildCommentSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Comment Serializer class. It uses another serializer(ChildCommentSerializer) to get replies comments
+    """
+    # url objects calls 'comment_detail_api' along with 'id' argument to get
+    # Comment instance. It uses reverse 'comment_detail_api' which exists in urls.py
     url = serializers.HyperlinkedIdentityField("comment_detail_api",
                                                lookup_field="id")
-    # user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-    user = serializers.CharField(source='user.username', read_only=True)
-    video = CommentVideoUrlHyperlinkedIdentityField("video_detail_api")
+    
+    # replies object uses serialized method called 'get_replies' to get replies to parent comment
     replies = serializers.SerializerMethodField(read_only=True)
+    
+    ### Legacy code 
+    ### user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    user = serializers.CharField(source='user.username', read_only=True)
+    
+    video = CommentVideoUrlHyperlinkedIdentityField("video_detail_api")
 
     def get_replies(self, instance):
-        # queryset = instance.get_children()
+        # to get replies we can use either: instance.get_children() or 
+        # or Comment.objects.filter(parent__pk=instance.pk)
+        # alternative: queryset = instance.get_children()
         queryset = Comment.objects.filter(parent__pk=instance.pk)
+        # for child comments we gonna create new Serializer -> ChildCommentSerializer
         serializer = ChildCommentSerializer(queryset,
                                             context={"request": instance},
                                             many=True)

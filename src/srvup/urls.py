@@ -16,25 +16,30 @@ router.register(r'comments', CommentViewSet)
 router.register(r'videos', VideoViewSet)
 
 urlpatterns = patterns('',
-    url(r'^api2/$', 'srvup.views.api_home_abc', name='api_home'),
+    # default API router
+    url(r'^api/', include(router.urls)),
+    url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # in order to get an auth token we need to make curl reqeust (it uses django-rest-framework-jwt/)
+    # curl -X POST -d "username=admin&password=abc123" http://localhost:8000/api-token-auth/
+    # to get the access with a token: curl -H "Authorization: JWT <your_token>" http://localhost:8000/protected-url/
+    url(r'^api/auth/token/$', 'rest_framework_jwt.views.obtain_jwt_token'),
+
+    # new API router
+    url(r'^api2/$', 'srvup.views.new_api_home', name='api_home'),
     url(r'^api2/comment/$', CommentListAPIView.as_view(), name='comment_list_api'),
     url(r'^api2/comment/create/$', CommentAPICreateView.as_view(), name='comment_create_api'),
     url(r'^api2/comment/(?P<id>\d+)/$', CommentDetailAPIView.as_view(), name='comment_detail_api'),
     url(r'^api2/categories/$', CategoryListAPIView.as_view(), name='category_list_api'),
     url(r'^api2/categories/(?P<slug>[\w-]+)/$', CategoryDetailAPIView.as_view(), name='category_detail_api'),
     url(r'^api2/categories/(?P<cat_slug>[\w-]+)/(?P<vid_slug>[\w-]+)/$', VideoDetailAPIView.as_view(), name='video_detail_api'),
+    url(r'^jquery-test/$', 'srvup.views.jquery_test_view'),
 
-    url(r'^api/auth/token/$', 'rest_framework_jwt.views.obtain_jwt_token'),
-    url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^api/', include(router.urls)),
-
-    # Project main navigation
+    # Project main navigation map
     url(r'^$', 'srvup.views.home', name='home'),
     url(r'^contact_us/$', TemplateView.as_view(template_name='company/contact_us.html'), name='contact_us'),
     url(r'^categories/$', 'videos.views.category_list', name='categories'),
     url(r'^categories/(?P<cat_slug>[\w-]+)/$', 'videos.views.category_detail', name='cat_detail'),
     url(r'^categories/(?P<cat_slug>[\w-]+)/(?P<vid_slug>[\w-]+)/$', 'videos.views.video_detail', name='video_detail'),
-    url(r'^jquery-test/$', 'srvup.views.jquery_test_view'),
     url(r'^admin/', include(admin.site.urls)),
 )
 
@@ -58,8 +63,8 @@ urlpatterns += patterns('accounts.views',
 
 # Comment Thread
 urlpatterns += patterns('comments.views',
-    url(r'^comment/(?P<id>\d+)/$', 'comment_thread', name='comment_thread'),
-    url(r'^comment/create/$', 'comment_create_view', name='comment_create'),
+    url(r'^comments/(?P<id>\d+)/$', 'comment_thread', name='comment_thread'),
+    url(r'^comments/create/$', 'comment_create_view', name='comment_create'),
 )
 
 # Notifications Thread

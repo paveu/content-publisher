@@ -141,6 +141,7 @@ BRAINTREE_MERCHANT_ID = "v35fphbvqtvrp35k"
 BRAINTREE_PUBLIC_KEY = "kkhkgx4bmkswv5yp"
 BRAINTREE_PRIVATE_KEY = "7d8e596cb7ebe43e843ef95e9e068fa6"
 
+# Django-rest-framework-JWT for tokenzing an access to serializers
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
@@ -154,11 +155,7 @@ REST_FRAMEWORK = {
 }
 
 JWT_AUTH = {
-    # 'JWT_RESPONSE_PAYLOAD_HANDLER': jwt_response_payload_handler,
+    'JWT_RESPONSE_PAYLOAD_HANDLER': jwt_response_payload_handler,
+    # token will live for 13h 55min
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=500000),
 }
-
-"""
-curl -X POST -d "username=paveu&password=123" http://127.0.0.1:8000/api/auth/token/
-curl -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzIyNDE0NDF9.f_NiCO_XZNubcniosNCBhLpYw4ty854joeG28_2-CRs" http://127.0.0.1:8000/api/videos/ 
-"""

@@ -12,7 +12,10 @@ from analytics.models import PageView
 from comments.models import Comment
 
 @api_view(["GET"])
-def api_home_abc(request):
+def new_api_home(request):
+    """
+    New way of showing default videos
+    """
     data = {
         "categories": {
             "count": Category.objects.all().count(),
@@ -23,6 +26,10 @@ def api_home_abc(request):
             "count": Comment.objects.all().count(),
             "url": api_reverse("comment_list_api"),
             },
+        # "videos": {
+        #     "count": Video.objects.all().count(),
+        #     "url": api_reverse("video_list_api"),
+        #     },
     }
     return RestResponse(data)
 

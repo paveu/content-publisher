@@ -16,7 +16,10 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 
 class VideoDetailAPIView(generics.RetrieveAPIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, 
+                            BasicAuthentication,
+                            JSONWebTokenAuthentication
+                            ]
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
     permission_classes = [IsMember]
@@ -33,6 +36,7 @@ class VideoDetailAPIView(generics.RetrieveAPIView):
 class CategoryListAPIView(generics.ListAPIView):
     authentication_classes = [SessionAuthentication,
                               BasicAuthentication,
+                              # for token auth
                               JSONWebTokenAuthentication]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -43,6 +47,7 @@ class CategoryListAPIView(generics.ListAPIView):
 class CategoryDetailAPIView(generics.RetrieveAPIView):
     authentication_classes = [SessionAuthentication,
                               BasicAuthentication,
+                              # for token auth
                               JSONWebTokenAuthentication]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
