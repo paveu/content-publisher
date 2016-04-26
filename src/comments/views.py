@@ -129,6 +129,7 @@ def comment_create_view(request):
                 messages.success(request,
                                  "Thank you for your response",
                                  extra_tags='alert-warning')
+
                 notify.send(request.user,
                             action=new_comment,
                             target=parent_comment,

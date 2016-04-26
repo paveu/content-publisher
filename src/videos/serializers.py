@@ -9,9 +9,8 @@ from rest_framework.reverse import reverse
 
 class VideoUrlHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
     """
-    VideoUrlHyperlinkedIdentityField cass is used for reversing URL for Video class. After providing
-    cat_slug and vid_slug arguments to video_detail_api url it generates video
-    instance URL by doing reverse url
+    VideoUrlHyperlinkedIdentityField class refers generic view 'VideoDetailAPIView' 
+    that exists in videos/views.py 
     """
     def get_url(self, obj, view_name, request, format):
         kwargs = {
