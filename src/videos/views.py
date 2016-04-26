@@ -26,8 +26,11 @@ class VideoDetailAPIView(generics.RetrieveAPIView):
                             ]
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
+    
+    # it checks whether user is a member or a video has a free_preview access
+    # if don't he/she won't get an accees.
+    # IsMember permission is defined in videos/permissions.py file
     permission_classes = [IsMember]
-    # add permission for membership & free preview on obj
 
     def get_object(self):
         cat_slug = self.kwargs["cat_slug"]

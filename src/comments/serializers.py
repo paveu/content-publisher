@@ -11,12 +11,10 @@ User = get_user_model()
 
 
 class CommentVideoUrlHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
+    """
+    Getting an access to Video object bound to comment object
+    """
     def get_url(self, obj, view_name, request, format):
-        # try:
-        #     print obj.video.category
-        # except AttributeError:
-        #     return "BLAD"
-        # print "obj:", obj
         video = None
         if obj.is_child:
             try:
@@ -99,6 +97,7 @@ class CommentSerializer(serializers.HyperlinkedModelSerializer):
     ### user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     user = serializers.CharField(source='user.username', read_only=True)
     
+    # it uses 'video_detail_api' llocated in urls.py
     video = CommentVideoUrlHyperlinkedIdentityField("video_detail_api")
 
     def get_replies(self, instance):

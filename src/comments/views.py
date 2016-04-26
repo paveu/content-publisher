@@ -17,9 +17,9 @@ class CommentListAPIView(generics.ListAPIView):
     """
     It will list out all created comments
     """
-    authentication_classes = [SessionAuthentication, 
-                                BasicAuthentication,
-                                JSONWebTokenAuthentication]
+    # authentication_classes = [SessionAuthentication, 
+    #                             BasicAuthentication,
+    #                             JSONWebTokenAuthentication]
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -43,13 +43,19 @@ class CommentDetailAPIView(mixins.DestroyModelMixin,
     It will also use customized permission class called "IsOwnerOrReadOnly" that
     is located in comments/permissions.py
     """
+    # Comment.objects.all() uses CommentManager which means it will filter out
+    # only comments that are parents no child comments included
     queryset = Comment.objects.all()
     serializer_class = CommentUpdateSerializer
-    # comment can be updated only by owner otherwise it is read only
+    
+    # comment can be updated/deleted only by the owner of the comment otherwise it is read only
     permission_classes = [IsOwnerOrReadOnly, ]
     lookup_field = 'id'
 
     def get_queryset(self, *args, **kwargs):
+        """
+        It will filter all comments no matter if it is parent comment or child one
+        """
         queryset = Comment.objects.filter(pk__gte=0)
         return queryset
 

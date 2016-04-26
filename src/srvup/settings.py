@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     # https://github.com/ottoyiu/django-cors-headers
     # http://www.html5rocks.com/en/tutorials/cors/
+    # corsheaders does is not supported for django > 1.8
     'corsheaders',
     'rest_framework',
     'accounts',
@@ -62,6 +63,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     # https://github.com/ottoyiu/django-cors-headers
     # http://www.html5rocks.com/en/tutorials/cors/
+    # corsheaders does is not supported for django > 1.8
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -69,12 +71,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
-
-CORS_URLS_REGEX = r'^/api.*'
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = (
-    'localhost',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -159,3 +155,19 @@ JWT_AUTH = {
     # token will live for 13h 55min
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=500000),
 }
+
+# https://github.com/ottoyiu/django-cors-headers
+# A Django App that adds CORS (Cross-Origin Resource Sharing) headers to responses.
+# Although JSON-P is useful, it is strictly limited to GET requests. 
+# CORS builds on top of XmlHttpRequest to allow developers to make cross-domain 
+# requests, similar to same-domain requests. Read more about it here: 
+# http://www.html5rocks.com/en/tutorials/cors/ 
+#
+# CORS will be used in jQuery tests located in templates/jquery
+# corsheaders does is not supported for django > 1.8
+
+CORS_URLS_REGEX = r'^/api2/.*'
+CORS_ORIGIN_ALLOW_ALL = True # any .net .com are allowed to access our domain
+CORS_ORIGIN_WHITELIST = (
+    'localhost',
+)

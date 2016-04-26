@@ -12,7 +12,7 @@ from analytics.models import PageView
 from comments.models import Comment
 
 @api_view(["GET"])
-def new_api_home(request):
+def get_api_home(request):
     """
     New way of showing default videos
     """
@@ -32,6 +32,12 @@ def new_api_home(request):
         #     },
     }
     return RestResponse(data)
+
+def jquery_test_view(request):
+    """
+    jquery test within same domain
+    """
+    return render(request, "jquery_test/view_temp.html", {})
 
 def home(request):
     """
@@ -89,8 +95,4 @@ def home(request):
                    }
         template = "accounts/home_visitor.html"
     return render(request, template, context)
-
-
-def jquery_test_view(request):
-    return render(request, "jquery_test/view_temp.html", {})
 
