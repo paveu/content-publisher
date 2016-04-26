@@ -16,6 +16,10 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 
 class VideoDetailAPIView(generics.RetrieveAPIView):
+    """
+    new REST view:
+    Generic View for Detail Api view in this case for Video entry details
+    """
     authentication_classes = [SessionAuthentication, 
                             BasicAuthentication,
                             JSONWebTokenAuthentication
@@ -34,6 +38,10 @@ class VideoDetailAPIView(generics.RetrieveAPIView):
 
 
 class CategoryListAPIView(generics.ListAPIView):
+    """
+    new REST view:
+    Generic View for Listing out all category instances stored in Category Model
+    """
     authentication_classes = [SessionAuthentication,
                               BasicAuthentication,
                               # for token auth
@@ -41,10 +49,14 @@ class CategoryListAPIView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
-    paginate_by = 10
+    paginate_by = 10 # limited to 10 records on the page
 
 
 class CategoryDetailAPIView(generics.RetrieveAPIView):
+    """
+    new REST view:
+    Generic View for Detail Api view in this case for Category entry details
+    """
     authentication_classes = [SessionAuthentication,
                               BasicAuthentication,
                               # for token auth
@@ -57,6 +69,7 @@ class CategoryDetailAPIView(generics.RetrieveAPIView):
         slug = self.kwargs["slug"]
         obj = get_object_or_404(Category, slug=slug)
         return obj
+
 
 def video_detail(request, cat_slug, vid_slug):
     """

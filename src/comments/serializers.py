@@ -42,6 +42,10 @@ class CommentVideoUrlHyperlinkedIdentityField(serializers.HyperlinkedIdentityFie
 
 
 class CommentUpdateSerializer(serializers.ModelSerializer):
+    """
+    It is serializer for updating a comment. It will be used in generic viewsets
+    that is located in comments/views.py -> CommentDetailAPIView()
+    """
     user = serializers.CharField(source='user.username', read_only=True)
 
     class Meta:
@@ -52,6 +56,10 @@ class CommentUpdateSerializer(serializers.ModelSerializer):
 
 
 class CommentCreateSerializer(serializers.ModelSerializer):
+    """
+    ModelSerializer for creating commends. It will be used in comments/views.py ->
+    -> CommentAPICreateView() class
+    """
     class Meta:
         model = Comment
         fields = ['text',
@@ -66,7 +74,6 @@ class ChildCommentSerializer(serializers.HyperlinkedModelSerializer):
     Seperate serializer needed to get replies for parent comment.
     It only lists out replies to parent comment
     """
-    # user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     user = serializers.CharField(source='user.username', read_only=True)
     class Meta:
         model = Comment
@@ -109,11 +116,12 @@ class CommentSerializer(serializers.HyperlinkedModelSerializer):
         model = Comment
         fields = ['url',
                   'id',
-                  'replies',
                   # 'parent',
                   'user',
                   'video',
                   'text',
+                  'replies',
+
                   ]
 
 

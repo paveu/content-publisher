@@ -14,9 +14,12 @@ from .serializers import CommentCreateSerializer, CommentUpdateSerializer, Comme
 
 
 class CommentListAPIView(generics.ListAPIView):
-    # authentication_classes = [SessionAuthentication,
-    # BasicAuthentication,
-    # JSONWebTokenAuthentication]
+    """
+    It will list out all created comments
+    """
+    authentication_classes = [SessionAuthentication, 
+                                BasicAuthentication,
+                                JSONWebTokenAuthentication]
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -24,15 +27,25 @@ class CommentListAPIView(generics.ListAPIView):
 
 
 class CommentAPICreateView(generics.CreateAPIView):
+    """
+    It defines API for creating a comment based on serializer coming from
+    comments/serializers.py -> CommentCreateSerializer()
+    """
     serializer_class = CommentCreateSerializer
 
 
 class CommentDetailAPIView(mixins.DestroyModelMixin,
                            mixins.UpdateModelMixin,
                            generics.RetrieveAPIView):
-
+    """
+    CommentDetailAPIView will be used to update a comment based on 
+    CommentUpdateSerializer() serializer located in comments/serializers.py.
+    It will also use customized permission class called "IsOwnerOrReadOnly" that
+    is located in comments/permissions.py
+    """
     queryset = Comment.objects.all()
     serializer_class = CommentUpdateSerializer
+    # comment can be updated only by owner otherwise it is read only
     permission_classes = [IsOwnerOrReadOnly, ]
     lookup_field = 'id'
 
@@ -41,9 +54,15 @@ class CommentDetailAPIView(mixins.DestroyModelMixin,
         return queryset
 
     def put(self, request, *args, **kwargs):
+        """
+        It allows us to udpate a comment
+        """
         return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
+        """
+        It allows us to delete a comment
+        """
         return self.destroy(request, *args, **kwargs)
 
 
@@ -61,6 +80,9 @@ def comment_thread(request, id):
 
 
 def comment_create_view(request):
+    """
+    Description will be added soon
+    """
     if request.method == "POST" and request.user.is_authenticated():
 
         parent_id = request.POST.get('parent_id')

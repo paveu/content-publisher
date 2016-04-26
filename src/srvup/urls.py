@@ -24,14 +24,15 @@ urlpatterns = patterns('',
     # to get the access with a token: curl -H "Authorization: JWT <your_token>" http://localhost:8000/protected-url/
     url(r'^api/auth/token/$', 'rest_framework_jwt.views.obtain_jwt_token'),
 
-    # new API router
+    # new API will look more like project urls so I'm gonna mark it as api2
     url(r'^api2/$', 'srvup.views.new_api_home', name='api_home'),
-    url(r'^api2/comment/$', CommentListAPIView.as_view(), name='comment_list_api'),
-    url(r'^api2/comment/create/$', CommentAPICreateView.as_view(), name='comment_create_api'),
-    url(r'^api2/comment/(?P<id>\d+)/$', CommentDetailAPIView.as_view(), name='comment_detail_api'),
+    # Lists all categories we have
     url(r'^api2/categories/$', CategoryListAPIView.as_view(), name='category_list_api'),
     url(r'^api2/categories/(?P<slug>[\w-]+)/$', CategoryDetailAPIView.as_view(), name='category_detail_api'),
     url(r'^api2/categories/(?P<cat_slug>[\w-]+)/(?P<vid_slug>[\w-]+)/$', VideoDetailAPIView.as_view(), name='video_detail_api'),
+    url(r'^api2/comment/$', CommentListAPIView.as_view(), name='comment_list_api'),
+    url(r'^api2/comment/create/$', CommentAPICreateView.as_view(), name='comment_create_api'),
+    url(r'^api2/comment/(?P<id>\d+)/$', CommentDetailAPIView.as_view(), name='comment_detail_api'),
     url(r'^jquery-test/$', 'srvup.views.jquery_test_view'),
 
     # Project main navigation map

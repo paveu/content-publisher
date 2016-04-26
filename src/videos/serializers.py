@@ -64,7 +64,7 @@ class VideoSerializer(serializers.HyperlinkedModelSerializer):
                   'comment_set', # _set will show any comments related to pointed video
                   ]
 
-
+### VideoViewSet is depricated. Take a look at generic views in videos/views.py
 class VideoViewSet(viewsets.ModelViewSet):
     """
     Setting up VideoSet for Video Model based on previous created
@@ -103,7 +103,7 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
                   'video_set',
                   ]
 
-
+### CategoryViewSet is depricated. Take a look at generic views in videos/views.py
 class CategoryViewSet(viewsets.ModelViewSet):
     """
     Setting up CategoryViewSet for Category Model based on previous created
