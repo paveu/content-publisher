@@ -81,6 +81,9 @@ class VideoViewSet(viewsets.ModelViewSet):
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Main class for serializing Category model
+    """
     # url objects calls 'category_detail_api' along with 'slug' argument to get
     # Category instance. It uses reverse 'category_detail_api' which exists in urls.py
     url = serializers.HyperlinkedIdentityField('category_detail_api',
@@ -91,7 +94,7 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
     
     class Meta:
         model = Category
-        fields = ['url',  # it's project Category slug API not REST API
+        fields = ['url',  # it's project Category REST API
                   'id',
                   'slug',
                   'title',
@@ -102,7 +105,13 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    # authentication_classes = [SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication]
-    # permission_classes = [permissions.IsAuthenticated]
+    """
+    Setting up CategoryViewSet for Category Model based on previous created
+    Category serializer
+    """
+    authentication_classes = [SessionAuthentication,
+                              BasicAuthentication,
+                              JSONWebTokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer

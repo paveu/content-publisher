@@ -1,6 +1,7 @@
 ### GET TOKEN for JWT Authentication ###
 curl -X POST -d "username=paveu&password=123" http://127.0.0.1:8000/api/auth/token/
 {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzU2NDEyMjd9.5oketGtnvxivf6cdMM_daIB_OIOvovzUEZpZ-EUNvOA"}
+
 ### JWT AUTH NOT PROVIDED ###
 curl -X POST -d "text='Some text'" http://127.0.0.1:8000/api/comments/.json
 {"detail":"Authentication credentials were not provided."}
@@ -37,8 +38,8 @@ curl -X POST -d "text='great video comment'&user=1&video=http://127.0.0.1:8000/a
 curl -X POST -d "text='great video comment CHILD CHILD'&user=1&parent=http://127.0.0.1:8000/api/comments/134/" http://127.0.0.1:8000/api/comments/.json -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzI5Njc2OTB9.sNOCSV6H89XOoWHVqTVGqet2btbFbPb5U_zT1tAheWg"
 {"url":"http://127.0.0.1:8000/api/comments/137/.json","id":137,"replies":[],"parent":"http://127.0.0.1:8000/api/comments/134/.json","user":1,"video":null,"text":"'great video comment CHILD CHILD'"}
 
-# API 2 with CBViews
 
+# API 2 with CBViews
 curl -X POST -d "text='great video comment CHILD CHILD'&user=1&parent=http://127.0.0.1:8000/api/comments/134/" http://127.0.0.1:8000/api2/categories/abc/ -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhdmV1IiwidXNlcl9pZCI6MSwiZW1haWwiOiJhc2RAbzIucGwiLCJleHAiOjE0MzMwNTMzODl9.vbe79XMAtY2iFZFOUDei-Oi2jxIdVHevOR0zpK1XF2E"
 {"detail":"Method \"POST\" not allowed."}
 
