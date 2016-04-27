@@ -1,15 +1,14 @@
 # content-publisher
 
-content-publisher is a project for selling out video content. All the videos we sell out are hosted on an external server and its link is used manipulate here in the project. Afet we attacht it as a video object we can cover it with a description, comments. If a user drop a comment we get notifcations. An access to all videos can be sell out by braintree payments. Project started in 08/05/2015.
+content-publisher is a project for selling out video content. All the videos we sell out are hosted on an external servers and their links are emebed to the page. After we embed it as a video object we can cover it with a descriptiona and comments. If a user drop a comment we get notifcation. Braintree payments are used to pay for an access to premium videos. Project started in 08/05/2015.
 
 ### Project features
-  - videos are grouped in categories
-  - to get the access to the video user must be a member or a video must have a free preview flag
-  - user gets notfications if there is a comment to its video
-  - thread comment system attached to videos
+  - support for vimeo and youtube
+  - comments system
+  - notifications
   - full billing history along with transactions made by braintree
-  - full REST API for categories,videos,comments models
-  - facebook,twitter and linkedin social links
+  - full REST API for category, video, comment models
+  - facebook, twitter and linkedin social links
 
 ### Todos
   - OAuth2

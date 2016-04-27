@@ -206,7 +206,6 @@ def update_transaction(user):
     If it's not up to dated if it doesn't have all transactions stored in
     django transaction model then interate through braintree.transaction and take
     those missing transaction and save it to django.transaction model.
-    
     """
     # bt_transactions object returns generator
     bt_transactions = braintree.Transaction.search(
