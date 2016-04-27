@@ -14,14 +14,14 @@ content-publisher is a project for selling out video content. All the videos we 
 ### Todos
   - OAuth2
   - payu payments
-  - improving register (email confirm registration system)
-  - covering all models by unit-tests
-  - function testing by selenium
-  - deyployed to heroku and AWS elastic beanstalk
+  - improving registration (email confirm registration system)
+  - covering all models along with payment system with unit-tests
+  - function testing wiyh selenium
+  - deploying project to heroku and AWS elastic beanstalk
 
 ### Version
-project ver: 1.1
-Project started in 08/05/2015.
+* project version: 1.1
+* Project started in 08/may/2015.
 
 ### Tech
 content-publisher uses a number of open source projects to work properly:
