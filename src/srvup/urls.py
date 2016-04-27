@@ -42,8 +42,7 @@ urlpatterns = patterns('',
     url(r'^categories/$', 'videos.views.category_list', name='categories'),
     url(r'^categories/(?P<cat_slug>[\w-]+)/$', 'videos.views.category_detail', name='cat_detail'),
     url(r'^categories/(?P<cat_slug>[\w-]+)/(?P<vid_slug>[\w-]+)/$', 'videos.views.video_detail', name='video_detail'),
-    url(r'^admin/', include(admin.site.urls)),
-)
+    url(r'^admin/', admin.site.urls),)
 
 if settings.DEBUG:
     urlpatterns += patterns('',) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
