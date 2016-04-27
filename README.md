@@ -24,6 +24,7 @@ content-publisher is a project for selling out video content. All the videos we 
   - improving comment template, bootstrap is considered best option
   - improving user dashboard, spliting notfication, billing history into seperate tabs
   - to create braintree configratuion tutorial for production
+  - sell articles, documents not limited to video content
 
 ### Version
 * project version: 1.1
