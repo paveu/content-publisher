@@ -5,19 +5,25 @@ content-publisher is a project for selling out video content. All the videos we 
 ### Project features
   - Django 1.9.5
   - full REST API for category, video and comment models
-  - braintree payments implemented
+  - braintree payments implemented (as a sandobox, for producation it should be configured)
   - full transaction history 
   - vimeo and youtube iframes are supported videos
   - videos can be commented
   - notification system
 
 ### Todos
-  - OAuth2
+  - OAuth2 (facebook, linkedin, twitter)
   - payu payments
   - improving registration (email confirm registration system)
-  - covering all models along with payment system with unit-tests
+  - covering all modelsm along with payment system with unit-tests
   - function testing wiyh selenium
   - deploying project to heroku and AWS elastic beanstalk
+  - deploying project with fabric
+  - fixing upgrading issues from Django 1.7.5 to Django 1.9.5
+  - exposing transaction model with REST API only for thoe users who has permision
+  - improving comment template, bootstrap is considered best option
+  - improving user dashboard, spliting notfication, billing history into seperate tabs
+  - to create braintree configratuion tutorial for production
 
 ### Version
 * project version: 1.1
