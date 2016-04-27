@@ -7,9 +7,9 @@ content-publisher is a project for selling out video content. All the videos we 
   - full REST API for category, video and comment models
   - braintree payments implemented (as a sandobox, for producation it should be configured)
   - full transaction history 
-  - vimeo and youtube iframes are supported videos
-  - videos can be commented
-  - notification system
+  - vimeo and youtube iframes are supported
+  - videos can be commented by the users
+  - notification system implemented
 
 ### Todos
   - OAuth2 (facebook, linkedin, twitter)
