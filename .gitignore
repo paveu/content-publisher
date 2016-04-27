@@ -5,3 +5,4 @@ static/static_root
 .c9
 .git
 static/static_root
+src/db.sqlite3

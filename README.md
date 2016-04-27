@@ -1,15 +1,15 @@
 # content-publisher
 
-content-publisher is a project for selling out video content. All the videos we sell out are hosted on an external servers and their links are emebed to the page. After we embed it as a video object we can cover it with a descriptiona and comments. If a user drop a comment we get notifcation. Braintree payments are used to pay for an access to premium videos. Project started in 08/05/2015.
+content-publisher is a project for selling out video content. All the videos we sell out are hosted on an external servers and their links are emebed to the video object field. After we embed it as a video object we can cover it with a descriptiona and comments. If a user drop a comment we get notifcation. Braintree payments is used to pay for an access to premium videos. 
 
 ### Project features
   - Django 1.9.5
-  - support for vimeo and youtube videos
-  - comments system
-  - notifications system
-  - full billing history along with transactions made by braintree
-  - full REST API for category, video, comment models
-  - facebook, twitter and linkedin social links
+  - full REST API for category, video and comment models
+  - braintree payments implemented
+  - full transaction history 
+  - vimeo and youtube iframes are supported videos
+  - videos can be commented
+  - notification system
 
 ### Todos
   - OAuth2
@@ -21,6 +21,7 @@ content-publisher is a project for selling out video content. All the videos we 
 
 ### Version
 project ver: 1.1
+Project started in 08/05/2015.
 
 ### Tech
 content-publisher uses a number of open source projects to work properly:
@@ -46,7 +47,8 @@ content-publisher uses a number of open source projects to work properly:
 ### Installation
 
 1. Create a Python 2.7 virtualenv
-2. Inside virtualenv perform following commands:
+2. Install latest pip package
+3. Inside virtualenv perform following commands:
 
 ```sh
 $ git clone https://github.com/paveu/content-publisher.git tmp && mv tmp/.git . && rm -rf tmp && git reset --hard
