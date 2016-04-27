@@ -2,3 +2,5 @@ static/static_root
 *.pyc
 .project
 .pydevproject
+.c9
+.git
