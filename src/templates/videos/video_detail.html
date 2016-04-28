@@ -50,14 +50,6 @@
 		{% if video.get_next_url %}   
 		<a href='{{ video.get_next_url }}'><i class='fa fa-3x fa-arrow-circle-o-right'></i></a>
 		{% endif %}
-		<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ video.get_share_link }}">
-	    <i class="fa fa-facebook-square fa-3x"></i>
-	    </a>
-	    <a target="_blank" href="https://twitter.com/home?status={{ video.get_share_message|safe }}">
-	    <i class="fa fa-twitter fa-3x"></i>
-	    </a>
-	    <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url={{ video.get_share_link }}&title={{ video.get_share_message|safe }}&summary={{ video.get_share_message|safe }}&source={{ video.get_share_link }}">
-	    <i class="fa fa-linkedin-square fa-3x"></i>
 	    </a>  
     </div>
 

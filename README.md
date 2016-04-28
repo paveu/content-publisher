@@ -22,6 +22,7 @@ content-publisher is a project for selling out video content. All the videos we 
   - exposing transaction model with REST API only for thoe users who has permision
   - fixing comment thread, add bootstrap
   - braintree tutorial for those who wants to run it in production mode
+  - fixing video description, to be more readable. use content manipulation plugins
 
 ### Version
 * project version: 1.1
