@@ -12,15 +12,16 @@ content-publisher is a project for selling out video content. All the videos we 
   - notification system
 
 ### Todos
-  - OAuth2
+  - OAuth2 (facebook, twitter, linkedin)
   - payu payments
-  - improving registration (email confirm registration system)
+  - improving registration system (adding email activation system)
   - covering all models along with payment system with unit-tests
   - function testing wiyh selenium
   - deploying project to heroku and AWS elastic beanstalk
   - deploying project with fabric
-  - [DONE] fixing migration issues with Django 1.9.5
   - exposing transaction model with REST API only for thoe users who has permision
+  - fixing comment thread, add bootstrap
+  - braintree tutorial for those who wants to run it in production mode
 
 ### Version
 * project version: 1.1
@@ -68,7 +69,6 @@ License
 ----
 
 MIT
-
 
 **Free Software, Hell Yeah!**
 
