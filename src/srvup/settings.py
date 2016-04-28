@@ -26,8 +26,6 @@ SECRET_KEY = '@2z()p72dkah2nnzdwi@j@5p85w7fa0tb%ebio^m5qh3^cfeeu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
-
 ALLOWED_HOSTS = []
 
 FULL_DOMAIN_NAME = 'https://srvup-rest-pawelste-1.c9users.io'
@@ -94,8 +92,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.messages.context_processors.messages',
             ],
-
+            'debug': DEBUG,
+            'TEMPLATE_DEBUG': DEBUG,
         },
+       'DIRS': [os.path.join(BASE_DIR, "templates")],
     },
 ]
 
@@ -155,10 +155,7 @@ STATICFILES_DIRS = (
 
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static_root")
 
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, "templates"),
-    # '/var/www/static/',
-)
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "media")
