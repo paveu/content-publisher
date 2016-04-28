@@ -93,7 +93,6 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
             'debug': DEBUG,
-            'TEMPLATE_DEBUG': DEBUG,
         },
        'DIRS': [os.path.join(BASE_DIR, "templates")],
     },
@@ -154,8 +153,6 @@ STATICFILES_DIRS = (
 )
 
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static_root")
-
-
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "media")
