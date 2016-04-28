@@ -1,13 +1,13 @@
 # content-publisher
 
-content-publisher is a project for selling out video content. All the videos we sell out are hosted on an external servers and their links are emebed to the video object field. After we embed it as a video object we can cover it with a descriptiona and comments. If a user drop a comment we get notifcation. Braintree payments is used to pay for an access to premium videos. 
+content-publisher is a project for selling out video content. All videos we sell are hosted on an external servers(wistia.com) and their links are emebed to a form as a iframe html code. After we embed it as a video object we can cover it with a description and comments. If a user drop a comment we get notifcation. Braintree payment is used to pay for an access to premium videos(restricted to those who buy premium membership). 
 
 ### Project features
-  - Django 1.9.5
+  - django 1.9.5
   - full REST API for category, video and comment models
-  - braintree payments implemented
-  - full transaction history 
-  - vimeo and youtube iframes are supported videos
+  - braintree payments
+  - full payment transaction history
+  - vimeo and youtube, wistia
   - videos can be commented
   - notification system
 
@@ -22,12 +22,11 @@ content-publisher is a project for selling out video content. All the videos we 
   - exposing transaction model with REST API only for thoe users who has permision
   - fixing comment thread, add bootstrap
   - braintree tutorial for those who wants to run it in production mode
-  - fixing video description, to be more readable. use content manipulation plugins
   - add automatic resize and compress images with PIL
 
 ### Version
-* project version: 1.1
-* Project started in 08/may/2015.
+* version: 1.1
+* project started in 08/may/2015.
 
 ### Tech
 content-publisher uses a number of open source projects to work properly:

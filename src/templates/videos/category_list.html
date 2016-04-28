@@ -11,20 +11,24 @@
 
         <div class="portfolio-centered">
             <div class="recentitems portfolio">
-				{% for item in all_cat %}
-					<div class="portfolio-item books">
-	                	<div class="he-wrap tpl6">
-							<img src="{{ item.get_image_url }}" alt="">
-							<div class="he-view">
-								<div class="bg a0" data-animate="fadeIn">
-	                                <a href="{{ item.get_absolute_url }}"><h3 class="a1" data-animate="fadeInDown">{{ item }}</h3></a>
-	                                <!--<a data-rel="prettyPhoto" href="{{ item.get_image_url }}" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-search"></i></a>-->
-	                                <a href="{{ item.get_absolute_url }}" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
-	                        	</div><!-- he bg -->
-							</div><!-- he view -->		
-						</div><!-- he wrap -->
-					</div><!-- end col-12 -->
-               	{% endfor %}
+            	{% if all_cat %}
+					{% for item in all_cat %}
+						<div class="portfolio-item books">
+		                	<div class="he-wrap tpl6">
+								<img src="{{ item.get_image_url }}" alt="">
+								<div class="he-view">
+									<div class="bg a0" data-animate="fadeIn">
+		                                <a href="{{ item.get_absolute_url }}"><h3 class="a1" data-animate="fadeInDown">{{ item }}</h3></a>
+		                                <!--<a data-rel="prettyPhoto" href="{{ item.get_image_url }}" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-search"></i></a>-->
+		                                <a href="{{ item.get_absolute_url }}" class="dmbutton a2" data-animate="fadeInUp"><i class="fa fa-link"></i></a>
+		                        	</div><!-- he bg -->
+								</div><!-- he view -->		
+							</div><!-- he wrap -->
+						</div><!-- end col-12 -->
+	               	{% endfor %}
+	            {% else %}
+	            	<p>No categories added</p>
+	            {% endif %}
      
             </div><!-- portfolio -->
         </div><!-- portfolio container -->

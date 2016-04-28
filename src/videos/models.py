@@ -73,10 +73,10 @@ class Video(models.Model):
                              self.get_absolute_url())
         return full_url
 
-    def get_share_message(self):
-        full_url = "%s%s" % (settings.FULL_DOMAIN_NAME,
-                             self.get_absolute_url())
-        return urllib2.quote("%s%s" % (full_url, self.description))
+    # def get_share_message(self):
+    #     full_url = "%s%s" % (settings.FULL_DOMAIN_NAME,
+    #                          self.get_absolute_url())
+    #     return urllib2.quote("%s%s" % (full_url, self.description))
 
     def get_next_url(self):
         video = get_vid_for_direction(self, "next")

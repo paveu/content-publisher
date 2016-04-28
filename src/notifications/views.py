@@ -50,14 +50,13 @@ def get_notifications_ajax(request):
     notifications = Notification.objects.all_for_user(request.user).recent()
     if request.is_ajax() and request.method == "POST":
         notifications = Notification.objects.all_for_user(request.user).recent()
-        print("username", request.user.username)
         count = notifications.count()
         notes = []
         for note in notifications:
             notes.append(str(note.get_link.encode('utf-8')))
         data = {
                 "notifications": notes,
-                "count": count, # count var will be usefull to dermine if we have any notifications
+                "count": count, # count var will be usefull to determine if we have any notifications
                 "username": username,
         }
         json_data = json.dumps(data)
