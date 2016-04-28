@@ -23,6 +23,7 @@ content-publisher is a project for selling out video content. All the videos we 
   - fixing comment thread, add bootstrap
   - braintree tutorial for those who wants to run it in production mode
   - fixing video description, to be more readable. use content manipulation plugins
+  - add automatic resize and compress images with PIL
 
 ### Version
 * project version: 1.1

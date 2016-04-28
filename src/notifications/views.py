@@ -54,7 +54,7 @@ def get_notifications_ajax(request):
         count = notifications.count()
         notes = []
         for note in notifications:
-            notes.append(str(note.get_link))
+            notes.append(str(note.get_link.encode('utf-8')))
         data = {
                 "notifications": notes,
                 "count": count, # count var will be usefull to dermine if we have any notifications
