@@ -12,29 +12,34 @@
 
 		   <div class='col-sm-4'>
 		       <div class='row'>
-					{% if recent_videos %}
 					    <div class='col-sm-12'>
 			                <h1>Recent Videos</h1>
-						    {% for vid in recent_videos %}
-						        <a href='{{ vid.get_absolute_url }}'><img src='{{ vid.get_image_url }}' class='img-responsive' /></a><br />
-						    {% endfor %}
+							{% if recent_videos %}
+							    {% for vid in recent_videos %}
+							        <a href='{{ vid.get_absolute_url }}'><img src='{{ vid.get_image_url }}' class='img-responsive' /></a><br />
+							    {% endfor %}
 		                    <hr />
+							{% else %}
+							<p>No videos added, please add videos</p>
+							{% endif %}
 					    </div>
-					{% endif %}
-			        {% if popular_videos %}
+					
 			            <div class='col-sm-12'>
 			                <h1>Popular Videos</h1>
-			                {% for vid, count in popular_videos.items %}
-			                    <a href='{{ vid.get_absolute_url }}'>{{ vid.title }}</a> - <small>Hit counter: {{ count }}</small><br />
-			                {% endfor %}
+			        		{% if popular_videos %}
+				                {% for vid, count in popular_videos.items %}
+				                    <a href='{{ vid.get_absolute_url }}'>{{ vid.title }}</a> - <small>Hit counter: {{ count }}</small><br />
+				                {% endfor %}
+				            {% else %}
+				            <p>No videos added, please add videos</p>
+			        		{% endif %}
 			                <hr />
 			            </div>
-			        {% endif %}
 	           </div>
 	       </div>
 	       <div class='col-sm-8'>
-		        {% if recent_comments %}
 		                <h1>Recent Comments</h1>
+		        		{% if recent_comments %}
 		                <table class='table'>
 			                {% for comment in recent_comments %}
 			                    <tr>
@@ -44,8 +49,9 @@
 			                    </tr>
 			                {% endfor %}
 		                </table>
-	
-		        {% endif %}
+		                {% else %}
+		                <p>No comments added to videos</p>
+		        		{% endif %}
 	       </div>
 	 	</div><! --/row -->
 	 </div><! --/container -->

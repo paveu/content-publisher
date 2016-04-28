@@ -10,11 +10,17 @@
 	<div class='col-sm-6 col-sm-offset-3'>
 		<h3>Notifications <small><a href='{% url "notifications_all" %}'>View All</a></small></h3>
 		<table class='table'>
-			{% for note in notifications %}
+			{% if notifications %}
+				{% for note in notifications %}
+					<tr>
+						<td>{{ note|safe }}</td><td>{% if note.read %} Read {% else %} Unread {% endif %}</td>
+					</tr>
+				{% endfor %}
+			{% else %}
 				<tr>
-					<td>{{ note|safe }}</td><td>{% if note.read %} Read {% else %} Unread {% endif %}</td>
-				</tr>
-			{% endfor %}
+					<td>No notifications</td>
+				</tr>			
+			{% endif %}
 			</table>
 	</div>
 
