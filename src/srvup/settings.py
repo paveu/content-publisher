@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-FULL_DOMAIN_NAME = 'https://srvup-rest-pawelste-1.c9users.io'
+FULL_DOMAIN_NAME = 'https://content-publisher-pawelste.c9users.io'
 
 AUTH_USER_MODEL = 'accounts.MyUser'
 
@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     'crispy_forms',
     # https://github.com/ottoyiu/django-cors-headers
     # http://www.html5rocks.com/en/tutorials/cors/
@@ -72,6 +73,7 @@ MIDDLEWARE_CLASSES = (
     # http://www.html5rocks.com/en/tutorials/cors/
     # corsheaders does is not supported for django > 1.8
     'corsheaders.middleware.CorsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'srvup.urls'
@@ -198,3 +200,22 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
+
+TEST_POS_ID = 145227
+TEST_MD5_KEY = '12f071174cb7eb79d4aac5bc2f07563f'
+TEST_SECOND_MD5_KEY = '13a980d4f851f3d9a1cfc792fb1f5e50'
+AUTHORIZATION = '3e5cac39-7e38-4139-8fd6-30adc06a61bd'
+
+# Your POS ID. If not provided the test payment value will be used.
+PAYU_POS_ID = ''
+
+# Your MD5 key. If not provided the test payment value will be used.
+PAYU_MD5_KEY = ''
+
+# Your second MD5 key. If not provided the test payment value will be used.
+PAYU_SECOND_MD5_KEY = ''
+
+# Payment validity time (in seconds), after which it's canceled, if user did not take action. If not provided 600 will be used.
+PAYU_VALIDITY_TIME = 600

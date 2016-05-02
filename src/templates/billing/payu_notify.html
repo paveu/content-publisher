@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class='row' style='width: 50%; margin: 0 auto; margin-top: 100px; margin-bottom: 100px;'>
+	<div class='col-sm-12' style='text-align:center;'>
+		<h1>Upgrade your accoun with payu payments! </h1>
+		<p class='lead'>For $25/month get unlimited access</p>
+	</div>
+
+	<hr />
+	<div class='col-sm-4 col-sm-offset-4'>
+		<form method="POST" action=".">{% csrf_token %}
+            <input type="hidden" name="customerIp" value="123.123.123.123">
+            <input type="hidden" name="merchantPosId" value="145227">
+            <input type="hidden" name="description" value="Opis zamówienia">
+            <input type="hidden" name="totalAmount" value="25">
+            <input type="hidden" name="currencyCode" value="PLN">
+            <input type="hidden" name="products[0].name" value="Produkt 1">
+            <input type="hidden" name="products[0].unitPrice" value="1000">
+            <input type="hidden" name="products[0].quantity" value="1">
+            <input type="hidden" name="notifyUrl" value="http://shop.url/notify">
+            <input type="hidden" name="continueUrl" value="http://shop.url/continue">
+            <input type="hidden" name="OpenPayu-Signature" type="hidden" value="sender=145227;algorithm=SHA-256;signature=565f9f4dda43c8e24ccab4472133d680e2aa58e1f58bea845c4cf2926965144d">
+            <button type="submit" formtarget="_blank">Płacę z PayU</button>
+		</form>
+	</div>
+</div>
+
+{% endblock %}

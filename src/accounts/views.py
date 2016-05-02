@@ -43,7 +43,7 @@ def auth_login(request):
     title = "Login"
     submit_btn = title
     submit_btn_class = "btn-success btn-block"
-    extra_form_link = "Upgrade your account today! <a href='%s'>here</a>" % (reverse("account_upgrade"))
+    extra_form_link = "Upgrade your account today! <a href='%s'>here</a>" % (reverse("braintree_upgrade"))
     context = {"form": form,
                "action_url": action_url,
                "title": title,

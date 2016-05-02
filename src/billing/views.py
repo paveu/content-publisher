@@ -1,15 +1,25 @@
 import random
+import requests
+import json
+import hashlib
+from ipware.ip import get_real_ip
 
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, Http404
+from django.shortcuts import render, redirect, Http404, HttpResponse
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+from django.utils.html import escape
 
+# 
 # Create your views here.
 from .models import Transaction, Membership, UserMerchantId
 from .signals import membership_dates_update
-
+from .forms import UpgradePayuForm
+from .utils import get_oauth_token
 import braintree
 
 # it's in sandbox mode if you want to turn it into prodiciton change this line
@@ -41,7 +51,7 @@ def cancel_subscription(request):
 
 
 @login_required
-def upgrade(request):
+def braintree_upgrade(request):
     """
     It upgrades regular user account into premium one. It is done based
     on transaction information.
@@ -160,7 +170,7 @@ def upgrade(request):
                     return redirect("account_upgrade")
 
     context = {"client_token": client_token}
-    return render(request, "billing/upgrade.html", context)
+    return render(request, "billing/braintree_upgrade.html", context)
 
 
 def get_or_create_model_transaction(user, braintree_transaction):
@@ -231,3 +241,162 @@ def billing_history(request):
     update_transaction(request.user)
     history = Transaction.objects.filter(user=request.user).filter(success=True)
     return render(request, "billing/history.html", {"queryset": history})
+
+@login_required
+def payu_upgrade(request):
+    """
+    payu upgrade
+    """
+    if request.method == "POST":
+        description = request.POST.get("description")
+        
+        oauthToken = get_oauth_token()
+        if not oauthToken:
+            # test token
+            oauthToken = '3e5cac39-7e38-4139-8fd6-30adc06a61bd'
+            
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer %s' % oauthToken
+            }
+                
+        customerIp = None
+        ip = get_real_ip(request)
+        if ip is not None:
+           customerIp = ip
+        else:
+           raise Http404("No user ip address")
+
+        # notifyUrl = settings.FULL_DOMAIN_NAME + reverse("payu_notify")
+        # continueUrl = settings.FULL_DOMAIN_NAME + reverse("billing_history")
+        notifyUrl = request.build_absolute_uri(reverse('payu_notify')),
+        continueUrl = request.build_absolute_uri(reverse('billing_history')),
+
+        exchangeRate = 3.81899492
+        unitPrice = 25
+        totalAmount = str(int(int(unitPrice) * exchangeRate * 100))
+        
+        merchantPosId = None
+        if not settings.PAYU_POS_ID:
+            merchantPosId = settings.TEST_POS_ID
+        else:
+            merchantPosId = settings.PAYU_POS_ID
+        
+        data = {
+            "notifyUrl": notifyUrl[0], # "https://your.eshop.com/notify",
+            # "continueUrl": continueUrl,
+            "customerIp": customerIp, # "127.0.0.1"
+            "merchantPosId": merchantPosId, # Id punktu platnosci 
+            "description": description, # order description
+            "currencyCode": "PLN",
+            "totalAmount": totalAmount, # $25 exchanged into PLN
+            # "extOrderId": "123123h", # must be unieque use random with hash. It's used for project own transaction id
+            # "extOrderId": "asd2qddb7zljet3fg314jx8a1",
+            "buyer": {
+                "email": "john.doe@example.com",
+                "phone": "654111654",
+                "firstName": "John",
+                "lastName": "Doe"
+            },
+            "products": [
+                {
+                    "name": description,
+                    "unitPrice": totalAmount,
+                    "quantity": "1"
+                }
+            ]
+
+        }
+        resp = requests.post('https://secure.payu.com/api/v2_1/orders', 
+            headers=headers, 
+            json=data, 
+            allow_redirects=False
+            )
+        # The HTTP response status code 302 Found is a common way of performing URL redirection.
+        if resp.status_code == 302:
+            jsonOut = resp.json()
+            statusCode = jsonOut['status']['statusCode']
+            if statusCode == 'SUCCESS':
+                orderId = jsonOut['orderId']
+                print("orderId", orderId)
+                # print("extOrderId", extOrderId)
+                # {redirectUri z OrderCreateResponse}&lang=pl or en
+                redirectUri = jsonOut['redirectUri']
+                return redirect(redirectUri)
+            else:
+                print("error redirect statusCode: ", statusCode)
+        else:
+            print("status code different than 302:", resp.status_code)
+
+    context = {"form": UpgradePayuForm, "action_url": reverse("payu_upgrade")}
+    return render(request, "billing/payu_upgrade.html", context)
+
+@require_http_methods(['POST'])
+@csrf_exempt
+def payu_notify(request):
+    """
+    csrf_exempt omits csrf checks when post does not have it in his call
+    based on : https://github.com/michalwerner/django-payu-payments/blob/master/payu/api.py
+    """
+    signature = escape(request.META.get('HTTP_OPENPAYU_SIGNATURE')).split(';')
+    # ('signature', [u'sender=checkout', u'signature=be908e25751d72767ebd57690b86ed8b', u'algorithm=MD5', u'content=DOCUMENT'])
+    
+    signature_data = {}
+    # ('signature_data', {u'content': u'DOCUMENT', u'sender': u'checkout', u'algorithm': u'MD5', u'signature': u'be908e25751d72767ebd57690b86ed8b'})
+
+    for param in signature:
+        try:
+            param = param.split('=')
+            signature_data[param[0]] = param[1]
+        except IndexError:
+            continue
+    try:
+        incoming_signature = signature_data['signature']
+        # ('incoming_signature', u'3930dacfe697c561bd817196fd92483a')
+
+    except KeyError:
+        return HttpResponse(status=400)
+
+    # Po odbiorze notyfikacji przychodzacej z serwera PayU, nalezy poddac weryfikacji wartosc signature znajdujaca sie w naglowku OpenPayu-Signature. Sprawdzanie podpisu powiadomien ma na celu zapewnienia zaufanej komunikacji miedzy sklepem a PayU. Wiecej informacji o sprawdzaniu podpisu notyfikacji znajdziesz w dziale Weryfikacja podpisu notyfikacji. 
+    if settings.PAYU_MD5_KEY:
+        second_md5_key = settings.PAYU_SECOND_MD5_KEY.encode('utf-8')
+        expected_signature = hashlib.md5(request.body + second_md5_key).hexdigest()
+        if incoming_signature != expected_signature:
+            return HttpResponse(status=403)
+
+    try:
+        # print("request.body", request.body)
+        # ('request.body', '{"order":{"orderId":"3XRKXRQ4HG160430GUEST000P01","orderCreateDate":"2016-04-30T22:58:44.318+02:00","notifyUrl":"https://content-publisher-pawelste.c9users.io/payu_notify/","customerIp":"123.123.123.123","merchantPosId":"145227","description":"Opis zam\xc3\xb3wienia","currencyCode":"PLN","totalAmount":"9547","status":"PENDING","products":[{"name":"Premium membership","unitPrice":"9547","quantity":"1"}]},"properties":[]}')
+
+        # Decoding JSON:
+        data = json.loads(request.body.decode('utf-8'))
+        # print("data", data)
+        # ('data', {u'localReceiptDateTime': u'2016-04-30T21:51:59.349+02:00', u'order': {u'orderId': u'9XLTZG2CW7160430GUEST000P01', u'status': u'COMPLETED', u'description': u'Opis zam\xf3wienia', u'notifyUrl': u'https://content-publisher-pawelste.c9users.io/payu_notify/', u'merchantPosId': u'145227', u'customerIp': u'123.123.123.123', u'currencyCode': u'PLN', u'payMethod': {u'type': u'PBL'}, u'products': [{u'unitPrice': u'9547', u'name': u'Premium membership', u'quantity': u'1'}], u'orderCreateDate': u'2016-04-30T21:51:46.460+02:00', u'buyer': {u'language': u'en', u'lastName': u'ads', u'customerId': u'guest', u'firstName': u'asd', u'email': u'asd@o2.pl'}, u'totalAmount': u'9547'}, u'properties': [{u'name': u'PAYMENT_ID', u'value': u'697376654'}]})
+
+        payu_order_id = escape(data['order']['orderId'])
+        # print("payu_order_id", payu_order_id)
+        # ('payu_order_id', u'9XLTZG2CW7160430GUEST000P01')
+
+        # internal_id = escape(data['order']['extOrderId'])
+    except:
+        return HttpResponse(status=400)
+
+    # try:
+    #     payment = Payment.objects.exclude(status='COMPLETED').get(id=internal_id, payu_order_id=payu_order_id)
+    # except (Payment.DoesNotExist, ValueError):
+    #     return HttpResponse(status=200)
+
+    # ('PENDING', 'WAITING_FOR_CONFIRMATION', 'COMPLETED', 'CANCELED', 'REJECTED')
+    status = escape(data['order']['status'])
+    print("status", status)
+    # if status == "COMPLETED":
+    #     return redirect(continueUrl)
+    
+    # if status in ('PENDING', 'WAITING_FOR_CONFIRMATION', 'COMPLETED', 'CANCELED', 'REJECTED'):
+    #     payment.status = status
+    #     payment.save()
+    # return HttpResponse(status=200)
+
+    
+    return render(request, "billing/payu_notify.html", {})
+    

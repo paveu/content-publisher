@@ -162,7 +162,9 @@ class Transaction(models.Model):
     # digits
     last_four = models.PositiveIntegerField(null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
-
+    
+    # customerIp
+    # merchantPosId
     objects = TransactionManager()
 
     def __unicode__(self):
@@ -170,6 +172,32 @@ class Transaction(models.Model):
 
     class Meta:
         ordering = ['-timestamp']
+
+
+STATUS_CHOICES = (
+    ('NEW', 'New'),
+    ('PENDING', 'Pending'),
+    ('WAITING_FOR_CONFIRMATION', 'Waiting for confirmation'),
+    ('COMPLETED', 'Completed'),
+    ('CANCELED', 'Canceled'),
+    ('REJECTED', 'Rejected'),
+)
+
+
+class TransactionPayu(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    # braintree, stripe or payu transaction id that comes from those systems
+    transaction_id = models.CharField(max_length=120)
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    payu_order_id = models.CharField('PayU order ID', max_length=255)
+    pos_id = models.CharField('PayU POS ID', max_length=255)
+    customer_ip = models.CharField('customer IP', max_length=255)
+    created = models.DateTimeField('creation date', auto_now_add=True, editable=True)
+    status = models.CharField('status', max_length=255, choices=STATUS_CHOICES, default='NEW')
+    total = models.PositiveIntegerField('total')
+    description = models.TextField('description', null=True, blank=True)
+    # products = JSONField('products', default='', blank=True)
+    notes = models.TextField('notes', null=True, blank=True)
 
 
 class UserMerchantId(models.Model):

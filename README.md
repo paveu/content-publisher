@@ -23,7 +23,8 @@ content-publisher is a project for selling out video content. All videos we sell
   - fixing comment thread, add bootstrap
   - braintree tutorial for those who wants to run it in production mode
   - add automatic resize and compress images with PIL
-
+  - add django debug toolbar
+ 
 ### Version
 * version: 1.1
 * project started in 08/may/2015.

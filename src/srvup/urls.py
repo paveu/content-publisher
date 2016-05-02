@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 
 from views import get_api_home, jquery_test_view, home
 from videos.views import category_list, category_detail, video_detail
-from billing.views import upgrade, billing_history, cancel_subscription
+from billing.views import braintree_upgrade, billing_history, cancel_subscription, payu_upgrade, payu_notify
 from accounts.views import account_home, auth_login, auth_logout, auth_register
 from comments.views import comment_thread, comment_create_view
 from notifications.views import all, get_notifications_ajax, read
@@ -59,8 +59,10 @@ if settings.DEBUG:
 
 # enrollment
 urlpatterns += [
-    url(r'^upgrade/$', upgrade, name='account_upgrade'),
-    url(r'^billing/$', billing_history, name='billing_history'),
+    url(r'^braintree_upgrade/$', braintree_upgrade, name='braintree_upgrade'),
+    url(r'^payu_upgrade/$', payu_upgrade, name='payu_upgrade'),
+    url(r'^payu_notify/$', payu_notify, name='payu_notify'),
+    url(r'^billing_history/$', billing_history, name='billing_history'),
     url(r'^billing/cancel$', cancel_subscription, name='cancel_subscription'),
 ]
 
@@ -84,3 +86,9 @@ urlpatterns += [
     url(r'^notifications/ajax/$', get_notifications_ajax, name='get_notifications_ajax'),
     url(r'^notifications/read/(?P<id>\d+)/$', read, name='notifications_read'),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ]

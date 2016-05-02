@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class='row' style='width: 50%; margin: 0 auto; margin-top: 100px; margin-bottom: 100px;'>
+	<div class='col-sm-12' style='text-align:center;'>
+		<h1>Upgrade your accoun with payu payments! </h1>
+		<p class='lead'>For $25/month get unlimited access</p>
+	</div>
+
+	<hr />
+	<div class='col-sm-4 col-sm-offset-4'>
+		<form method='POST' action='{{ action_url }}'> {% csrf_token %}
+			{{ form|crispy }}
+			<input class='btn btn-default btn-success btn-block' type='submit' value='Submit' />
+		</form>
+	</div>
+</div>
+
+{% endblock %}
