@@ -12,17 +12,17 @@ from .models import MyUser
 from .forms import LoginForm, RegisterForm
 # Create your views here.
 
+
 @login_required
 def account_home(request):
     notifications = Notification.objects.get_recent_for_user(request.user)
-    braintreeHistory = Transaction.objects.filter(user=request.user).filter(success=True)
-    payuHistory = TransactionPayu.objects.filter(user=request.user)
+    braintreeHistory = Transaction.objects.get_recent_for_user(request.user, 3)
+    payuHistory = TransactionPayu.objects.get_recent_for_user(request.user, 3)
     
     return render(request, "accounts/account_home.html", {"braintreeHistory": braintreeHistory, 
                                                     "payuHistory": payuHistory,
                                                     "notifications": notifications
     })
-
 
 
 def auth_logout(request):

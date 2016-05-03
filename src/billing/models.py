@@ -173,6 +173,15 @@ class Transaction(models.Model):
     class Meta:
         ordering = ['-timestamp']
 
+class TransactionPayuManager(models.Manager):
+    """
+    Custumized version of creatig new object for TransactionPayuManager model
+    """
+    def all_for_user(self, user):
+        return super(TransactionPayuManager, self).filter(user=user)
+
+    def get_recent_for_user(self, user, num):
+        return super(TransactionPayuManager, self).filter(user=user)[:num]
 
 STATUS_CHOICES = (
     ('NEW', 'New'),
@@ -202,6 +211,8 @@ class TransactionPayu(models.Model):
     description = models.TextField(null=True, blank=True)
     # notes = models.TextField('notes', null=True, blank=True)
 
+    objects = TransactionPayuManager()
+    
     class Meta:
         ordering = ('-timestamp',)
         verbose_name = 'payu_payment'
