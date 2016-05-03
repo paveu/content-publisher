@@ -59,20 +59,20 @@ if settings.DEBUG:
 
 # enrollment
 urlpatterns += [
-    url(r'^account_upgrade/$', account_upgrade, name='account_upgrade'),
-    url(r'^braintree_upgrade/$', braintree_upgrade, name='braintree_upgrade'),
-    url(r'^payu_upgrade/$', payu_upgrade, name='payu_upgrade'),
-    url(r'^payu_notify/$', payu_notify, name='payu_notify'),
-    url(r'^billing_history/$', billing_history, name='billing_history'),
+    url(r'^billing/upgrade/$', account_upgrade, name='account_upgrade'),
+    url(r'^billing/history/$', billing_history, name='billing_history'),
+    url(r'^billing/braintree_upgrade/$', braintree_upgrade, name='braintree_upgrade'),
     url(r'^billing/braintree_cancel$', braintree_cancel_subscription, name='braintree_cancel_subscription'),
+    url(r'^billing/payu_upgrade/$', payu_upgrade, name='payu_upgrade'),
+    url(r'^billing/payu_notify/$', payu_notify, name='payu_notify'),
 ]
 
 # auth login/logout/register
 urlpatterns += [
-    url(r'^accounts/account/$', account_home, name='account_home'),
-    url(r'^accounts/login/$', auth_login, name='login'),
-    url(r'^accounts/logout/$', auth_logout, name='logout'),
-    url(r'^accounts/register/$', auth_register, name='register'),
+    url(r'^account/home/$', account_home, name='account_home'),
+    url(r'^account/login/$', auth_login, name='login'),
+    url(r'^account/logout/$', auth_logout, name='logout'),
+    url(r'^account/register/$', auth_register, name='register'),
 ]
 
 # Comment Thread
