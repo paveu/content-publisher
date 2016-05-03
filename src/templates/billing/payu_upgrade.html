@@ -4,8 +4,12 @@
 {% block content %}
 <div class='row' style='width: 50%; margin: 0 auto; margin-top: 100px; margin-bottom: 100px;'>
 	<div class='col-sm-12' style='text-align:center;'>
-		<h1>Upgrade your accoun with payu payments! </h1>
+		<h1>Upgrade your account with payu payments! </h1>
 		<p class='lead'>For $25/month get unlimited access</p>
+		<p class='lead'>Date of listing(Data notowania): {{ dateOfListing }}</p>
+		<p class='lead'>Date of publication(Data publikacji): {{ dateOfPublication }}</p>
+		<p class='lead'>Kurs sprzedaży USD(Selling rate): {{ sellingRate }}</p>
+		<p class='lead'>$25 x {{ sellingRate }} PLN = ~{{ totalAmount }} PLN</p>
 	</div>
 
 	<hr />

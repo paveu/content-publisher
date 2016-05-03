@@ -3,6 +3,7 @@ import requests
 import json
 import hashlib
 from ipware.ip import get_real_ip
+from .usdtopln import exchangeRateUSD
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -232,7 +233,6 @@ def update_transaction(user):
             for bt_tran in bt_transactions.items:
                 new_tran, created = get_or_create_model_transaction(user, bt_tran)
 
-
 @login_required
 def billing_history(request):
     """
@@ -248,13 +248,14 @@ def billing_history(request):
 @login_required
 def payu_upgrade(request):
     """
-    payu upgrade. Notes will be added hre
+    payu upgrade. description will be added here.
     """
     if request.method == "POST":
         description = request.POST.get("description")
+        amount = request.POST.get("amount")
+        # print("amount", amount, type(amount), float(amount))
         oauthToken = get_oauth_token()
         if not oauthToken:
-            # test token
             oauthToken = '3e5cac39-7e38-4139-8fd6-30adc06a61bd'
             
         headers = {
@@ -274,10 +275,10 @@ def payu_upgrade(request):
         notifyUrl = request.build_absolute_uri(reverse('payu_notify')),
         continueUrl = request.build_absolute_uri(reverse('billing_history')),
 
-        exchangeRate = 3.81899492
-        unitPrice = 25
-        totalAmount = str(int(int(unitPrice) * exchangeRate * 100))
-        
+        # exchangeRate = 3.81899492
+        # unitPrice = 25
+        totalAmount = str(int(float(amount) * 100))
+        # print("totalAmount", totalAmount)
         merchantPosId = None
         if not settings.PAYU_POS_ID:
             merchantPosId = settings.TEST_POS_ID
@@ -321,7 +322,6 @@ def payu_upgrade(request):
                 orderId = jsonOut['orderId']
                 # print("extOrderId", extOrderId)
 
-                # add here new TransacationPayu object
                 objTrans = TransactionPayu(user = request.user,
                                     order_id = orderId, 
                                     # extorder_id = None,
@@ -335,14 +335,21 @@ def payu_upgrade(request):
                 objTrans.save()
                 redirectUri = jsonOut['redirectUri']
                 # {redirectUri z OrderCreateResponse}&lang=pl or en
-
                 return redirect(redirectUri)
             else:
                 print("Error redirect statusCode:", statusCode)
         else:
             print("Status code is different than 302:", resp.status_code)
+    
+    usd = exchangeRateUSD()
+    context = {"form": UpgradePayuForm, 
+                "action_url": reverse("payu_upgrade"), 
+                "dateOfListing": usd[0],
+                "dateOfPublication": usd[1],
+                "sellingRate": usd[2],
+                "totalAmount": settings.TOTAL_AMOUNT,
+    }
 
-    context = {"form": UpgradePayuForm, "action_url": reverse("payu_upgrade")}
     return render(request, "billing/payu_upgrade.html", context)
 
 @require_http_methods(['POST'])
@@ -379,12 +386,8 @@ def payu_notify(request):
             return HttpResponse(status=403)
 
     try:
-        # print("request.body", request.body)
-        # ('request.body', '{"order":{"orderId":"3XRKXRQ4HG160430GUEST000P01","orderCreateDate":"2016-04-30T22:58:44.318+02:00","notifyUrl":"https://content-publisher-pawelste.c9users.io/payu_notify/","customerIp":"123.123.123.123","merchantPosId":"145227","description":"Opis zam\xc3\xb3wienia","currencyCode":"PLN","totalAmount":"9547","status":"PENDING","products":[{"name":"Premium membership","unitPrice":"9547","quantity":"1"}]},"properties":[]}')
-
         # Decoding JSON:
         data = json.loads(request.body.decode('utf-8'))
-        print("data", data)
         # ('data', {u'localReceiptDateTime': u'2016-04-30T21:51:59.349+02:00', u'order': {u'orderId': u'9XLTZG2CW7160430GUEST000P01', u'status': u'COMPLETED', u'description': u'Opis zam\xf3wienia', u'notifyUrl': u'https://content-publisher-pawelste.c9users.io/payu_notify/', u'merchantPosId': u'145227', u'customerIp': u'123.123.123.123', u'currencyCode': u'PLN', u'payMethod': {u'type': u'PBL'}, u'products': [{u'unitPrice': u'9547', u'name': u'Premium membership', u'quantity': u'1'}], u'orderCreateDate': u'2016-04-30T21:51:46.460+02:00', u'buyer': {u'language': u'en', u'lastName': u'ads', u'customerId': u'guest', u'firstName': u'asd', u'email': u'asd@o2.pl'}, u'totalAmount': u'9547'}, u'properties': [{u'name': u'PAYMENT_ID', u'value': u'697376654'}]})
 
         payu_order_id = escape(data['order']['orderId'])
@@ -397,9 +400,7 @@ def payu_notify(request):
     
     try:
         # payment = TransactionPayu.objects.exclude(status='COMPLETED').get(id=internal_id, payu_order_id=payu_order_id)
-        print("request.user", request.user)
         payment = TransactionPayu.objects.exclude(transaction_status='COMPLETED').get(order_id=payu_order_id)
-        print("payment", payment)
     except (TransactionPayu.DoesNotExist, ValueError):
         return HttpResponse(status=200)
 
@@ -410,7 +411,4 @@ def payu_notify(request):
         payment.transaction_status = status
         payment.save()
     return HttpResponse(status=200)
-
-    
-    return render(request, "billing/payu_notify.html", {})
     

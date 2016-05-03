@@ -14,6 +14,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 import datetime
 from .utils import jwt_response_payload_handler
+from billing.usdtopln import exchangeRateUSD
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -219,3 +220,7 @@ PAYU_SECOND_MD5_KEY = ''
 
 # Payment validity time (in seconds), after which it's canceled, if user did not take action. If not provided 600 will be used.
 PAYU_VALIDITY_TIME = 600
+
+EXCHANGE_RATE = float(exchangeRateUSD()[2]) # sell price
+UNIT_PRICE = 25 # USD
+TOTAL_AMOUNT = int(UNIT_PRICE) * EXCHANGE_RATE
