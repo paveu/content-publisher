@@ -408,6 +408,7 @@ def payu_notify(request):
     # ('PENDING', 'WAITING_FOR_CONFIRMATION', 'COMPLETED', 'CANCELED', 'REJECTED')
 
     if status in ('PENDING', 'WAITING_FOR_CONFIRMATION', 'COMPLETED', 'CANCELED', 'REJECTED'):
+        print("status after", status)
         payment.transaction_status = status
         payment.save()
     
