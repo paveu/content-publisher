@@ -183,22 +183,32 @@ STATUS_CHOICES = (
     ('REJECTED', 'Rejected'),
 )
 
-
 class TransactionPayu(models.Model):
+    """
+    """
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    # braintree, stripe or payu transaction id that comes from those systems
-    transaction_id = models.CharField(max_length=120)
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    payu_order_id = models.CharField('PayU order ID', max_length=255)
-    pos_id = models.CharField('PayU POS ID', max_length=255)
-    customer_ip = models.CharField('customer IP', max_length=255)
-    created = models.DateTimeField('creation date', auto_now_add=True, editable=True)
-    status = models.CharField('status', max_length=255, choices=STATUS_CHOICES, default='NEW')
-    total = models.PositiveIntegerField('total')
-    description = models.TextField('description', null=True, blank=True)
+    # payu order id coming from payu payment system
+    order_id = models.CharField(max_length=255)
+    # our own internal order id
+    extorder_id = models.CharField(max_length=120, null=True, blank=True)
+    # total cost for a product
+    amount = models.CharField(max_length=8, null=True, blank=True)
+    # created time
+    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+    transaction_status = models.CharField(max_length=255, choices=STATUS_CHOICES, default='NEW')
     # products = JSONField('products', default='', blank=True)
-    notes = models.TextField('notes', null=True, blank=True)
+    pos_id = models.CharField(max_length=255, null=True, blank=True)
+    customer_ip = models.CharField(max_length=255, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    # notes = models.TextField('notes', null=True, blank=True)
 
+    class Meta:
+        ordering = ('-timestamp',)
+        verbose_name = 'payu_payment'
+        verbose_name_plural = 'payu_payments'
+
+    def __unicode__(self):
+        return self.order_id
 
 class UserMerchantId(models.Model):
     """
@@ -207,11 +217,16 @@ class UserMerchantId(models.Model):
     these information are coming from Braintree
     """
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    # braintree customer id
     customer_id = models.CharField(max_length=120)
-    # subscription_id taken from braintree subscription
+    # braintree subscription_id taken from braintree subscription
     subscription_id = models.CharField(max_length=120, null=True, blank=True)
+    # braintree monthly plan
     plan_id = models.CharField(max_length=120, null=True, blank=True)
+    # braintree merchant name
     merchant_name = models.CharField(max_length=120, default="Braintree")
+    # payu add pos id
+    # pos_id = models.CharField('PayU POS ID', max_length=255, null=True, blank=True)
 
     def __unicode__(self):
         return self.customer_id

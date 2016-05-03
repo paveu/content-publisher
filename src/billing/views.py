@@ -16,7 +16,7 @@ from django.utils.html import escape
 
 # 
 # Create your views here.
-from .models import Transaction, Membership, UserMerchantId
+from .models import Transaction, Membership, UserMerchantId, TransactionPayu
 from .signals import membership_dates_update
 from .forms import UpgradePayuForm
 from .utils import get_oauth_token
@@ -28,7 +28,7 @@ braintree.Configuration.configure(braintree.Environment.Sandbox,
                                   public_key=settings.BRAINTREE_PUBLIC_KEY,
                                   private_key=settings.BRAINTREE_PRIVATE_KEY)
 
-# it defines how often it charges customers. Recurring billing for subscription
+ # it defines how often it charges customers. Recurring billing for subscription
 PLAN_ID = "monthly_plan"
 
 @login_required
@@ -245,11 +245,10 @@ def billing_history(request):
 @login_required
 def payu_upgrade(request):
     """
-    payu upgrade
+    payu upgrade. Notes will be added hre
     """
     if request.method == "POST":
         description = request.POST.get("description")
-        
         oauthToken = get_oauth_token()
         if not oauthToken:
             # test token
@@ -281,10 +280,10 @@ def payu_upgrade(request):
             merchantPosId = settings.TEST_POS_ID
         else:
             merchantPosId = settings.PAYU_POS_ID
-        
+        print("continueUrl[0]", continueUrl[0])
         data = {
             "notifyUrl": notifyUrl[0], # "https://your.eshop.com/notify",
-            # "continueUrl": continueUrl,
+            "continueUrl": continueUrl[0],
             "customerIp": customerIp, # "127.0.0.1"
             "merchantPosId": merchantPosId, # Id punktu platnosci 
             "description": description, # order description
@@ -293,10 +292,9 @@ def payu_upgrade(request):
             # "extOrderId": "123123h", # must be unieque use random with hash. It's used for project own transaction id
             # "extOrderId": "asd2qddb7zljet3fg314jx8a1",
             "buyer": {
-                "email": "john.doe@example.com",
-                "phone": "654111654",
-                "firstName": "John",
-                "lastName": "Doe"
+                "email": request.user.email,
+                "firstName": request.user.first_name,
+                "lastName": request.user.last_name,
             },
             "products": [
                 {
@@ -305,28 +303,41 @@ def payu_upgrade(request):
                     "quantity": "1"
                 }
             ]
-
         }
         resp = requests.post('https://secure.payu.com/api/v2_1/orders', 
             headers=headers, 
             json=data, 
             allow_redirects=False
             )
+
         # The HTTP response status code 302 Found is a common way of performing URL redirection.
         if resp.status_code == 302:
             jsonOut = resp.json()
             statusCode = jsonOut['status']['statusCode']
             if statusCode == 'SUCCESS':
                 orderId = jsonOut['orderId']
-                print("orderId", orderId)
                 # print("extOrderId", extOrderId)
-                # {redirectUri z OrderCreateResponse}&lang=pl or en
+
+                # add here new TransacationPayu object
+                objTrans = TransactionPayu(user = request.user,
+                                    order_id = orderId, 
+                                    # extorder_id = None,
+                                    amount = str(float(totalAmount) / 100),
+                                    timestamp = timezone.now(),
+                                    transaction_status = 'NEW',
+                                    pos_id = merchantPosId,
+                                    description = description,
+                                    customer_ip = customerIp,
+                                    )
+                objTrans.save()
                 redirectUri = jsonOut['redirectUri']
+                # {redirectUri z OrderCreateResponse}&lang=pl or en
+
                 return redirect(redirectUri)
             else:
-                print("error redirect statusCode: ", statusCode)
+                print("Error redirect statusCode:", statusCode)
         else:
-            print("status code different than 302:", resp.status_code)
+            print("Status code is different than 302:", resp.status_code)
 
     context = {"form": UpgradePayuForm, "action_url": reverse("payu_upgrade")}
     return render(request, "billing/payu_upgrade.html", context)
@@ -377,25 +388,31 @@ def payu_notify(request):
         # print("payu_order_id", payu_order_id)
         # ('payu_order_id', u'9XLTZG2CW7160430GUEST000P01')
 
+
         # internal_id = escape(data['order']['extOrderId'])
     except:
         return HttpResponse(status=400)
-
-    # try:
-    #     payment = Payment.objects.exclude(status='COMPLETED').get(id=internal_id, payu_order_id=payu_order_id)
-    # except (Payment.DoesNotExist, ValueError):
-    #     return HttpResponse(status=200)
+    continueUrl = data['order']
+    print("continueUrl", continueUrl)
+    
+    try:
+        # payment = TransactionPayu.objects.exclude(status='COMPLETED').get(id=internal_id, payu_order_id=payu_order_id)
+        print("request.user", request.user)
+        payment = TransactionPayu.objects.exclude(transaction_status='COMPLETED').get(order_id=payu_order_id)
+        print("payment", payment)
+    except (TransactionPayu.DoesNotExist, ValueError):
+        return HttpResponse(status=200)
 
     # ('PENDING', 'WAITING_FOR_CONFIRMATION', 'COMPLETED', 'CANCELED', 'REJECTED')
     status = escape(data['order']['status'])
     print("status", status)
-    # if status == "COMPLETED":
-    #     return redirect(continueUrl)
+    if status == "COMPLETED":
+        return redirect(continueUrl)
     
-    # if status in ('PENDING', 'WAITING_FOR_CONFIRMATION', 'COMPLETED', 'CANCELED', 'REJECTED'):
-    #     payment.status = status
-    #     payment.save()
-    # return HttpResponse(status=200)
+    if status in ('PENDING', 'WAITING_FOR_CONFIRMATION', 'COMPLETED', 'CANCELED', 'REJECTED'):
+        payment.transaction_status = status
+        payment.save()
+    return HttpResponse(status=200)
 
     
     return render(request, "billing/payu_notify.html", {})
