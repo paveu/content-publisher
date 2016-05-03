@@ -11,8 +11,10 @@
 		<a class='btn btn-warning btn-block' href='{% url "account_upgrade" %}'>Upgrade Account</a>
 		{% endif %}
 		</div>
-
+		
 		<div class='col-sm-12'>
+			<h4>Braintree payments history in USD</h4>
+
 		    <table class='table'>
 		    <thead>
 		        <th>Order #</th>
@@ -20,7 +22,7 @@
 		        <th>Payment Method</th>
 		        <th>Date</th>
 		    </thead>
-		    {% for object in queryset %}
+		    {% for object in braintreeHistory %}
 		        <tr>
 			        <td>{{ object.order_id }}</td>
 		            <td>${{ object.amount }}</td>
@@ -30,5 +32,25 @@
 		    {% endfor %}
 		    </table>
 		</div>
+		<div class='col-sm-12'>
+			<h4>Payu payments history $25 exchanged into PLN(Polish Zloty)</h4>
+		    <table class='table'>
+		    <thead>
+		        <th>Order #</th>
+		        <th>Amount</th>
+		        <th>Payment Method</th>
+		        <th>Date</th>
+		    </thead>
+		    {% for object in payuHistory %}
+		        <tr>
+			        <td>{{ object.order_id }}</td>
+		            <td>{{ object.amount }}PLN</td>
+		            <td>Bank transfer</td>
+			        <td>{{ object.timestamp }}</td>
+		        </tr>
+		    {% endfor %}
+		    </table>
+		</div>
+
 	</div>
 {% endblock %}

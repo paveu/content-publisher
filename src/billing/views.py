@@ -239,8 +239,11 @@ def billing_history(request):
     It prints out all successful transactions associated with particular user
     """
     update_transaction(request.user)
-    history = Transaction.objects.filter(user=request.user).filter(success=True)
-    return render(request, "billing/history.html", {"queryset": history})
+    braintreeHistory = Transaction.objects.filter(user=request.user).filter(success=True)
+    payuHistory = TransactionPayu.objects.filter(user=request.user)
+    
+    return render(request, "billing/history.html", {"braintreeHistory": braintreeHistory, 
+                                                    "payuHistory": payuHistory})
 
 @login_required
 def payu_upgrade(request):
@@ -381,19 +384,16 @@ def payu_notify(request):
 
         # Decoding JSON:
         data = json.loads(request.body.decode('utf-8'))
-        # print("data", data)
+        print("data", data)
         # ('data', {u'localReceiptDateTime': u'2016-04-30T21:51:59.349+02:00', u'order': {u'orderId': u'9XLTZG2CW7160430GUEST000P01', u'status': u'COMPLETED', u'description': u'Opis zam\xf3wienia', u'notifyUrl': u'https://content-publisher-pawelste.c9users.io/payu_notify/', u'merchantPosId': u'145227', u'customerIp': u'123.123.123.123', u'currencyCode': u'PLN', u'payMethod': {u'type': u'PBL'}, u'products': [{u'unitPrice': u'9547', u'name': u'Premium membership', u'quantity': u'1'}], u'orderCreateDate': u'2016-04-30T21:51:46.460+02:00', u'buyer': {u'language': u'en', u'lastName': u'ads', u'customerId': u'guest', u'firstName': u'asd', u'email': u'asd@o2.pl'}, u'totalAmount': u'9547'}, u'properties': [{u'name': u'PAYMENT_ID', u'value': u'697376654'}]})
 
         payu_order_id = escape(data['order']['orderId'])
         # print("payu_order_id", payu_order_id)
         # ('payu_order_id', u'9XLTZG2CW7160430GUEST000P01')
-
-
+        
         # internal_id = escape(data['order']['extOrderId'])
     except:
         return HttpResponse(status=400)
-    continueUrl = data['order']
-    print("continueUrl", continueUrl)
     
     try:
         # payment = TransactionPayu.objects.exclude(status='COMPLETED').get(id=internal_id, payu_order_id=payu_order_id)
@@ -403,12 +403,9 @@ def payu_notify(request):
     except (TransactionPayu.DoesNotExist, ValueError):
         return HttpResponse(status=200)
 
-    # ('PENDING', 'WAITING_FOR_CONFIRMATION', 'COMPLETED', 'CANCELED', 'REJECTED')
     status = escape(data['order']['status'])
-    print("status", status)
-    if status == "COMPLETED":
-        return redirect(continueUrl)
-    
+    # ('PENDING', 'WAITING_FOR_CONFIRMATION', 'COMPLETED', 'CANCELED', 'REJECTED')
+
     if status in ('PENDING', 'WAITING_FOR_CONFIRMATION', 'COMPLETED', 'CANCELED', 'REJECTED'):
         payment.transaction_status = status
         payment.save()
