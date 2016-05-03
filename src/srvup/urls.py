@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 
 from views import get_api_home, jquery_test_view, home
 from videos.views import category_list, category_detail, video_detail
-from billing.views import braintree_upgrade, billing_history, cancel_subscription, payu_upgrade, payu_notify
+from billing.views import braintree_upgrade, billing_history, braintree_cancel_subscription, payu_upgrade, payu_notify, account_upgrade
 from accounts.views import account_home, auth_login, auth_logout, auth_register
 from comments.views import comment_thread, comment_create_view
 from notifications.views import all, get_notifications_ajax, read
@@ -59,11 +59,12 @@ if settings.DEBUG:
 
 # enrollment
 urlpatterns += [
+    url(r'^account_upgrade/$', account_upgrade, name='account_upgrade'),
     url(r'^braintree_upgrade/$', braintree_upgrade, name='braintree_upgrade'),
     url(r'^payu_upgrade/$', payu_upgrade, name='payu_upgrade'),
     url(r'^payu_notify/$', payu_notify, name='payu_notify'),
     url(r'^billing_history/$', billing_history, name='billing_history'),
-    url(r'^billing/cancel$', cancel_subscription, name='cancel_subscription'),
+    url(r'^billing/braintree_cancel$', braintree_cancel_subscription, name='braintree_cancel_subscription'),
 ]
 
 # auth login/logout/register

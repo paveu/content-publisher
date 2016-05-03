@@ -33,7 +33,7 @@ braintree.Configuration.configure(braintree.Environment.Sandbox,
 PLAN_ID = "monthly_plan"
 
 @login_required
-def cancel_subscription(request):
+def braintree_cancel_subscription(request):
     """
     It canceles subscription based on saved sub_ui in django.merchant model
     """
@@ -410,5 +410,17 @@ def payu_notify(request):
     if status in ('PENDING', 'WAITING_FOR_CONFIRMATION', 'COMPLETED', 'CANCELED', 'REJECTED'):
         payment.transaction_status = status
         payment.save()
+    
+    # update premium membership dates
+    payment = TransactionPayu.objects.get(order_id=payu_order_id)
+    if payment.transaction_status == 'COMPLETED':
+        membership_instance, created = Membership.objects.get_or_create(user=payment.user)
+        membership_dates_update.send(membership_instance, new_date_start=timezone.now())
+        messages.success(request, "Your plan has been updated")
+        
     return HttpResponse(status=200)
     
+@login_required
+def account_upgrade(request):
+    return render(request, "billing/account_upgrade.html", {})
+

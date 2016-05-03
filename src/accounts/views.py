@@ -5,22 +5,24 @@ from django.utils.safestring import mark_safe
 from django.http.response import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-from billing.models import Transaction
+from billing.models import Transaction, TransactionPayu
 from notifications.models import Notification
 
 from .models import MyUser
 from .forms import LoginForm, RegisterForm
 # Create your views here.
 
-
 @login_required
 def account_home(request):
     notifications = Notification.objects.get_recent_for_user(request.user)
-    transactions = Transaction.objects.get_recent_for_user(request.user, 3)
-    context = {"notifications": notifications,
-               "transactions": transactions,
-               }
-    return render(request, "accounts/account_home.html", context)
+    braintreeHistory = Transaction.objects.filter(user=request.user).filter(success=True)
+    payuHistory = TransactionPayu.objects.filter(user=request.user)
+    
+    return render(request, "accounts/account_home.html", {"braintreeHistory": braintreeHistory, 
+                                                    "payuHistory": payuHistory,
+                                                    "notifications": notifications
+    })
+
 
 
 def auth_logout(request):

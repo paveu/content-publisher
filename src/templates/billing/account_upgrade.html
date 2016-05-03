@@ -1,0 +1,29 @@
+
+{$ {% extends "base.html" %}
+
+<script>
+	{% block jquery %}
+    braintree.setup("{{ client_token }}", "dropin", {
+    	container: "checkout",
+    	form: "checkoutForm"
+    });
+    $("#submitPayment").on("click", function(){
+        var btn = $(this).button("loading")
+        setTimeout(function(){
+        	btn.button('reset');
+        }, 3500)
+    });
+
+    {% endblock %}
+</script>
+
+{% block content %}
+<div class='row' style='width: 50%; margin: 0 auto; margin-top: 100px; margin-bottom: 100px;'>
+	<div class='col-sm-12' style='text-align:center;'>
+		<h1>Upgrade your account</h1>
+		<p class='lead'>For $25/month get unlimited access</p>
+	</div>
+
+</div>
+
+{% endblock %}
