@@ -1,6 +1,9 @@
 {% load staticfiles %}
+
+{# Oauth2 loding data, needed for facebook auth #}
 {% load socialaccount %}
 {% providers_media_js %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -39,6 +42,19 @@
 
 {% include 'footer.html' %}
 
+
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/braintree.js' %}"></script>
+    <script src="{% static 'js/E-v1.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/retina-1.1.0.js' %}"></script>
+		<script src="{% static 'js/jquery.hoverdir.js' %}"></script>
+		<script src="{% static 'js/jquery.hoverex.min.js' %}"></script>
+		<script src="{% static 'js/jquery.prettyPhoto.js' %}"></script>
+  	<script src="{% static 'js/jquery.isotope.min.js' %}"></script>
+  	<script src="{% static 'js/custom.js' %}"></script>
     <div id="fb-root"></div>
 		<script>(function(d, s, id) {
 		  var js, fjs = d.getElementsByTagName(s)[0];
@@ -48,27 +64,13 @@
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 		</script>
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="https://js.braintreegateway.com/v2/braintree.js"></script>
-    <script src="http://fast.wistia.net/assets/external/E-v1.js"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-		<script src="{% static 'js/retina-1.1.0.js' %}"></script>
-		<script src="{% static 'js/jquery.hoverdir.js' %}"></script>
-		<script src="{% static 'js/jquery.hoverex.min.js' %}"></script>
-		<script src="{% static 'js/jquery.prettyPhoto.js' %}"></script>
-  	<script src="{% static 'js/jquery.isotope.min.js' %}"></script>
-  	<script src="{% static 'js/custom.js' %}"></script>
-
+    
     <script>
     $(document).ready(function(){
     	{% block jquery %}
     	{% endblock %}
     });
     </script>
-    
     <script>
     $(document).ready(function(){
     	// .dropdown-toggle is a class
@@ -121,86 +123,86 @@
     </script>
     
     <script>
-	// Portfolio
-	(function($) {
-		"use strict";
-		var $container = $('.portfolio'),
-			$items = $container.find('.portfolio-item'),
-			portfolioLayout = 'fitRows';
-			
-			if( $container.hasClass('portfolio-centered') ) {
-				portfolioLayout = 'masonry';
-			}
-					
-			$container.isotope({
-				filter: '*',
-				animationEngine: 'best-available',
-				layoutMode: portfolioLayout,
-				animationOptions: {
-				duration: 750,
-				easing: 'linear',
-				queue: false
-			},
-			masonry: {
-			}
-			}, refreshWaypoints());
-			
-			function refreshWaypoints() {
-				setTimeout(function() {
-				}, 1000);   
-			}
-					
-			$('nav.portfolio-filter ul a').on('click', function() {
-					var selector = $(this).attr('data-filter');
-					$container.isotope({ filter: selector }, refreshWaypoints());
-					$('nav.portfolio-filter ul a').removeClass('active');
-					$(this).addClass('active');
-					return false;
-			});
-			
-			function getColumnNumber() { 
-				var winWidth = $(window).width(), 
-				columnNumber = 1;
-			
-				if (winWidth > 1200) {
-					columnNumber = 5;
-				} else if (winWidth > 950) {
-					columnNumber = 4;
-				} else if (winWidth > 600) {
-					columnNumber = 3;
-				} else if (winWidth > 400) {
-					columnNumber = 2;
-				} else if (winWidth > 250) {
-					columnNumber = 1;
+		// Portfolio
+		(function($) {
+			"use strict";
+			var $container = $('.portfolio'),
+				$items = $container.find('.portfolio-item'),
+				portfolioLayout = 'fitRows';
+				
+				if( $container.hasClass('portfolio-centered') ) {
+					portfolioLayout = 'masonry';
 				}
-					return columnNumber;
-				}       
+						
+				$container.isotope({
+					filter: '*',
+					animationEngine: 'best-available',
+					layoutMode: portfolioLayout,
+					animationOptions: {
+					duration: 750,
+					easing: 'linear',
+					queue: false
+				},
+				masonry: {
+				}
+				}, refreshWaypoints());
 				
-				function setColumns() {
-					var winWidth = $(window).width(), 
-					columnNumber = getColumnNumber(), 
-					itemWidth = Math.floor(winWidth / columnNumber);
-					
-					$container.find('.portfolio-item').each(function() { 
-						$(this).css( { 
-						width : itemWidth + 'px' 
-					});
+				function refreshWaypoints() {
+					setTimeout(function() {
+					}, 1000);   
+				}
+						
+				$('nav.portfolio-filter ul a').on('click', function() {
+						var selector = $(this).attr('data-filter');
+						$container.isotope({ filter: selector }, refreshWaypoints());
+						$('nav.portfolio-filter ul a').removeClass('active');
+						$(this).addClass('active');
+						return false;
 				});
-			}
-			
-			function setPortfolio() { 
-				setColumns();
-				$container.isotope('reLayout');
-			}
 				
-			$container.imagesLoaded(function () { 
-				setPortfolio();
+				function getColumnNumber() { 
+					var winWidth = $(window).width(), 
+					columnNumber = 1;
+				
+					if (winWidth > 1200) {
+						columnNumber = 5;
+					} else if (winWidth > 950) {
+						columnNumber = 4;
+					} else if (winWidth > 600) {
+						columnNumber = 3;
+					} else if (winWidth > 400) {
+						columnNumber = 2;
+					} else if (winWidth > 250) {
+						columnNumber = 1;
+					}
+						return columnNumber;
+					}       
+					
+					function setColumns() {
+						var winWidth = $(window).width(), 
+						columnNumber = getColumnNumber(), 
+						itemWidth = Math.floor(winWidth / columnNumber);
+						
+						$container.find('.portfolio-item').each(function() { 
+							$(this).css( { 
+							width : itemWidth + 'px' 
+						});
+					});
+				}
+				
+				function setPortfolio() { 
+					setColumns();
+					$container.isotope('reLayout');
+				}
+					
+				$container.imagesLoaded(function () { 
+					setPortfolio();
+				});
+				
+				$(window).on('resize', function () { 
+				setPortfolio();          
 			});
-			
-			$(window).on('resize', function () { 
-			setPortfolio();          
-		});
-	})(jQuery);
-</script>
+		})(jQuery);
+	</script>
   </body>
 </html>
