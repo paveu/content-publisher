@@ -16,7 +16,9 @@
 					<h3>Sell out your videos</h3>
 					<h1>Start making money!</h1>
 					<h5>Start today!</h5>
-					<img src="{% static 'img/logo_movie.png' %}" class="img-responsive">
+					<!--<img src="{% static 'img/logo_movie.png' %}" class="img-responsive">-->
+					<img src="http://www.moviesinalbuquerque.com/images/movie-dog.gif" class="img-responsive" width="390" height="300">
+
 				</div>
 				<div class="col-md-6">
 			        <div role="tabpanel">
@@ -34,14 +36,14 @@
 				                          <div class="panel-body">
 				                                <form method='POST' action='{% url "register" %}'>{% csrf_token %}
 				                                    {{ register_form|crispy }}
-				                                    <input class='btn btn-default btn-block btn-large' type='submit' value='Register' />
+				                                    <input class='btn btn-default btn-block btn-large btn-success' type='submit' value='Register' />
 				                                </form>
-				                                <br />
-				                                <a class='btn btn-facebook btn-block' href='/accounts/facebook/login/?process=login'>
+				                                <p align="center">If you create an account with Facebook then you will have to use Facebook authentication. 
+				                                Regular authentication located above won't work.</p>
+				                                <a class='btn btn-facebook btn-block' href='{% provider_login_url "facebook" method="oauth2" %}'>
 					                             <button type="button" class='btn btn-default btn-block btn-large btn-primary' class='fa fa-facebook-square' >
 				                                		<i class='fa fa-facebook-square' style='color:white;'></i> Join with Facebook
 				                                </button></a>
-				                                <br />
 				                                <p>By registering you agree to our <a href='#'>terms</a></p>
 				                          </div>
 				                    </div>
@@ -52,10 +54,11 @@
 				                          <div class="panel-body">
 				                                <form method='POST' action='{% url "login" %}'>{% csrf_token %}
 				                                    {{ login_form|crispy }}
-				                                    <input class='btn btn-default btn-block btn-large' type='submit' value='Login' />
+				                                    <input class='btn btn-default btn-block btn-large btn-success' type='submit' value='Login' />
 				                                </form>
 				                                <br />
-				                                <a class='btn btn-facebook btn-block' href='/accounts/facebook/login/?process=login'>
+				                                <p align="center">If created an account with Facebook then use below button</p>
+				                                <a class='btn btn-facebook btn-block' href='{% provider_login_url "facebook" method="oauth2" %}'>
 					                                <button type="button" class='btn btn-default btn-block btn-large btn-primary' class='fa fa-facebook-square' >
 					                                		<i class='fa fa-facebook-square' style='color:white;'></i> Log in with Facebook
 					                                </button>

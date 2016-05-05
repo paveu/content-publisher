@@ -269,5 +269,6 @@ SOCIALACCOUNT_PROVIDERS = \
         'EXCHANGE_TOKEN': True,
         'LOCALE_FUNC':  lambda request: 'en_US',
         'VERIFIED_EMAIL': True,
-        'VERSION': 'v2.4'}}
+        'VERSION': 'v2.4'
+       }}
 
