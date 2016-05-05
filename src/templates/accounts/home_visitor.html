@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load crispy_forms_tags %}
+{% load socialaccount %}
+{% providers_media_js %}
 
 {% block content %}
 
@@ -34,6 +36,7 @@
 				                                    {{ register_form|crispy }}
 				                                    <input class='btn btn-default btn-block btn-large' type='submit' value='Register' />
 				                                </form>
+				                                <a class='btn btn-facebook btn-block' href='/accounts/facebook/login/?process=login'><i class='fa fa-facebook-square' style='color:white;'></i> Join with Facebook</a>
 				                                <br />
 				                                <p>By registering you agree to our <a href='#'>terms</a></p>
 				                          </div>
@@ -47,6 +50,7 @@
 				                                    {{ login_form|crispy }}
 				                                    <input class='btn btn-default btn-block btn-large' type='submit' value='Login' />
 				                                </form>
+				                                <a href='/accounts/facebook/login/?process=login' class="btn btn-facebook btn-block">Facebook Login <i class="fa fa-facebook-square" style='color:white;'></i></a>
 				                          </div>
 				                	</div>
 				               </div>

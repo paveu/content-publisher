@@ -9,3 +9,4 @@ src/db.sqlite3
 __pycache__
 db.sqlite3
 .DS_Store
+send_email.py

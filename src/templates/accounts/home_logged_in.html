@@ -13,7 +13,7 @@
 		   <div class='col-sm-4'>
 		       <div class='row'>
 					    <div class='col-sm-12'>
-			                <h1>Recent Videos</h1>
+			                <h1>Recent seen videos</h1>
 							{% if recent_videos %}
 							    {% for vid in recent_videos %}
 							        <a href='{{ vid.get_absolute_url }}'><img src='{{ vid.get_image_url }}' class='img-responsive' /></a><br />

@@ -23,11 +23,10 @@
                 <ul class="dropdown-menu" id="notification_dropdown">
                 </ul>
               {% if user.username == 'paveu' %}
-              <li><a href="/admin/">ADMIN PANEL</a></li>
+              <li><a href="/admin/">ADMINISTRATION</a></li>
               {% endif %}
               <li><a href="{% url 'account_home' %}">ACCOUNT</a></li>
               <li><a href="{% url 'account_upgrade' %}">EXTEND MEMBERSHIP</a></li>
-  
               <li><a href="{% url 'logout' %}">SIGN OUT</a></li>
             {% else %}
               <li><a href="{% url 'register' %}">REGISTER</a></li>

@@ -1,9 +1,9 @@
+import braintree
+import hashlib
+import json
 import random
 import requests
-import json
-import hashlib
 from ipware.ip import get_real_ip
-from .usdtopln import exchangeRateUSD
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -15,13 +15,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.utils.html import escape
 
-# 
 # Create your views here.
 from .models import Transaction, Membership, UserMerchantId, TransactionPayu
 from .signals import membership_dates_update
 from .forms import UpgradePayuForm
 from .utils import get_oauth_token
-import braintree
+from .usdtopln import exchangeRateUSD
+
 
 # it's in sandbox mode if you want to turn it into prodiciton change this line
 braintree.Configuration.configure(braintree.Environment.Sandbox, 
@@ -253,8 +253,8 @@ def payu_upgrade(request):
     if request.method == "POST":
         description = request.POST.get("description")
         amount = request.POST.get("amount")
-        # print("amount", amount, type(amount), float(amount))
         oauthToken = get_oauth_token()
+
         if not oauthToken:
             oauthToken = '3e5cac39-7e38-4139-8fd6-30adc06a61bd'
             
@@ -270,21 +270,15 @@ def payu_upgrade(request):
         else:
            raise Http404("No user ip address")
 
-        # notifyUrl = settings.FULL_DOMAIN_NAME + reverse("payu_notify")
-        # continueUrl = settings.FULL_DOMAIN_NAME + reverse("billing_history")
         notifyUrl = request.build_absolute_uri(reverse('payu_notify')),
         continueUrl = request.build_absolute_uri(reverse('billing_history')),
-
-        # exchangeRate = 3.81899492
-        # unitPrice = 25
         totalAmount = str(int(float(amount) * 100))
-        # print("totalAmount", totalAmount)
         merchantPosId = None
+
         if not settings.PAYU_POS_ID:
             merchantPosId = settings.TEST_POS_ID
         else:
             merchantPosId = settings.PAYU_POS_ID
-        print("continueUrl[0]", continueUrl[0])
         data = {
             "notifyUrl": notifyUrl[0], # "https://your.eshop.com/notify",
             "continueUrl": continueUrl[0],
@@ -408,7 +402,6 @@ def payu_notify(request):
     # ('PENDING', 'WAITING_FOR_CONFIRMATION', 'COMPLETED', 'CANCELED', 'REJECTED')
 
     if status in ('PENDING', 'WAITING_FOR_CONFIRMATION', 'COMPLETED', 'CANCELED', 'REJECTED'):
-        print("status after", status)
         payment.transaction_status = status
         payment.save()
     
@@ -418,7 +411,6 @@ def payu_notify(request):
         membership_instance, created = Membership.objects.get_or_create(user=payment.user)
         membership_dates_update.send(membership_instance, new_date_start=timezone.now())
         messages.success(request, "Your plan has been updated")
-        
     return HttpResponse(status=200)
     
 @login_required

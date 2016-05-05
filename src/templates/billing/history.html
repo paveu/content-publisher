@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<div class='row' style='width: 75%; margin: 0 auto; margin-top: 100px; margin-bottom: 100px;'>
-		<div class='col-sm-10'>
-			<h1>Billing History</h1>
-		</div>
+<div class='row' style='width: 75%; margin: 0 auto; margin-top: 100px; margin-bottom: 100px;'>
+	<div class='col-sm-10'>
+		<h1>Billing History</h1>
+	</div>
 	<div class='col-sm-12'>
 		<h4>Braintree payments history in USD</h4>
 	    <table class='table'>
@@ -25,7 +25,7 @@
 	    </table>
 	</div>
 	<div class='col-sm-12'>
-		<h4>Payu payments history $25 exchanged into PLN(Polish Zloty)</h4>
+		<h4>PayU payments history. $25 exchanged into PLN(Polish Zloty)</h4>
 	    <table class='table'>
 	    <thead>
 	        <th>Order #</th>
@@ -45,6 +45,5 @@
 	    {% endfor %}
 	    </table>
 	</div>
-
-	</div>
+</div>
 {% endblock %}

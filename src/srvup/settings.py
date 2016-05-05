@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import datetime
+from django.core.urlresolvers import reverse
 from .utils import jwt_response_payload_handler
 from billing.usdtopln import exchangeRateUSD
 
@@ -38,6 +39,10 @@ RECENT_COMMENT_NUMBER = 10
 # Application definition
 
 INSTALLED_APPS = (
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
     'django.contrib.admin',
     'django.contrib.auth',
     # https://docs.djangoproject.com/en/1.9/ref/contrib/contenttypes/
@@ -47,6 +52,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'debug_toolbar',
     'crispy_forms',
+    'django.contrib.sites',
     # https://github.com/ottoyiu/django-cors-headers
     # http://www.html5rocks.com/en/tutorials/cors/
     # corsheaders does is not supported for django > 1.8
@@ -58,8 +64,16 @@ INSTALLED_APPS = (
     'comments',
     'notifications',
     'videos',
+    # allauth
+
 )
 
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of 'allauth'
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
@@ -102,6 +116,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'srvup.wsgi.application'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -202,7 +218,6 @@ CORS_ORIGIN_WHITELIST = (
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 TEST_POS_ID = 145227
 TEST_MD5_KEY = '12f071174cb7eb79d4aac5bc2f07563f'
@@ -224,3 +239,35 @@ PAYU_VALIDITY_TIME = 600
 EXCHANGE_RATE = float(exchangeRateUSD()[2]) # sell price
 UNIT_PRICE = 25 # USD
 TOTAL_AMOUNT = int(UNIT_PRICE) * EXCHANGE_RATE
+
+# allauth
+SITE_ID = 1
+
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+LOGIN_REDIRECT_URL = "/"
+
+SOCIALACCOUNT_PROVIDERS = \
+    {'facebook':
+       {'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile', 'user_friends'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time'],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC':  lambda request: 'en_US',
+        'VERIFIED_EMAIL': True,
+        'VERSION': 'v2.4'}}
+

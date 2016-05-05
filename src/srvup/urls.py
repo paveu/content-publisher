@@ -73,6 +73,7 @@ urlpatterns += [
     url(r'^account/login/$', auth_login, name='login'),
     url(r'^account/logout/$', auth_logout, name='logout'),
     url(r'^account/register/$', auth_register, name='register'),
+    url(r'^accounts/', include('allauth.urls')),
 ]
 
 # Comment Thread
@@ -88,8 +89,3 @@ urlpatterns += [
     url(r'^notifications/read/(?P<id>\d+)/$', read, name='notifications_read'),
 ]
 
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns += [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
-    ]
