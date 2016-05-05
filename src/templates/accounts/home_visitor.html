@@ -36,7 +36,11 @@
 				                                    {{ register_form|crispy }}
 				                                    <input class='btn btn-default btn-block btn-large' type='submit' value='Register' />
 				                                </form>
-				                                <a class='btn btn-facebook btn-block' href='/accounts/facebook/login/?process=login'><i class='fa fa-facebook-square' style='color:white;'></i> Join with Facebook</a>
+				                                <br />
+				                                <a class='btn btn-facebook btn-block' href='/accounts/facebook/login/?process=login'>
+					                             <button type="button" class='btn btn-default btn-block btn-large btn-primary' class='fa fa-facebook-square' >
+				                                		<i class='fa fa-facebook-square' style='color:white;'></i> Join with Facebook
+				                                </button></a>
 				                                <br />
 				                                <p>By registering you agree to our <a href='#'>terms</a></p>
 				                          </div>
@@ -50,7 +54,12 @@
 				                                    {{ login_form|crispy }}
 				                                    <input class='btn btn-default btn-block btn-large' type='submit' value='Login' />
 				                                </form>
-				                                <a href='/accounts/facebook/login/?process=login' class="btn btn-facebook btn-block">Facebook Login <i class="fa fa-facebook-square" style='color:white;'></i></a>
+				                                <br />
+				                                <a class='btn btn-facebook btn-block' href='/accounts/facebook/login/?process=login'>
+					                                <button type="button" class='btn btn-default btn-block btn-large btn-primary' class='fa fa-facebook-square' >
+					                                		<i class='fa fa-facebook-square' style='color:white;'></i> Log in with Facebook
+					                                </button>
+				                                </a>
 				                          </div>
 				                	</div>
 				               </div>
