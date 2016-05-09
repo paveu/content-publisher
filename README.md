@@ -65,6 +65,11 @@ $ python manage.py migrate
 $ python manage.py createsuperuser
 $ python manage.py collectstatic
 $ python manage.py runserver
+
+In order to get project running please add Facebook SocialApp to the the Django admin
+1) Go to admin page and click at Sites
+2) DO NOT REMOVE example.com, just edit example.com row and put there your current project domain name
+3) click save
 ```
 
 License
