@@ -3,17 +3,16 @@
 content-publisher is a project for selling out video content. All videos we sell are hosted on an external servers(wistia.com) and their links are emebed to a form as a iframe html code. After we embed it as a video object we can cover it with a description and comments. If a user drop a comment we get notifcation. Braintree payment is used to pay for an access to premium videos(restricted to those who buy premium membership). 
 
 ### Project features
-  - django 1.9.5
+  - Django 1.9.5
   - full REST API for category, video and comment models
-  - braintree payments
+  - braintree and payu system implemented
+  - OAuth2 (signing in via facebook auth) implemented
   - full payment transaction history
   - vimeo and youtube, wistia
   - videos can be commented
   - notification system
 
 ### Todos
-  - OAuth2 (facebook, twitter, linkedin)
-  - payu payments
   - improving registration system (adding email activation system)
   - covering all models along with payment system with unit-tests
   - function testing wiyh selenium
@@ -23,10 +22,10 @@ content-publisher is a project for selling out video content. All videos we sell
   - fixing comment thread, add bootstrap
   - braintree tutorial for those who wants to run it in production mode
   - add automatic resize and compress images with PIL
-  - add django debug toolbar
+  - [DONE] add django debug toolbar
  
 ### Version
-* version: 1.1
+* version: 1.2
 * project started in 08/may/2015.
 
 ### Tech
@@ -35,6 +34,9 @@ content-publisher uses a number of open source projects to work properly:
 * [braintree] - Payment system, ver: 3.25.0
 * [colorama] - Cross-platform colored terminal text, ver: 0.3.7
 * [Django] - The Web framework for perfectionists with deadlines, ver: 1.9.5
+* [django-allauth] - Integrated set of Django applications addressing authentication, registration, account management as well as 3rd party (social) account authentication, ver: 0.25.2
+* [django-debug-toolbar] - The Django Debug Toolbar is a configurable set of panels that display various debug information about the current request/response and when clicked, display more details about the panel's content, ver: 1.4
+* [django-ipware] - Best attempt to get user's (client's) real ip-address while keeping it DRY, ver: 1.1.5
 * [django-cors-headers] - A Django App that adds CORS (Cross-Origin Resource Sharing) headers to responses, ver: 1.1.0
 * [django-crispy-forms] - Better formatted form template, ver: 1.6.0
 * [django-filter] - Django-filter provides a simple way to filter down a queryset based on parameters a user provides, ver: 0.13.0
