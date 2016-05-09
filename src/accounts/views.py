@@ -80,3 +80,4 @@ def auth_register(request):
                "submit_btn": submit_btn,
                }
     return render(request, "accounts/account_login_register.html", context)
+

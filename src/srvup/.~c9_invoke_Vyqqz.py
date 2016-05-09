@@ -34,6 +34,8 @@ FULL_DOMAIN_NAME = 'https://content-publisher-pawelste.c9users.io'
 
 AUTH_USER_MODEL = 'accounts.MyUser'
 
+RECENT_COMMENT_NUMBER = 10
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -113,8 +115,6 @@ TEMPLATES = [
     },
 ]
 
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
-
 WSGI_APPLICATION = 'srvup.wsgi.application'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -161,8 +161,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-RECENT_COMMENT_NUMBER = 10
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
@@ -178,7 +176,10 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static_root")
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "media")
 
-
+# braintree info
+BRAINTREE_MERCHANT_ID = "v35fphbvqtvrp35k"
+BRAINTREE_PUBLIC_KEY = "kkhkgx4bmkswv5yp"
+BRAINTREE_PRIVATE_KEY = "7d8e596cb7ebe43e843ef95e9e068fa6"
 
 # Django-rest-framework-JWT for tokenzing an access to serializers
 REST_FRAMEWORK = {
@@ -215,8 +216,31 @@ CORS_ORIGIN_WHITELIST = (
     'localhost',
 )
 
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-# ALLAUTH SECTION
+
+TEST_POS_ID = 145227
+TEST_MD5_KEY = '12f071174cb7eb79d4aac5bc2f07563f'
+TEST_SECOND_MD5_KEY = '13a980d4f851f3d9a1cfc792fb1f5e50'
+AUTHORIZATION = '3e5cac39-7e38-4139-8fd6-30adc06a61bd'
+
+# Your POS ID. If not provided the test payment value will be used.
+PAYU_POS_ID = ''
+
+# Your MD5 key. If not provided the test payment value will be used.
+PAYU_MD5_KEY = ''
+
+# Your second MD5 key. If not provided the test payment value will be used.
+PAYU_SECOND_MD5_KEY = ''
+
+# Payment validity time (in seconds), after which it's canceled, if user did not take action. If not provided 600 will be used.
+PAYU_VALIDITY_TIME = 600
+
+EXCHANGE_RATE = float(exchangeRateUSD()[2]) # sell price
+UNIT_PRICE = 25 # USD
+TOTAL_AMOUNT = int(UNIT_PRICE) * EXCHANGE_RATE
+
+# allauth SECTION
 SITE_ID = 1
 
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
@@ -247,31 +271,4 @@ SOCIALACCOUNT_PROVIDERS = \
         'VERIFIED_EMAIL': True,
         'VERSION': 'v2.4'
        }}
-# ACCOUNT_ADAPTER = 'accounts.adapter.MyAccountAdapter'
 
-### PAYMENT PAYU SECTION
-TEST_POS_ID = 145227
-TEST_MD5_KEY = '12f071174cb7eb79d4aac5bc2f07563f'
-TEST_SECOND_MD5_KEY = '13a980d4f851f3d9a1cfc792fb1f5e50'
-AUTHORIZATION = '3e5cac39-7e38-4139-8fd6-30adc06a61bd'
-
-# Your POS ID. If not provided the test payment value will be used.
-PAYU_POS_ID = ''
-
-# Your MD5 key. If not provided the test payment value will be used.
-PAYU_MD5_KEY = ''
-
-# Your second MD5 key. If not provided the test payment value will be used.
-PAYU_SECOND_MD5_KEY = ''
-
-# Payment validity time (in seconds), after which it's canceled, if user did not take action. If not provided 600 will be used.
-PAYU_VALIDITY_TIME = 600
-
-EXCHANGE_RATE = float(exchangeRateUSD()[2]) # sell price
-UNIT_PRICE = 25 # USD
-TOTAL_AMOUNT = int(UNIT_PRICE) * EXCHANGE_RATE
-
-# braintree info
-BRAINTREE_MERCHANT_ID = "v35fphbvqtvrp35k"
-BRAINTREE_PUBLIC_KEY = "kkhkgx4bmkswv5yp"
-BRAINTREE_PRIVATE_KEY = "7d8e596cb7ebe43e843ef95e9e068fa6"

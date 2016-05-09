@@ -15,7 +15,9 @@
 		</form>
         <br />
         {% if title == 'Login' %}
-	        <p align="center">If created an account with Facebook then use below button</p>
+	        <p align="center">If you want to sign up then click <a href="{% url 'register' %}">here</a> or if you want to recover your password click <a href="">here</a> </p>
+			<br />
+	        <p align="center">If you want to log in with Facebook account then use below button</p>
 	        <a class='btn btn-facebook btn-block' href='{% provider_login_url "facebook" method="oauth2" %}'>
 	            <button type="button" class='btn btn-default btn-block btn-large btn-primary' class='fa fa-facebook-square' >
 	            		<i class='fa fa-facebook-square' style='color:white;'></i> Log in with Facebook
