@@ -275,3 +275,12 @@ TOTAL_AMOUNT = int(UNIT_PRICE) * EXCHANGE_RATE
 BRAINTREE_MERCHANT_ID = "v35fphbvqtvrp35k"
 BRAINTREE_PUBLIC_KEY = "kkhkgx4bmkswv5yp"
 BRAINTREE_PRIVATE_KEY = "7d8e596cb7ebe43e843ef95e9e068fa6"
+
+def show_toolbar(request):
+    if not request.is_ajax() and request.user and request.user.username == "paveu":
+        return True
+    return False
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': 'srvup.settings.show_toolbar'
+}
