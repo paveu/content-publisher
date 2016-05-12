@@ -2,6 +2,8 @@
 
 content-publisher is a project for selling out video content. All videos we sell are hosted on an external servers(wistia.com) and their links are emebed to a form as a iframe html code. After we embed it as a video object we can cover it with a description and comments. If a user drop a comment we get notifcation. Braintree payment is used to pay for an access to premium videos(restricted to those who buy premium membership). 
 
+[http://content-publisher-pro.herokuapp.com](http://content-publisher-pro.herokuapp.com/)
+
 ### Project features
   - Django 1.9.5
   - full REST API for category, video and comment models
