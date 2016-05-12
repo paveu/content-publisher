@@ -23,6 +23,10 @@ content-publisher is a project for selling out video content. All videos we sell
   - braintree tutorial for those who wants to run it in production mode
   - add automatic resize and compress images with PIL
   - [DONE] add django debug toolbar
+  - https://requires.io/plans/
+  - https://coveralls.io
+  - https://docs.travis-ci.com/user/status-images/
+  - http://shields.io/ (reelase image)
  
 ### Version
 * version: 1.2

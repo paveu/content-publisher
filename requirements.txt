@@ -16,3 +16,8 @@ Pygments==2.0.2
 PyJWT==1.4.0
 requests==2.9.1
 xmltodict==0.10.1
+dj-database-url #heroku 
+dj-static #heroku
+django-toolbelt #heroku
+gunicorn #heroku
+psycopg2 #heroku
