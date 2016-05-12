@@ -21,4 +21,5 @@ dj-static #heroku
 django-toolbelt #heroku
 gunicorn #heroku
 psycopg2 #heroku
+redis # for django session caching
 django-redis-cache #for django session caching

@@ -75,7 +75,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware', #redis session caching
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -89,7 +89,7 @@ MIDDLEWARE_CLASSES = (
     # corsheaders does is not supported for django > 1.8
     'corsheaders.middleware.CorsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',#redis session caching
 )
 
 ROOT_URLCONF = 'srvup.urls'
@@ -293,10 +293,12 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': 'srvup.settings.show_toolbar'
 }
 
+# #redis session caching
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.RedisCache',
         'LOCATION': '/var/run/redis/redis.sock',
     },
 }
+#redis session caching
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
