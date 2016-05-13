@@ -2,17 +2,18 @@
 
 content-publisher is a project for selling out video content. All videos we sell are hosted on an external servers(wistia.com) and their links are emebed to a form as a iframe html code. After we embed it as a video object we can cover it with a description and comments. If a user drop a comment we get notifcation. Braintree payment is used to pay for an access to premium videos(restricted to those who buy premium membership). 
 
-[http://content-publisher-pro.herokuapp.com](http://content-publisher-pro.herokuapp.com/)
+Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.com](http://content-publisher-pro.herokuapp.com/)
 
 ### Project features
   - Django 1.9.5
   - full REST API for category, video and comment models
-  - braintree and payu system implemented
+  - Braintree and PayU systems implemented
   - OAuth2 (signing in via facebook auth) implemented
   - full payment transaction history
   - vimeo and youtube, wistia
   - videos can be commented
   - notification system
+  - posibility to host project source code on heroku with static and media files on AWS S3 bucket
 
 ### Todos
   - improving registration system (adding email activation system)
@@ -24,7 +25,6 @@ content-publisher is a project for selling out video content. All videos we sell
   - fixing comment thread, add bootstrap
   - braintree tutorial for those who wants to run it in production mode
   - add automatic resize and compress images with PIL
-  - [DONE] add django debug toolbar
   - https://requires.io/plans/
   - https://coveralls.io
   - https://docs.travis-ci.com/user/status-images/
@@ -63,30 +63,31 @@ content-publisher uses a number of open source projects to work properly:
 1. Create a Python 2.7 virtualenv
 2. Install latest pip package
 3. Inside virtualenv perform following commands:
-
+NOTE #1: If you're running project locally then Redis-server must be running with socket left in '/var/run/redis/redis.sock'
+NOTE #2: If you're running project on heroku then Redis and postgress plugins must be set on
+NOTE #3: Three environment variables must be set in your shell to get project up and running:
 ```sh
-ATTENTION #1: Redis-server must be running with socket left in '/var/run/redis/redis.sock'
-ATTENTION #2: Three environment variables must be set in your shell to get it up and running:
-    export AWS_ACCESS_KEY_ID=''
-    export AWS_SECRET_ACCESS_KEY=''
-    export DJANGO_SECRET_KEY='openssl rand -base64 64'
+export AWS_ACCESS_KEY_ID='' # put here AWS AWS_ACCESS_KEY_ID setting
+export AWS_SECRET_ACCESS_KEY='' #  put here AWS AWS_SECRET_ACCESS_KEY setting
+export DJANGO_SECRET_KEY='openssl rand -base64 64' # generate new secret for django project
+```
 
 If you have set up above vars then type following commands:
-    $ git clone https://github.com/paveu/content-publisher.git tmp && mv tmp/.git . && rm -rf tmp && git reset --hard
-    $ sudo pip install -r requirements.txt
-    $ cd src
-    $ python manage.py makemigrations
-    $ python manage.py migrate
-    $ python manage.py createsuperuser
-    $ python manage.py collectstatic
-    $ python manage.py runserver
-
-In order to get project running please add Facebook SocialApp to the the Django admin
+```sh
+$ git clone https://github.com/paveu/content-publisher.git tmp && mv tmp/.git . && rm -rf tmp && git reset --hard
+$ sudo pip install -r requirements.txt
+$ cd src
+$ python manage.py makemigrations
+$ python manage.py migrate
+$ python manage.py createsuperuser
+$ python manage.py collectstatic
+$ python manage.py runserver
+```
+NOTE #4: In order to get project running please add Facebook SocialApp to the the Django admin
 1) Go to admin page and click at Sites
 2) DO NOT REMOVE example.com, just edit example.com row and put there your current project domain name
 3) click save
-```
-
+    
 License
 ----
 
