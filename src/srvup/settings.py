@@ -31,7 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-FULL_DOMAIN_NAME = 'https://content-publisher-pawelste.c9users.io'
+FULL_DOMAIN_NAME = 'http://content-publisher-pro.herokuapp.com'
 
 AUTH_USER_MODEL = 'accounts.MyUser'
 
@@ -125,18 +125,18 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 # DATABASE SETTINGS FOR HEROKU
-# DATABASES = {
-#     'default': dj_database_url.config()
-# }
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# # DATABASES = {
+# #     'default': dj_database_url.config()
+# # }
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -278,25 +278,25 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 # REDIS SETTINGS FOR HEROKU
-# redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
-# CACHES = {
-#     "default": {
-#          "BACKEND": "redis_cache.RedisCache",
-#          "LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
-#          "OPTIONS": {
-#              "PASSWORD": redis_url.password,
-#              "DB": 0,
-#          }
-#     }
-# }
+redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
+CACHES = {
+    "default": {
+         "BACKEND": "redis_cache.RedisCache",
+         "LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
+         "OPTIONS": {
+             "PASSWORD": redis_url.password,
+             "DB": 0,
+         }
+    }
+}
 
 # #redis session caching
-CACHES = {
-    'default': {
-        'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': '/var/run/redis/redis.sock',
-    },
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'redis_cache.RedisCache',
+#         'LOCATION': '/var/run/redis/redis.sock',
+#     },
+# }
 #redis session caching
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
