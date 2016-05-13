@@ -60,12 +60,14 @@ content-publisher uses a number of open source projects to work properly:
 
 ### Installation
 
-1. Create a Python 2.7 virtualenv
-2. Install latest pip package
-3. Inside virtualenv perform following commands:
-NOTE #1: If you're running project locally then Redis-server must be running with socket left in '/var/run/redis/redis.sock'
-NOTE #2: If you're running project on heroku then Redis and postgress plugins must be set on
+NOTE #1: If you're running project locally then Redis-server must be running with socket left in '/var/run/redis/redis.sock'.
+NOTE #2: If you're running project on heroku then Redis and postgress plugins must be set on.
 NOTE #3: Three environment variables must be set in your shell to get project up and running:
+
+1. Create a Python 2.7 virtualenv
+2. 2. Install latest pip package
+3. 3. Inside virtualenv perform following commands:
+
 ```sh
 export AWS_ACCESS_KEY_ID='' # put here AWS AWS_ACCESS_KEY_ID setting
 export AWS_SECRET_ACCESS_KEY='' #  put here AWS AWS_SECRET_ACCESS_KEY setting
@@ -83,11 +85,12 @@ $ python manage.py createsuperuser
 $ python manage.py collectstatic
 $ python manage.py runserver
 ```
-NOTE #4: In order to get project running please add Facebook SocialApp to the the Django admin
-1) Go to admin page and click at Sites
-2) DO NOT REMOVE example.com, just edit example.com row and put there your current project domain name
-3) click save
-    
+NOTE #4: In order to get the project running please add Facebook SocialApp to the the Django admin. Do following steps:
+1) Go to admin page and click at Sites.
+2) DO NOT REMOVE example.com, just edit example.com row and put there your current project domain name.
+3) click save.
+4) go to 'Social applications' tab and fill in facebook authentication keys. Those keys can be found in facebook developer page.
+
 License
 ----
 
