@@ -23,5 +23,6 @@ gunicorn #heroku
 psycopg2 #heroku
 redis # for django session caching
 django-redis-cache #for django session caching
-django-storages # aws S3 media files handler
 boto # for getting an access to aws
+#django-storages # old aws S3 media files handler
+django-storages-redux # aws S3 media files handler

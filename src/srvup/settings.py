@@ -25,8 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@2z()p72dkah2nnzdwi@j@5p85w7fa0tb%ebio^m5qh3^cfeeu'
-
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -126,15 +125,17 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 DATABASES = {
-    'default': dj_database_url.config()
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
+
+# DATABASE SETTINGS FOR HEROKU
+# DATABASES = {
+#     'default': dj_database_url.config()
+# }
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Password validation
@@ -169,21 +170,6 @@ USE_L10N = True
 USE_TZ = True
 
 RECENT_COMMENT_NUMBER = 10
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
-
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    os.path.join(os.path.dirname(BASE_DIR), "static", "static_dirs"),
-    # '/var/www/static/',
-)
-
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static_root")
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "media")
 
 
 
@@ -291,32 +277,53 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': 'srvup.settings.show_toolbar'
 }
 
-redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
-CACHES = {
-    "default": {
-         "BACKEND": "redis_cache.RedisCache",
-         "LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
-         "OPTIONS": {
-             "PASSWORD": redis_url.password,
-             "DB": 0,
-         }
-    }
-}
-
-# # #redis session caching
+# REDIS SETTINGS FOR HEROKU
+# redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
 # CACHES = {
-#     'default': {
-#         'BACKEND': 'redis_cache.RedisCache',
-#         'LOCATION': '/var/run/redis/redis.sock',
-#     },
+#     "default": {
+#          "BACKEND": "redis_cache.RedisCache",
+#          "LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
+#          "OPTIONS": {
+#              "PASSWORD": redis_url.password,
+#              "DB": 0,
+#          }
+#     }
 # }
+
+# #redis session caching
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': '/var/run/redis/redis.sock',
+    },
+}
 #redis session caching
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
-# # AWS S3 media handler
-# AWS_QUERYSTRING_AUTH = False
-# AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-# AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-# AWS_STORAGE_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
-# MEDIA_URL = 'http://%s.s3.amazonaws.com/your-folder/' % AWS_STORAGE_BUCKET_NAME
-# DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
+## AWS S3 STATIC AND MEDIA HANDLER
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+AWS_REGION = 'eu-central-1' # Endpoint: cp-media-static-bucket.s3-website.eu-central-1.amazonaws.com
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = 'cp-media-static-bucket'
+AWS_S3_CALLING_FORMAT = "boto.s3.connection.OrdinaryCallingFormat"
+AWS_PRELOAD_METADATA = True
+
+if AWS_STORAGE_BUCKET_NAME:
+    STATIC_URL = 'https://s3-%s.amazonaws.com/%s/static/' % (AWS_REGION, AWS_STORAGE_BUCKET_NAME)
+    MEDIA_URL = 'https://s3-%s.amazonaws.com/%s/media/' % (AWS_REGION, AWS_STORAGE_BUCKET_NAME)
+    STATICFILES_STORAGE = 'srvup.customstorages.StaticStorage'
+    DEFAULT_FILE_STORAGE = 'srvup.customstorages.MediaStorage'
+    STATICFILES_LOCATION = 'static'  # name of folder within bucket
+    MEDIAFILES_LOCATION = 'media'    # name of folder within bucket
+else:
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
+
+MEDIA_URL = os.environ.get('MEDIA_URL', MEDIA_URL)
+STATIC_URL = os.environ.get('STATIC_URL', STATIC_URL)
+
+STATICFILES_DIRS = (
+    os.path.join(os.path.dirname(BASE_DIR), "static", "static_dirs"),
+    # '/var/www/static/',
+)
