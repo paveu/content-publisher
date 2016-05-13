@@ -65,14 +65,21 @@ content-publisher uses a number of open source projects to work properly:
 3. Inside virtualenv perform following commands:
 
 ```sh
-$ git clone https://github.com/paveu/content-publisher.git tmp && mv tmp/.git . && rm -rf tmp && git reset --hard
-$ sudo pip install -r requirements.txt
-$ cd src
-$ python manage.py makemigrations
-$ python manage.py migrate
-$ python manage.py createsuperuser
-$ python manage.py collectstatic
-$ python manage.py runserver
+ATTENTION #1: Redis-server must be running with socket left in '/var/run/redis/redis.sock'
+ATTENTION #2: Three environment variables must be set in your shell to get it up and running:
+    export AWS_ACCESS_KEY_ID=''
+    export AWS_SECRET_ACCESS_KEY=''
+    export DJANGO_SECRET_KEY='openssl rand -base64 64'
+
+If you have set up above vars then type following commands:
+    $ git clone https://github.com/paveu/content-publisher.git tmp && mv tmp/.git . && rm -rf tmp && git reset --hard
+    $ sudo pip install -r requirements.txt
+    $ cd src
+    $ python manage.py makemigrations
+    $ python manage.py migrate
+    $ python manage.py createsuperuser
+    $ python manage.py collectstatic
+    $ python manage.py runserver
 
 In order to get project running please add Facebook SocialApp to the the Django admin
 1) Go to admin page and click at Sites

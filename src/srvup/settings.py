@@ -26,12 +26,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
+
 
 ALLOWED_HOSTS = ['*']
 
-FULL_DOMAIN_NAME = 'http://content-publisher-pro.herokuapp.com'
 
 AUTH_USER_MODEL = 'accounts.MyUser'
 
@@ -110,7 +109,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.messages.context_processors.messages',
             ],
-            'debug': DEBUG,
         },
        'DIRS': [os.path.join(BASE_DIR, "templates")],
     },
@@ -121,22 +119,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 WSGI_APPLICATION = 'srvup.wsgi.application'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-# Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
-#DATABASE SETTINGS FOR HEROKU
-DATABASES = {
-    'default': dj_database_url.config()
-}
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -170,8 +152,6 @@ USE_L10N = True
 USE_TZ = True
 
 RECENT_COMMENT_NUMBER = 10
-
-
 
 # Django-rest-framework-JWT for tokenzing an access to serializers
 REST_FRAMEWORK = {
@@ -277,26 +257,7 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': 'srvup.settings.show_toolbar'
 }
 
-# REDIS SETTINGS FOR HEROKU
-redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
-CACHES = {
-    "default": {
-         "BACKEND": "redis_cache.RedisCache",
-         "LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
-         "OPTIONS": {
-             "PASSWORD": redis_url.password,
-             "DB": 0,
-         }
-    }
-}
 
-# #redis session caching
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'redis_cache.RedisCache',
-#         'LOCATION': '/var/run/redis/redis.sock',
-#     },
-# }
 #redis session caching
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
@@ -325,5 +286,47 @@ STATIC_URL = os.environ.get('STATIC_URL', STATIC_URL)
 
 STATICFILES_DIRS = (
     os.path.join(os.path.dirname(BASE_DIR), "static", "static_dirs"),
-    # '/var/www/static/',
 )
+
+# REDIS AND DATABASE SETTINGS FOR HEROKU
+# redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
+# CACHES = {
+#     "default": {
+#          "BACKEND": "redis_cache.RedisCache",
+#          "LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
+#          "OPTIONS": {
+#              "PASSWORD": redis_url.password,
+#              "DB": 0,
+#          }
+#     }
+# }
+
+# DATABASES = {
+#     'default': dj_database_url.config()
+# }
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = False
+# FULL_DOMAIN_NAME = 'http://content-publisher-pro.herokuapp.com'
+
+# REDIS SESSION CACHING AND DATABASE SETTINGS FOR LOCAL DEV
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': '/var/run/redis/redis.sock',
+    },
+}
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+FULL_DOMAIN_NAME = 'https://content-publisher-pawelste.c9users.io/'
+
+#TODO: DO NOT USE AWS S3 Bucket for local development, use different approach
