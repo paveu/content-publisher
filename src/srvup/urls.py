@@ -70,9 +70,9 @@ urlpatterns += [
 # auth login/logout/register
 urlpatterns += [
     url(r'^account/home/$', account_home, name='account_home'),
-    url(r'^account/login/$', auth_login, name='login'),
-    url(r'^account/logout/$', auth_logout, name='logout'),
-    url(r'^account/register/$', auth_register, name='register'),
+    # url(r'^account/login/$', auth_login, name='login'),
+    # url(r'^account/logout/$', auth_logout, name='logout'),
+    # url(r'^account/register/$', auth_register, name='register'),
     url(r'^accounts/', include('allauth.urls')),
 ]
 

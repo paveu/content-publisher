@@ -115,7 +115,19 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 WSGI_APPLICATION = 'srvup.wsgi.application'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ['EMAIL_USERNAME']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_PASSWORD']
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+#from django.conf import settings
+#from django.core.mail import send_mail
+#send_mail('Subject here', 'Here is the message.', settings.EMAIL_HOST_USER,
+#         ['to@example.com'], fail_silently=False)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -193,6 +205,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 LOGIN_REDIRECT_URL = "/"
+SOCIALACCOUNT_EMAIL_VERIFICATION = True
 
 SOCIALACCOUNT_PROVIDERS = \
     {'facebook':
@@ -250,15 +263,6 @@ def show_toolbar(request):
         return True
     return False
 
-DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': 'srvup.settings.show_toolbar'
-}
-
-
-#redis session caching
-SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
-
-
 if os.environ.get("CONFIG_ENV") == 'prod' or os.environ.get("CONFIG_ENV") == 'stage':
     ## AWS S3 STATIC AND MEDIA HANDLER
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
@@ -286,7 +290,9 @@ if os.environ.get("CONFIG_ENV") == 'prod' or os.environ.get("CONFIG_ENV") == 'st
     STATICFILES_DIRS = (
         os.path.join(os.path.dirname(BASE_DIR), "static", "static_dirs"),
     )
-
+    #redis session caching
+    SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+    
     # REDIS AND DATABASE SETTINGS FOR HEROKU
     redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
     CACHES = {
@@ -308,7 +314,14 @@ if os.environ.get("CONFIG_ENV") == 'prod' or os.environ.get("CONFIG_ENV") == 'st
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
     FULL_DOMAIN_NAME = 'http://content-publisher-pro.herokuapp.com'
+
 elif os.environ.get("CONFIG_ENV") == 'local':
+
+    
+    DEBUG_TOOLBAR_CONFIG = {
+        'SHOW_TOOLBAR_CALLBACK': 'srvup.settings.show_toolbar'
+    }
+
     # REDIS SESSION CACHING AND DATABASE SETTINGS FOR LOCAL DEV
     
     # CACHES = {
@@ -340,4 +353,3 @@ elif os.environ.get("CONFIG_ENV") == 'local':
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "media")
 
-    #TODO: DO NOT USE AWS S3 Bucket for local development, use different approach

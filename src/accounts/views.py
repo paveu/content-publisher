@@ -41,19 +41,9 @@ def auth_login(request):
             login(request, user)
             return HttpResponseRedirect('/')
 
-    action_url = reverse("login")
-    title = "Login"
-    submit_btn = title
-    submit_btn_class = "btn-success btn-block"
-    extra_form_link = "Upgrade your account today! <a href='%s'>here</a>" % (reverse("braintree_upgrade"))
     context = {"form": form,
-               "action_url": action_url,
-               "title": title,
-               "submit_btn": submit_btn,
-               "submit_btn_class": submit_btn_class,
-               "extra_form_link": extra_form_link,
                }
-    return render(request, "accounts/account_login_register.html", context)
+    return render(request, "accounts/account_login.html", context)
 
 
 def auth_register(request):
@@ -71,13 +61,7 @@ def auth_register(request):
         new_user.save()
 
     action_url = reverse("register")
-    title = "Register"
-    submit_btn = "Create free account"
-
     context = {"form": form,
-               "action_url": action_url,
-               "title": title,
-               "submit_btn": submit_btn,
                }
-    return render(request, "accounts/account_login_register.html", context)
+    return render(request, "accounts/account_register.html", context)
 

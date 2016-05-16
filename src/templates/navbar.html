@@ -27,10 +27,10 @@
               {% endif %}
               <li><a href="{% url 'account_home' %}">ACCOUNT</a></li>
               <li><a href="{% url 'account_upgrade' %}">EXTEND MEMBERSHIP</a></li>
-              <li><a href="{% url 'logout' %}">SIGN OUT</a></li>
+              <li><a href="{% url 'account_logout' %}">SIGN OUT</a></li>
             {% else %}
-              <li><a href="{% url 'register' %}">REGISTER</a></li>
-              <li><a href="{% url 'login' %}">SIGN IN</a></li>
+              <li><a href="{% url 'account_signup' %}">REGISTER</a></li>
+              <li><a href="{% url 'account_login' %}">SIGN IN</a></li>
             {% endif %}
               <li><a href="{% url 'contact_us' %}">CONTACT</a></li>
 

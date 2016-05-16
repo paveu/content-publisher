@@ -44,7 +44,7 @@ $ export AWS_SECRET_ACCESS_KEY='' #  put here AWS AWS_SECRET_ACCESS_KEY setting
 $ export DJANGO_SECRET_KEY='' # generate new secret key for django project. you can use following command: openssl rand -base64 64
 ```
 
-* NOTE #3: Create an account at gmail.com and allow it to send email from external sources. Project uses gmail account to send emails so please fill in following linux env variables:
+* NOTE #3: Create an account at gmail.com and go to google email and check "turning on access for less secure apps"[link](https://support.google.com/accounts/answer/6010255). Project uses gmail account to send emails so please fill in following linux env variables:
 ```sh
 $ export EMAIL_USERNAME='' 
 $ export EMAIL_PASSWORD=''

@@ -32,7 +32,7 @@
 				                <div role="tabpanel" class="tab-pane active" id="register">
 				                    <div class="panel panel-jumbotron panel-default">
 				                          <div class="panel-body">
-				                                <form method='POST' action='{% url "register" %}'>{% csrf_token %}
+				                                <form method='POST' action="{% url 'account_signup' %}">{% csrf_token %}
 				                                    {{ register_form|crispy }}
 				                                    <input class='btn btn-default btn-block btn-large btn-success' type='submit' value='Register' />
 				                                </form>
@@ -49,11 +49,11 @@
 				                <div role="tabpanel" class="tab-pane" id="login">
 				                    <div class="panel panel-jumbotron panel-default ">
 				                          <div class="panel-body">
-				                                <form method='POST' action='{% url "login" %}'>{% csrf_token %}
+				                                <form method='POST' action="{% url 'account_login' %}">{% csrf_token %}
 				                                    {{ login_form|crispy }}
 				                                    <input class='btn btn-default btn-block btn-large btn-success' type='submit' value='Login' />
 				                                </form>
-				                                <p align="center">If you want to recover your password click <a href="">here</a> </p>
+				                                <p align="center">If you want to recover your password click <a href="{% url 'account_reset_password' %}">here</a></p>
 				                                <p align="center">If created an account with Facebook then use below button</p>
 				                                <a class='btn btn-facebook btn-block' href='{% provider_login_url "facebook" method="oauth2" %}'>
 					                                <button type="button" class='btn btn-default btn-block btn-large btn-primary' class='fa fa-facebook-square' >
