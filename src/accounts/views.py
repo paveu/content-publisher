@@ -19,7 +19,7 @@ def account_home(request):
     braintreeHistory = Transaction.objects.get_recent_for_user(request.user, 3)
     payuHistory = TransactionPayu.objects.get_recent_for_user(request.user, 3)
     
-    return render(request, "accounts/account_home.html", {"braintreeHistory": braintreeHistory, 
+    return render(request, "account/account_home.html", {"braintreeHistory": braintreeHistory, 
                                                     "payuHistory": payuHistory,
                                                     "notifications": notifications
     })

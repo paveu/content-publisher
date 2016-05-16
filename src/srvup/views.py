@@ -78,7 +78,7 @@ def home(request):
                    "recent_comments": recent_comments,
                    "popular_videos": popular_videos,
                    }
-        template = "accounts/home_logged_in.html"
+        template = "account/home_logged_in.html"
     else:
         latest_vids = Video.objects.order_by('-pk')
         # If visitor is not logged in then:
@@ -93,6 +93,6 @@ def home(request):
                 "featured_videos": featured_videos,
                 "featured_categories": featured_categories,
                    }
-        template = "accounts/home_visitor.html"
+        template = "account/home_visitor.html"
     return render(request, template, context)
 
