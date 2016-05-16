@@ -34,7 +34,55 @@ Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.co
 * version: 1.2
 * project started in 08/may/2015.
 
-### Tech
+### Setting up config variables and plugins
+
+* NOTE #1: If you're running project on heroku then Redis and postgres plugins must be enabled.
+* NOTE #2: Three environment variables must be set in your shell to get project up and running:
+```sh
+$ export AWS_ACCESS_KEY_ID='' # put here AWS AWS_ACCESS_KEY_ID setting
+$ export AWS_SECRET_ACCESS_KEY='' #  put here AWS AWS_SECRET_ACCESS_KEY setting
+$ export DJANGO_SECRET_KEY='' # generate new secret key for django project. you can use following command: openssl rand -base64 64
+```
+
+* NOTE #3: Create an account at gmail.com and allow it to send email from external sources. Project uses gmail account to send emails so please fill in following linux env variables:
+```sh
+$ export EMAIL_USERNAME='' 
+$ export EMAIL_PASSWORD=''
+```
+
+* NOTE #4: You will have to define main config enviroment for local, prod:
+```sh
+$ export CONFIG_ENV='local' # for local development
+```
+or
+```sh
+$ export CONFIG_ENV='prod' # mainly used for heroku production, please add it to heroku env vars
+```
+
+### Local Installation
+
+1. Create a Python 2.7 virtualenv
+2. Install latest pip package
+3. Inside virtualenv perform following commands:
+
+If you have set up above vars then type following commands:
+```sh
+$ git clone https://github.com/paveu/content-publisher.git tmp && mv tmp/.git . && rm -rf tmp && git reset --hard
+$ sudo pip install -r requirements.txt
+$ cd src
+$ python manage.py makemigrations
+$ python manage.py migrate
+$ python manage.py createsuperuser
+$ python manage.py collectstatic
+$ python manage.py runserver
+```
+* NOTE #4: In order to get the project running please add Facebook SocialApp to the the Django admin. Do following steps:
+1. Go to admin page and click at Sites.
+2. DO NOT REMOVE example.com, just edit example.com row and put there your current project domain name.
+3. Click save.
+4. Go to 'Social applications' tab and fill in facebook authentication keys. Those keys can be found in facebook developer page.
+
+### External libraries used in the project
 content-publisher uses a number of open source projects to work properly:
 
 * [braintree] - Payment system, ver: 3.25.0
@@ -57,51 +105,6 @@ content-publisher uses a number of open source projects to work properly:
 * [Bootstrap] - is the most popular HTML, CSS, and JS framework for developing responsive, mobile first projects on the web, ver: 3.1.1
 * [jQuery] -  is a fast, small, and feature-rich JavaScript library. It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers ver: 1.11.0
 
-
-### Installation
-
-NOTE #1: If you're running project on heroku then Redis and postgress plugins must be enabled.
-NOTE #2: Three environment variables must be set in your shell to get project up and running:
-```sh
-export AWS_ACCESS_KEY_ID='' # put here AWS AWS_ACCESS_KEY_ID setting
-export AWS_SECRET_ACCESS_KEY='' #  put here AWS AWS_SECRET_ACCESS_KEY setting
-export DJANGO_SECRET_KEY='openssl rand -base64 64' # generate new secret for django project
-```
-
-NOTE #3: Create an account at gmail.com and allow it to send email from external sources. Project uses gmail account to send emails so please fill in following linux env variables:
-```sh
-export EMAIL_USERNAME='' 
-export EMAIL_PASSWORD=''
-```
-
-NOTE #4: You will have to define main config enviroment for local, prod:
-```sh
-export CONFIG_ENV='local' # for local development
-```
-or
-```sh
-export CONFIG_ENV='prod' # mainly used for heroku production, please add it to heroku env vars
-```
-1. Create a Python 2.7 virtualenv
-2. Install latest pip package
-3. Inside virtualenv perform following commands:
-
-If you have set up above vars then type following commands:
-```sh
-$ git clone https://github.com/paveu/content-publisher.git tmp && mv tmp/.git . && rm -rf tmp && git reset --hard
-$ sudo pip install -r requirements.txt
-$ cd src
-$ python manage.py makemigrations
-$ python manage.py migrate
-$ python manage.py createsuperuser
-$ python manage.py collectstatic
-$ python manage.py runserver
-```
-NOTE #4: In order to get the project running please add Facebook SocialApp to the the Django admin. Do following steps:
-1) Go to admin page and click at Sites.
-2) DO NOT REMOVE example.com, just edit example.com row and put there your current project domain name.
-3) Click save.
-4) Go to 'Social applications' tab and fill in facebook authentication keys. Those keys can be found in facebook developer page.
 
 License
 ----
