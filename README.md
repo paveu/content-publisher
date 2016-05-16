@@ -8,7 +8,7 @@ Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.co
   - Django 1.9.5
   - full REST API for category, video and comment models
   - Braintree and PayU systems implemented
-  - OAuth2 (signing in via facebook auth) implemented
+  - OAuth2 social and account systems implemented
   - full payment transaction history
   - vimeo and youtube, wistia
   - videos can be commented
@@ -16,10 +16,9 @@ Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.co
   - posibility to host project source code on heroku with static and media files on AWS S3 bucket
 
 ### Todos
-  - improving registration system (adding email activation system)
   - covering all models along with payment system with unit-tests
   - function testing wiyh selenium
-  - deploying project to heroku and AWS elastic beanstalk
+  - deploying project AWS elastic beanstalk
   - deploying project with fabric
   - exposing transaction model with REST API only for thoe users who has permision
   - fixing comment thread, add bootstrap
@@ -77,6 +76,7 @@ $ python manage.py collectstatic
 $ python manage.py runserver
 ```
 * NOTE #4: In order to get the project running please add Facebook SocialApp to the the Django admin. Do following steps:
+
 1. Go to admin page and click at Sites.
 2. DO NOT REMOVE example.com, just edit example.com row and put there your current project domain name.
 3. Click save.
