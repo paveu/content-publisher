@@ -60,19 +60,23 @@ content-publisher uses a number of open source projects to work properly:
 
 ### Installation
 
-NOTE #1: If you're running project locally then Redis-server must be running with socket left in '/var/run/redis/redis.sock'.
-NOTE #2: If you're running project on heroku then Redis and postgress plugins must be set on.
-NOTE #3: Three environment variables must be set in your shell to get project up and running:
-
-1. Create a Python 2.7 virtualenv
-2. 2. Install latest pip package
-3. 3. Inside virtualenv perform following commands:
-
+NOTE #1: If you're running project locally then Redis-server must be running with socket left in '/var/run/redis/redis.sock'. If you're running project on heroku then Redis and postgress plugins must be set on.
+NOTE #2: Three environment variables must be set in your shell to get project up and running:
 ```sh
 export AWS_ACCESS_KEY_ID='' # put here AWS AWS_ACCESS_KEY_ID setting
 export AWS_SECRET_ACCESS_KEY='' #  put here AWS AWS_SECRET_ACCESS_KEY setting
 export DJANGO_SECRET_KEY='openssl rand -base64 64' # generate new secret for django project
 ```
+
+NOTE #3: Create an account at gmail.com and allow it to send email from external sources. Project uses gmail account to send emails so please fill in following linux env variables:
+```sh
+export EMAIL_USERNAME='' 
+export EMAIL_PASSWORD=''
+```
+
+1. Create a Python 2.7 virtualenv
+2. Install latest pip package
+3. Inside virtualenv perform following commands:
 
 If you have set up above vars then type following commands:
 ```sh

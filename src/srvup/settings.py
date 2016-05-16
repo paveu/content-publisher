@@ -27,10 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
-
-
 ALLOWED_HOSTS = ['*']
-
 
 AUTH_USER_MODEL = 'accounts.MyUser'
 
