@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from views import get_api_home, jquery_test_view, home
 from videos.views import category_list, category_detail, video_detail
 from billing.views import braintree_upgrade, billing_history, braintree_cancel_subscription, payu_upgrade, payu_notify, account_upgrade
-from accounts.views import account_home, auth_login, auth_logout, auth_register
+from accounts.views import account_home
 from comments.views import comment_thread, comment_create_view
 from notifications.views import all, get_notifications_ajax, read
 

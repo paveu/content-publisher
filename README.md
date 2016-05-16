@@ -17,7 +17,7 @@ Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.co
 
 ### Todos
   - covering all models along with payment system with unit-tests
-  - function testing wiyh selenium
+  - function testing with selenium
   - deploying project AWS elastic beanstalk
   - deploying project with fabric
   - exposing transaction model with REST API only for thoe users who has permision
