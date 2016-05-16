@@ -258,72 +258,86 @@ DEBUG_TOOLBAR_CONFIG = {
 #redis session caching
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
-## AWS S3 STATIC AND MEDIA HANDLER
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-AWS_REGION = 'eu-central-1' # Endpoint: cp-media-static-bucket.s3-website.eu-central-1.amazonaws.com
-AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-AWS_STORAGE_BUCKET_NAME = 'cp-media-static-bucket'
-AWS_S3_CALLING_FORMAT = "boto.s3.connection.OrdinaryCallingFormat"
-AWS_PRELOAD_METADATA = True
 
-if AWS_STORAGE_BUCKET_NAME:
-    STATIC_URL = 'https://s3-%s.amazonaws.com/%s/static/' % (AWS_REGION, AWS_STORAGE_BUCKET_NAME)
-    MEDIA_URL = 'https://s3-%s.amazonaws.com/%s/media/' % (AWS_REGION, AWS_STORAGE_BUCKET_NAME)
-    STATICFILES_STORAGE = 'srvup.customstorages.StaticStorage'
-    DEFAULT_FILE_STORAGE = 'srvup.customstorages.MediaStorage'
-    STATICFILES_LOCATION = 'static'  # name of folder within bucket
-    MEDIAFILES_LOCATION = 'media'    # name of folder within bucket
-else:
-    STATIC_URL = '/static/'
-    MEDIA_URL = '/media/'
+if os.environ.get("CONFIG_ENV") == 'prod' or os.environ.get("CONFIG_ENV") == 'stage':
+    ## AWS S3 STATIC AND MEDIA HANDLER
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    AWS_REGION = 'eu-central-1' # Endpoint: cp-media-static-bucket.s3-website.eu-central-1.amazonaws.com
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+    AWS_STORAGE_BUCKET_NAME = 'cp-media-static-bucket'
+    AWS_S3_CALLING_FORMAT = "boto.s3.connection.OrdinaryCallingFormat"
+    AWS_PRELOAD_METADATA = True
+    
+    if AWS_STORAGE_BUCKET_NAME:
+        STATIC_URL = 'https://s3-%s.amazonaws.com/%s/static/' % (AWS_REGION, AWS_STORAGE_BUCKET_NAME)
+        MEDIA_URL = 'https://s3-%s.amazonaws.com/%s/media/' % (AWS_REGION, AWS_STORAGE_BUCKET_NAME)
+        STATICFILES_STORAGE = 'srvup.customstorages.StaticStorage'
+        DEFAULT_FILE_STORAGE = 'srvup.customstorages.MediaStorage'
+        STATICFILES_LOCATION = 'static'  # name of folder within bucket
+        MEDIAFILES_LOCATION = 'media'    # name of folder within bucket
+    else:
+        STATIC_URL = '/static/'
+        MEDIA_URL = '/media/'
+    
+    MEDIA_URL = os.environ.get('MEDIA_URL', MEDIA_URL)
+    STATIC_URL = os.environ.get('STATIC_URL', STATIC_URL)
+    
+    STATICFILES_DIRS = (
+        os.path.join(os.path.dirname(BASE_DIR), "static", "static_dirs"),
+    )
 
-MEDIA_URL = os.environ.get('MEDIA_URL', MEDIA_URL)
-STATIC_URL = os.environ.get('STATIC_URL', STATIC_URL)
-
-STATICFILES_DIRS = (
-    os.path.join(os.path.dirname(BASE_DIR), "static", "static_dirs"),
-)
-
-# REDIS AND DATABASE SETTINGS FOR HEROKU
-# redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
-# CACHES = {
-#     "default": {
-#          "BACKEND": "redis_cache.RedisCache",
-#          "LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
-#          "OPTIONS": {
-#              "PASSWORD": redis_url.password,
-#              "DB": 0,
-#          }
-#     }
-# }
-
-# DATABASES = {
-#     'default': dj_database_url.config()
-# }
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = False
-# FULL_DOMAIN_NAME = 'http://content-publisher-pro.herokuapp.com'
-
-# REDIS SESSION CACHING AND DATABASE SETTINGS FOR LOCAL DEV
-CACHES = {
-    'default': {
-        'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': '/var/run/redis/redis.sock',
-    },
-}
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # REDIS AND DATABASE SETTINGS FOR HEROKU
+    redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
+    CACHES = {
+        "default": {
+             "BACKEND": "redis_cache.RedisCache",
+             "LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
+             "OPTIONS": {
+                 "PASSWORD": redis_url.password,
+                 "DB": 0,
+             }
+        }
     }
-}
+    
+    DATABASES = {
+        'default': dj_database_url.config()
+    }
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = False
+    FULL_DOMAIN_NAME = 'http://content-publisher-pro.herokuapp.com'
+elif os.environ.get("CONFIG_ENV") == 'local':
+    # REDIS SESSION CACHING AND DATABASE SETTINGS FOR LOCAL DEV
+    
+    # CACHES = {
+    #     'default': {
+    #         'BACKEND': 'redis_cache.RedisCache',
+    #         'LOCATION': '/var/run/redis/redis.sock',
+    #     },
+    # }
+    
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+    
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True
+    FULL_DOMAIN_NAME = 'https://content-publisher-pawelste.c9users.io/'
+    
+    STATIC_URL = '/static/'
+    
+    STATICFILES_DIRS = (
+        os.path.join(os.path.dirname(BASE_DIR), "static", "static_dirs"),
+    )
+    
+    STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static_root")
+    
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "media")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-FULL_DOMAIN_NAME = 'https://content-publisher-pawelste.c9users.io/'
-
-#TODO: DO NOT USE AWS S3 Bucket for local development, use different approach
+    #TODO: DO NOT USE AWS S3 Bucket for local development, use different approach
