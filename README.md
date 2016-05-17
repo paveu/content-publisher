@@ -40,10 +40,6 @@ Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.co
   - https://coveralls.io
   - https://docs.travis-ci.com/user/status-images/
   - http://shields.io/ (reelase image)
- 
-### Version
-* version: 1.2
-* project started in 08/may/2015.
 
 ### Setting up config variables and plugins
 
@@ -117,6 +113,9 @@ content-publisher uses a number of open source projects to work properly:
 * [Bootstrap] - is the most popular HTML, CSS, and JS framework for developing responsive, mobile first projects on the web, ver: 3.1.1
 * [jQuery] -  is a fast, small, and feature-rich JavaScript library. It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers ver: 1.11.0
 
+### Version
+* version: 1.3
+* project started in 08/may/2015.
 
 License
 ----
