@@ -110,7 +110,7 @@ def video_detail(request, cat_slug, vid_slug):
     else:
         # If viewer is not logged in ask to log in
         next_url = video.get_absolute_url()
-        return HttpResponseRedirect("%s?next=%s" % (reverse('login'), next_url))
+        return HttpResponseRedirect("%s?next=%s" % (reverse('account_login'), next_url))
 
 def category_list(request):
     """
