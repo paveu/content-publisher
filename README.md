@@ -15,20 +15,20 @@ Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.co
   - notification system when action happens
 
 ### Technical features
-  - Session Caching with Redis
-  - Static and media files hosted in AWS S3
-  - OAuth2 implemented along with Facebook Authentication
-  - Django 1.9.5
-  - Django Rest Framework and JWT
-  - Email service via Gmail account
+  - django 1.9.5
+  - static and media files hosted in AWS S3
+  - session caching with Redis
+  - oAuth2 implemented along with Facebook athentication
+  - django Rest Framework and JWT
+  - email service via Gmail account
   - posibility to host project source code on heroku with static and media files on AWS S3 bucket
-  - Django-debug-toolbar implemented
+  - django-debug-toolbar implemented
 
 ### Todos
   - fixing comment thread with angular.js - top priority
-  - newsletter model with async Celery
+  - newsletter model with async Celery - top priority
   - deploying project AWS elastic beanstalk
-  - deploying project with fabric
+  - deploying project with fabric script for local/stage and production
   - braintree and payu tutorials for those who wants to run it in production mode
   - add tox, coverage, pytest
   - covering all models along with payment systems with unit and functional tests
