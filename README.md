@@ -5,7 +5,7 @@ content-publisher is a project for selling out video content. All videos we sell
 Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.com](http://content-publisher-pro.herokuapp.com/)
 
 ### Project features
-  - selling premimum accounts via Braintree and PayU systems
+  - selling premium accounts via Braintree and PayU systems
   - full user account system
   - posibility to register/login with facebook
   - full REST API for category, video and comment models
@@ -22,9 +22,11 @@ Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.co
   - Django Rest Framework and JWT
   - Email service via Gmail account
   - posibility to host project source code on heroku with static and media files on AWS S3 bucket
+  - Django-debug-toolbar implemented
 
 ### Todos
   - fixing comment thread with angular.js - top priority
+  - newsletter model with async Celery
   - deploying project AWS elastic beanstalk
   - deploying project with fabric
   - braintree and payu tutorials for those who wants to run it in production mode
