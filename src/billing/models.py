@@ -31,9 +31,9 @@ class Membership(models.Model):
     Check whether user has a premium account
     """
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
-    date_start = models.DateTimeField(default=timezone.now(),
+    date_start = models.DateTimeField(default=timezone.now,
                                       verbose_name='Start Date')
-    date_end = models.DateTimeField(default=timezone.now(),
+    date_end = models.DateTimeField(default=timezone.now,
                                     verbose_name='End Date')
 
     def __unicode__(self):
