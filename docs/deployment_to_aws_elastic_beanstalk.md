@@ -3,42 +3,27 @@
 Launching a Django Project on Amazon Web Services (AWS) Elastic Beanstalk.
 
 
-
 1. Setup Virtual Environment, GIT, & Django.
 	**Create Virtualenv**
 	```
-	cd ~/Desktop
 	virtualenv awsbean && cd awsbean
 	```
-
+	
 	**Activate Virtualenv** 
-
-	Mac/ Linux : `source bin/activate`
-
-	Windows: `.\Scripts\activate`
+	`source bin/activate`
 
 	**Initialize Git (need to [install it](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)?) inside of your `virtualenv`.**
 	```
 	git init 
 	```
-
+	
 	**Create gitignore (Mac/Linux)**
-
 	```
 	touch .gitignore
 	open .gitignore
 	```
 
-	**Create gitignore (Windows)**
-	1. Download and Install  [Sublime Text](http://www.sublimetext.com/) -- Free version works fine. Or any other code text editor.
-	2. Open `Sublime Text` (or your code text editor)
-	3. `File` > `New File`
-	4. `File` > `Save`
-	5. Save the file as `.gitignore` (not the `.` prior.) into your newly created virtualenv
-
-
 	**Add & Save the following to your newly created `.gitignore` file:**
-
 	```
 	bin/
 	include/

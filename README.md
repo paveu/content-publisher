@@ -5,25 +5,35 @@ content-publisher is a project for selling out video content. All videos we sell
 Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.com](http://content-publisher-pro.herokuapp.com/)
 
 ### Project features
-  - Django 1.9.5
+  - selling premimum accounts via Braintree and PayU systems
+  - full user account system
+  - posibility to register/login with facebook
   - full REST API for category, video and comment models
-  - Braintree and PayU systems implemented
-  - OAuth2 social and account systems implemented
-  - full payment transaction history
-  - vimeo and youtube, wistia
-  - videos can be commented
-  - notification system
+  - transaction history for braintree and payu systems
+  - posibility to embed vimeo and youtube, wistia iframes
+  - videos can be commented by users
+  - notification system when action happens
+
+### Technical features
+  - Session Caching with Redis
+  - Static and media files hosted in AWS S3
+  - OAuth2 implemented along with Facebook Authentication
+  - Django 1.9.5
+  - Django Rest Framework and JWT
+  - Email service via Gmail account
   - posibility to host project source code on heroku with static and media files on AWS S3 bucket
 
 ### Todos
-  - covering all models along with payment system with unit-tests
-  - function testing with selenium
+  - fixing comment thread with angular.js - top priority
   - deploying project AWS elastic beanstalk
   - deploying project with fabric
+  - braintree and payu tutorials for those who wants to run it in production mode
+  - add tox, coverage, pytest
+  - covering all models along with payment systems with unit and functional tests
   - exposing transaction model with REST API only for thoe users who has permision
-  - fixing comment thread, add bootstrap
-  - braintree tutorial for those who wants to run it in production mode
   - add automatic resize and compress images with PIL
+
+### Todos: Status bars
   - https://requires.io/plans/
   - https://coveralls.io
   - https://docs.travis-ci.com/user/status-images/
