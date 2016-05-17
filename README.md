@@ -12,7 +12,8 @@ Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.co
   - transaction history for braintree and payu systems
   - posibility to embed vimeo and youtube, wistia iframes
   - videos can be commented by users
-  - notification system when action happens
+  - notification when action happens
+  - analytics system implemented
 
 ### Technical features
   - django 1.9.5
@@ -27,6 +28,7 @@ Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.co
 ### Todos
   - fixing comment thread with angular.js - top priority
   - newsletter model with async Celery - top priority
+  - improving user account panel with angular.js
   - deploying project AWS elastic beanstalk
   - deploying project with fabric script for local/stage and production
   - braintree and payu tutorials for those who wants to run it in production mode
@@ -115,7 +117,8 @@ content-publisher uses a number of open source projects to work properly:
 
 ### Version
 * version: 1.3
-* project started in 08/may/2015.
+* project started in 08/may/2015. 
+* code taken from my old repo: [https://github.com/paveu/srvup](https://github.com/paveu/srvup)
 
 License
 ----
