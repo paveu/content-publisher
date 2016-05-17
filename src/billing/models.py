@@ -55,7 +55,10 @@ class Membership(models.Model):
             self.user.save()
         else:
             pass
-
+        
+    class Meta:
+        verbose_name_plural = "Memberships"
+        
 def update_membership_status(sender, **kwargs):
     """
     Update membership status just after you save changes on the
@@ -172,6 +175,9 @@ class Transaction(models.Model):
 
     class Meta:
         ordering = ['-timestamp']
+        verbose_name = 'braintree_payment'
+        verbose_name_plural = 'braintree_payments'
+
 
 class TransactionPayuManager(models.Manager):
     """
@@ -241,3 +247,7 @@ class UserMerchantId(models.Model):
 
     def __unicode__(self):
         return self.customer_id
+
+    class Meta:
+        verbose_name = 'UserMerchantId'
+        verbose_name_plural = 'UserMerchantIds'

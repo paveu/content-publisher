@@ -114,7 +114,11 @@ class Notification(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
 
     objects = NotificationManager()
-
+   
+    class Meta:
+        verbose_name = 'Notification'
+        verbose_name_plural = 'Notifications'
+        
     def __unicode__(self):
         """
         Getting well formatted print out for the objects. It's needed for pretty
@@ -175,7 +179,7 @@ class Notification(models.Model):
 
 def new_notification(sender, **kwargs):
     """
-    TBD
+    To be commented
     """
     print("kwargs", kwargs)
     # new_notification_create = Notification.objects.create(recipient=recipient, action=action)

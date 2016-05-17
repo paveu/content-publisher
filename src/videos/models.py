@@ -60,7 +60,8 @@ class Video(models.Model):
     class Meta:
         unique_together = ('slug', 'category')
         ordering = ['order', '-timestamp']
-
+        verbose_name_plural = "Videos"
+        
     def __unicode__(self):
         return self.title
 
@@ -170,6 +171,9 @@ class Category(models.Model):
     def get_image_url(self):
         return "%s%s" % (settings.MEDIA_URL, self.image)
 
+    class Meta:
+        verbose_name_plural = "Categories"
+
 TAG_CHOICES = (
     ("python", "python"),
     ("django", "django"),
@@ -191,3 +195,6 @@ class TaggedItem(models.Model):
 
     def __unicode__(self):
         return self.tag
+
+    class Meta:
+        verbose_name_plural = "tags"

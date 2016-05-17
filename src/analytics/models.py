@@ -59,7 +59,8 @@ class PageView(models.Model):
 
     class Meta:
         ordering = ['-timestamp']
-
+        verbose_name_plural = "PageViews"
+        
 def page_view_received(sender, **kwargs):
     """
     Create new page_view object for analytic purpose

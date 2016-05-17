@@ -60,7 +60,8 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['-timestamp']
-
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
     def __unicode__(self):
         return self.get_comment
 
