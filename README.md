@@ -1,6 +1,6 @@
 # content-publisher
 
-content-publisher is a project for selling out video content. All videos we sell are hosted on an external servers(wistia.com) and their links are emebed to a form as a iframe html code. After we embed it as a video object we can cover it with a description and comments. If a user drop a comment we get notifcation. Braintree payment is used to pay for an access to premium videos(restricted to those who buy premium membership). 
+content-publisher is a project for selling out video content. All videos we sell are hosted on an external servers(wistia.com) and their links are embedded to a website as a iframe code. If we mark video as a premium then we can sell it out for money by using braintree and payu payment systems.
 
 Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.com](http://content-publisher-pro.herokuapp.com/)
 
@@ -19,7 +19,7 @@ Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.co
   - django 1.9.5
   - static and media files hosted in AWS S3
   - session caching with Redis
-  - oAuth2 implemented along with Facebook athentication
+  - OAuth2 implemented along with Facebook athentication
   - django Rest Framework and JWT
   - email service via Gmail account
   - posibility to host project source code on heroku with static and media files on AWS S3 bucket
