@@ -28,6 +28,7 @@ Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.co
 ### Todos
   - fixing comment thread with angular.js - top priority
   - newsletter model with async Celery - top priority
+  - add fabric deployment script with filling in site id=1 for facebook socialapp
   - improving user account panel with angular.js
   - deploying project AWS elastic beanstalk
   - deploying project with fabric script for local/stage and production
@@ -46,20 +47,22 @@ Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.co
 ### Setting up config variables and plugins
 
 * NOTE #1: If you're running project on heroku then Redis and postgres plugins must be enabled.
-* NOTE #2: Three environment variables must be set in your shell to get project up and running:
+* NOTE #2: Three environment variables must be set in your shell to get project up and running. 
+I recommend adding them to shell .profile file:
 ```sh
 $ export AWS_ACCESS_KEY_ID='' # put here AWS AWS_ACCESS_KEY_ID setting
 $ export AWS_SECRET_ACCESS_KEY='' #  put here AWS AWS_SECRET_ACCESS_KEY setting
 $ export DJANGO_SECRET_KEY='' # generate new secret key for django project. you can use following command: openssl rand -base64 64
 ```
 
-* NOTE #3: Create an account at gmail.com and go to google email and check "turning on access for less secure apps"[link](https://support.google.com/accounts/answer/6010255). Project uses gmail account to send emails so please fill in following linux env variables:
+* NOTE #3: Create an account at gmail.com and go to google email and check "turning on access for less secure apps"[link](https://support.google.com/accounts/answer/6010255). Project uses gmail account to send emails so please fill in following linux env variables.
+I recommend adding them to shell .profile file:
 ```sh
 $ export EMAIL_USERNAME='' 
 $ export EMAIL_PASSWORD=''
 ```
-
-* NOTE #4: You will have to define main config enviroment for local, prod:
+* NOTE #4: You will have to define main config enviroment for local, prod.
+I recommend adding them to shell .profile file:
 ```sh
 $ export CONFIG_ENV='local' # for local development
 ```
@@ -83,6 +86,7 @@ $ python manage.py makemigrations
 $ python manage.py migrate
 $ python manage.py createsuperuser
 $ python manage.py collectstatic
+$ python manage.py createsu
 $ python manage.py runserver
 ```
 * NOTE #4: In order to get the project running please add Facebook SocialApp to the the Django admin. Do following steps:
