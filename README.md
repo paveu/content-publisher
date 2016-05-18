@@ -48,29 +48,33 @@ Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.co
 
 * NOTE #1: If you're running project on heroku then Redis and postgres plugins must be enabled.
 * NOTE #2: Three environment variables must be set in your shell to get project up and running. 
-I recommend adding them to shell .profile file:
+if you are running project locally I recommend adding them to shell .profile file:
 ```sh
 $ export AWS_ACCESS_KEY_ID='' # put here AWS AWS_ACCESS_KEY_ID setting
 $ export AWS_SECRET_ACCESS_KEY='' #  put here AWS AWS_SECRET_ACCESS_KEY setting
 $ export DJANGO_SECRET_KEY='' # generate new secret key for django project. you can use following command: openssl rand -base64 64
 ```
-
 * NOTE #3: Create an account at gmail.com and go to google email and check "turning on access for less secure apps"[link](https://support.google.com/accounts/answer/6010255). Project uses gmail account to send emails so please fill in following linux env variables.
-I recommend adding them to shell .profile file:
+if you are running project locally I recommend adding them to shell .profile file:
 ```sh
 $ export EMAIL_USERNAME='' 
 $ export EMAIL_PASSWORD=''
 ```
-* NOTE #4: You will have to define main config enviroment for local, prod.
-I recommend adding them to shell .profile file:
+* NOTE #4: You will have to define main config enviroment for local, heroku or aws elastic beanstalk envoirments:
+if you are running project locally I recommend adding it to shell .profile file:
 ```sh
 $ export CONFIG_ENV='local' # for local development
 ```
+https://dashboard.heroku.com/apps/{{app_name}}/settings
 or
 ```sh
-$ export CONFIG_ENV='prod' # mainly used for heroku production, please add it to heroku env vars
+$ export CONFIG_ENV='HEROKU' # mainly used for heroku production, please add it to heroku env vars
 ```
-
+{{ link to env vars settings to be added }}
+or
+```sh
+$ export CONFIG_ENV='AWS_ELASTIC_BEANSTALK' # mainly used for heroku production, please add it to AWS ELASTI BEANSTALK env vars
+```
 ### Local Installation
 
 1. Create a Python 2.7 virtualenv
