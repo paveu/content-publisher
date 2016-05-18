@@ -297,6 +297,7 @@ if os.environ.get("CONFIG_ENV") == 'AWS_ELASTIC_BEANSTALK':
             }
         } 
 
+
 if os.environ.get("CONFIG_ENV") == 'HEROKU':
     #redis session caching
     SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
