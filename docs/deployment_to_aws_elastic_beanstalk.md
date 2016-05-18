@@ -224,4 +224,6 @@ Launching a Django Project on Amazon Web Services (AWS) Elastic Beanstalk.
 	```
 	eb deploy
 	```
+11. **configuring socialapp**
+	After you deploy you'll get Server Error 500, then you'll have to go to <you're location>.elasticbeanstalk.com/admin/ and fill in social aps. and site
 

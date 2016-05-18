@@ -15,7 +15,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "srvup.settings")
 
 from django.core.wsgi import get_wsgi_application
 
-
+# try/except workaround for AWS EB
 try:
     application = get_wsgi_application()
     print 'WSGI without exception'
