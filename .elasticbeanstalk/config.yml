@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: null
+    environment: content-publisher-depl
     group_suffix: null
 global:
   application_name: content-publisher-deploy
