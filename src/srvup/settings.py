@@ -297,7 +297,10 @@ if os.environ.get("CONFIG_ENV") == 'AWS_ELASTIC_BEANSTALK':
                 'PORT': os.environ['RDS_PORT'],
             }
         }
-
+    
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = False
+    FULL_DOMAIN_NAME = 'http://content-publisher-pro.herokuapp.com'
 
 
 if os.environ.get("CONFIG_ENV") == 'HEROKU':
@@ -323,8 +326,8 @@ if os.environ.get("CONFIG_ENV") == 'HEROKU':
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     
     # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = False
-    FULL_DOMAIN_NAME = 'http://content-publisher-pro.herokuapp.com'
+    DEBUG = True
+    FULL_DOMAIN_NAME = 'http://content-publisher-depl.eu-central-1.elasticbeanstalk.com/'
 
 if os.environ.get("CONFIG_ENV") == 'local':
     DEBUG_TOOLBAR_CONFIG = {
