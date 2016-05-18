@@ -258,7 +258,7 @@ def show_toolbar(request):
         return True
     return False
 
-if os.environ.get("CONFIG_ENV") == 'prod' or os.environ.get("CONFIG_ENV") == 'stage':
+if os.environ.get("CONFIG_ENV") == 'HEROKU' or os.environ.get("CONFIG_ENV") == 'AWS_ELASTIC_BEANSTALK':
     ## AWS S3 STATIC AND MEDIA HANDLER
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     AWS_REGION = 'eu-central-1' # Endpoint: cp-media-static-bucket.s3-website.eu-central-1.amazonaws.com
@@ -281,10 +281,21 @@ if os.environ.get("CONFIG_ENV") == 'prod' or os.environ.get("CONFIG_ENV") == 'st
     
     MEDIA_URL = os.environ.get('MEDIA_URL', MEDIA_URL)
     STATIC_URL = os.environ.get('STATIC_URL', STATIC_URL)
-    
-    STATICFILES_DIRS = (
-        os.path.join(os.path.dirname(BASE_DIR), "static", "static_dirs"),
-    )
+ 
+if os.environ.get("CONFIG_ENV") == 'AWS_ELASTIC_BEANSTALK':
+    if 'RDS_DB_NAME' in os.environ:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': os.environ['RDS_DB_NAME'],
+                'USER': os.environ['RDS_USERNAME'],
+                'PASSWORD': os.environ['RDS_PASSWORD'],
+                'HOST': os.environ['RDS_HOSTNAME'],
+                'PORT': os.environ['RDS_PORT'],
+            }
+        } 
+
+if os.environ.get("CONFIG_ENV") == 'HEROKU':
     #redis session caching
     SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
     
@@ -310,9 +321,7 @@ if os.environ.get("CONFIG_ENV") == 'prod' or os.environ.get("CONFIG_ENV") == 'st
     DEBUG = False
     FULL_DOMAIN_NAME = 'http://content-publisher-pro.herokuapp.com'
 
-elif os.environ.get("CONFIG_ENV") == 'local':
-
-    
+if os.environ.get("CONFIG_ENV") == 'local':
     DEBUG_TOOLBAR_CONFIG = {
         'SHOW_TOOLBAR_CALLBACK': 'srvup.settings.show_toolbar'
     }
@@ -332,19 +341,17 @@ elif os.environ.get("CONFIG_ENV") == 'local':
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
-    
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = True
     FULL_DOMAIN_NAME = 'https://content-publisher-pawelste.c9users.io/'
     
     STATIC_URL = '/static/'
-    
-    STATICFILES_DIRS = (
-        os.path.join(os.path.dirname(BASE_DIR), "static", "static_dirs"),
-    )
-    
     STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static_root")
     
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "media")
 
+
+STATICFILES_DIRS = (
+    os.path.join(os.path.dirname(BASE_DIR), "static", "static_dirs"),
+)

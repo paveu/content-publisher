@@ -26,3 +26,4 @@ django-redis-cache #for django session caching
 boto # for getting an access to aws
 #django-storages # old aws S3 media files handler
 django-storages-redux # aws S3 media files handler
+awsebcli # for aws elastic beanstalk
