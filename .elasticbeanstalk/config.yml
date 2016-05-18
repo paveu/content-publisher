@@ -1,0 +1,11 @@
+branch-defaults:
+  master:
+    environment: null
+    group_suffix: null
+global:
+  application_name: content-publisher-deploy
+  default_ec2_keyname: cp-eb
+  default_platform: Python 2.7
+  default_region: eu-central-1
+  profile: null
+  sc: git
