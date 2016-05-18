@@ -88,12 +88,13 @@ $ python manage.py collectstatic
 $ python manage.py createsu # it will create superuser with login:admin,pw:admin
 $ python manage.py runserver
 ```
-* NOTE #4: In order to get the project running please add Facebook SocialApp to the the Django admin. Do following steps:
+* NOTE #4: In order to get the project up and running please add Facebook SocialApp to the the Django admin. Do following steps:
 
-1. Go to admin page and click at Sites.
-2. DO NOT REMOVE example.com, just edit example.com row and put there your current project domain name.
+1. Go to admin http://project/admin/ page use login:admin, pw:admin and click at Sites.
+2. DO NOT REMOVE example.com, just edit example.com row and change example.com domain to your current project domain.
 3. Click save.
-4. Go to 'Social applications' tab and fill in facebook authentication keys. Those keys can be found in facebook developer page.
+4. Go to 'Social applications' tab and fill in facebook authentication keys. Those keys can be found in facebook developer page
+5. After you filled in these four steps project should be up and running.
 
 ### External libraries used in the project
 content-publisher uses a number of open source projects to work properly:
