@@ -31,7 +31,6 @@ AWS Elastic Beanstalk along with AWS S3: [http://content-publisher-depl.eu-centr
   - newsletter model with async Celery - top priority
   - add fabric deployment script with filling in site id=1 for facebook socialapp
   - improving user account panel with angular.js
-  - deploying project AWS elastic beanstalk
   - deploying project with fabric script for local/stage and production
   - braintree and payu tutorials for those who wants to run it in production mode
   - add tox, coverage, pytest
