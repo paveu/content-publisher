@@ -162,9 +162,20 @@ Launching a Django Project on Amazon Web Services (AWS) Elastic Beanstalk.
     4. Add a “Master Username” and “Master Password”.
     5. Save the changes.
 
+8.	**Setup shell environment settings** 
+    1. Click the Configuration link.
+    2. Select 'Software Configuration' and edit
+    3. Scroll down to 'Environment Properties' and add following env vars:
+ ```
+	AWS_ACCESS_KEY_ID=''
+	AWS_SECRET_ACCESS_KEY=''
+	DJANGO_SECRET_KEY=''
+	EMAIL_USERNAME=''
+	EMAIL_PASSWORD=''
+	CONFIG_ENV='AWS_ELASTIC_BEANSTALK'
+```
 
-
-6. **Django Production `settings.py`:**
+9. **Django Production `settings.py`:**
 	* These credentials are needed for deployment* 
 	* In many cases, you will have a `production` version of your `settings.py` instead of the default `Django` install.
 
@@ -188,8 +199,7 @@ Launching a Django Project on Amazon Web Services (AWS) Elastic Beanstalk.
 		}
 	```
 
-7 **Handling database migrations**
-
+10 **Handling database migrations**
 
 	1. Add a new file called `02_python.config ` in `.ebextensions` with contents of:
 	```
@@ -209,7 +219,7 @@ Launching a Django Project on Amazon Web Services (AWS) Elastic Beanstalk.
 	git commit -m "Created EB Extensions"
 	```
 
-8. **1st Deploy to Elastic Beanstalk**
+11. **1st Deploy to Elastic Beanstalk**
 	Do Deployment:
 	```
 	eb deploy
