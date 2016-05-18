@@ -84,9 +84,8 @@ $ sudo pip install -r requirements.txt
 $ cd src
 $ python manage.py makemigrations
 $ python manage.py migrate
-$ python manage.py createsuperuser
 $ python manage.py collectstatic
-$ python manage.py createsu
+$ python manage.py createsu # it will create superuser with login:admin,pw:admin
 $ python manage.py runserver
 ```
 * NOTE #4: In order to get the project running please add Facebook SocialApp to the the Django admin. Do following steps:
