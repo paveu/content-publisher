@@ -47,20 +47,22 @@ Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.co
 ### Setting up config variables and plugins
 
 * NOTE #1: If you're running project on heroku then Redis and postgres plugins must be enabled.
-* NOTE #2: Three environment variables must be set in your shell to get project up and running. 
-if you are running project locally I recommend adding them to shell .profile file:
+* NOTE #2: You will have to set up django secret key, use 'openssl rand -base64 64' to generate your key and save it as a shell variable. If you're running it locally keep it safe in shell .profile file.
+```sh
+$ export DJANGO_SECRET_KEY='' # generate new secret key for django project. you can use following command: openssl rand -base64 64
+```
+* NOTE #3: If you're running project on HEROKU or AWS ELASTIC BEANSTALK then you will have to set up following shell variables. Both heroku and aws has it own applcation admin control to add them as a shell variable.
 ```sh
 $ export AWS_ACCESS_KEY_ID='' # put here AWS AWS_ACCESS_KEY_ID setting
 $ export AWS_SECRET_ACCESS_KEY='' #  put here AWS AWS_SECRET_ACCESS_KEY setting
-$ export DJANGO_SECRET_KEY='' # generate new secret key for django project. you can use following command: openssl rand -base64 64
 ```
-* NOTE #3: Create an account at gmail.com and go to google email and check "turning on access for less secure apps"[link](https://support.google.com/accounts/answer/6010255). Project uses gmail account to send emails so please fill in following linux env variables.
+* NOTE #4: Create an account at gmail.com and go to google email and check "turning on access for less secure apps"[link](https://support.google.com/accounts/answer/6010255). Project uses gmail account to send emails so please fill in following linux env variables.
 if you are running project locally I recommend adding them to shell .profile file:
 ```sh
 $ export EMAIL_USERNAME='' 
 $ export EMAIL_PASSWORD=''
 ```
-* NOTE #4: You will have to define main config enviroment for local, heroku or aws elastic beanstalk envoirments:
+* NOTE #5: You will have to define main config enviroment for local, heroku or aws elastic beanstalk envoirments:
 if you are running project locally I recommend adding it to shell .profile file:
 ```sh
 $ export CONFIG_ENV='local' # for local development
@@ -88,11 +90,11 @@ $ sudo pip install -r requirements.txt
 $ cd src
 $ python manage.py makemigrations
 $ python manage.py migrate
-$ python manage.py collectstatic
+$ python manage.py collectstatic --noinput
 $ python manage.py createsu # it will create superuser with login:admin,pw:admin
 $ python manage.py runserver
 ```
-* NOTE #4: In order to get the project up and running please add Facebook SocialApp to the the Django admin. Do following steps:
+* NOTE #6: In order to get the project up and running please add Facebook SocialApp to the the Django admin. Do following steps:
 
 1. Go to admin http://project/admin/ page use login:admin, pw:admin and click at Sites.
 2. DO NOT REMOVE example.com, just edit example.com row and change example.com domain to your current project domain.

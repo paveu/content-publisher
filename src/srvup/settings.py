@@ -258,12 +258,14 @@ def show_toolbar(request):
         return True
     return False
 
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+
 if os.environ.get("CONFIG_ENV") == 'HEROKU' or os.environ.get("CONFIG_ENV") == 'AWS_ELASTIC_BEANSTALK':
     ## AWS S3 STATIC AND MEDIA HANDLER
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     AWS_REGION = 'eu-central-1' # Endpoint: cp-media-static-bucket.s3-website.eu-central-1.amazonaws.com
-    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+
     AWS_STORAGE_BUCKET_NAME = 'cp-media-static-bucket'
     AWS_S3_CALLING_FORMAT = "boto.s3.connection.OrdinaryCallingFormat"
     AWS_PRELOAD_METADATA = True
