@@ -6,55 +6,20 @@ Launching a Django Project on Amazon Web Services (AWS) Elastic Beanstalk.
 1. Setup Virtual Environment, GIT, & Django.
 	**Create Virtualenv**
 	```
-	virtualenv awsbean && cd awsbean
+	virtualenv content-publisher
 	```
 	
 	**Activate Virtualenv** 
 	`source bin/activate`
 
-	**Initialize Git (need to [install it](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)?) inside of your `virtualenv`.**
+	**git clone project**
 	```
-	git init 
-	```
-	
-	**Create gitignore (Mac/Linux)**
-	```
-	touch .gitignore
-	open .gitignore
-	```
-
-	**Add & Save the following to your newly created `.gitignore` file:**
-	```
-	bin/
-	include/
-	lib/
-	*.py[cod]
-	*.sqlite3
-	pip-selfcheck.json
-	```
-
-	**Install Django & Start Project:**
-
-	```
-	pip install django==1.8.7
-
-	django-admin.py startproject awsbean
-	```
-
-
-2. **Install [AWS Command Line Interface](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html)**:
-	
-	**Ensure virtualenv is activated**
-	```
-	cd /path/to/root/of/your/virtualenv/
-	source bin/activate # if Mac/Linux
-	.\Scripts\activate * if Windows
+	git clone https://github.com/paveu/content-publisher.git tmp && mv tmp/.git . && rm -rf tmp && git reset --hard
 	```
 	
-
-	**Install AWS CLI**
+	**Install pip packages**
 	```
-	pip install awsebcli
+	sudo pip install -r requirements.txt
 	```
 		
 	__Test installation__
@@ -68,13 +33,7 @@ Launching a Django Project on Amazon Web Services (AWS) Elastic Beanstalk.
 	EB CLI 3.6.1 (Python 2.7.9)
 	```
 
-3. **Git Commit**
-	```
-	git add .
-	git commit -m "first commit"
-	```
-
-4. **Create AWS User Credentials**
+2. **Create AWS User Credentials**
 	
 	1. Navigate to [IAM Users](https://console.aws.amazon.com/iam/home?#users)
 	
@@ -91,9 +50,7 @@ Launching a Django Project on Amazon Web Services (AWS) Elastic Beanstalk.
 	7. Note the `Access Key Id` and `Secret Access Key` as they are needed for a future step. These will be referred to as `<your_access_key_id>` and `<your_secret_access_key>`
 
 
-
-
-5. **Create Elastic Beanstalk Application via Command Line (aka Terminal/Command Prompt)**
+3. **Create Elastic Beanstalk Application via Command Line (aka Terminal/Command Prompt)**
 	** Ensure virtualenv is activated **
 	```
 	cd /path/to/root/of/your/virtualenv/
@@ -106,7 +63,7 @@ Launching a Django Project on Amazon Web Services (AWS) Elastic Beanstalk.
 	eb init 
 	```
 
-	This will respond with a few prompts you need to answer. Here's what we did:
+	Here's what we did. If you don't see this questions don't worry config.yml had been already set up for you.
 	```
 		Select a default region
 		1) us-east-1 : US East (N. Virginia)
@@ -119,7 +76,7 @@ Launching a Django Project on Amazon Web Services (AWS) Elastic Beanstalk.
 		8) ap-northeast-1 : Asia Pacific (Tokyo)
 		9) sa-east-1 : South America (Sao Paulo)
 		10) cn-north-1 : China (Beijing)
-		(default is 3): 3                # this is our answer
+		(default is 3): 5               # this is my answer
 
 		You have not yet set up your credentials or your credentials are incorrect
 		You must provide your credentials.
@@ -131,8 +88,8 @@ Launching a Django Project on Amazon Web Services (AWS) Elastic Beanstalk.
 		(default is 1): 1                # We created a new one
 
 		Enter Application Name
-		(default is "awsbean"):           # We pressed enter to use the default
-		Application awsbean has been created.
+		(default is "content-publisher"):           # We pressed enter to use the default
+		Application content-publisher has been created.
 
 		Select a platform.
 		1) Node.js
@@ -163,37 +120,47 @@ Launching a Django Project on Amazon Web Services (AWS) Elastic Beanstalk.
 		3) [ Create new KeyPair ]           # If you said yes to SSH, this is required.
 	```
 
-	**Create Elastic Beanstalk with Database Option** 
+4.	**Create Elastic Beanstalk** 
 	```
-	eb create -db 
-	```
-	The `-db` option creates a `MySQL` database for us by default which makes setup a lot easier. More create options are [here](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb3-create.html).
-
-	Now, we are prompted with: 
-
-	```
-	Enter Environment Name
-	(default is awsbean-dev): 
-	Enter DNS CNAME prefix
-	(default is awsbean-dev): 
-
-	Enter an RDS DB username (default is "ebroot"): 
-	Enter an RDS DB master password: 
-	Retype password to confirm: 
+	eb create
 	```
 
-	Fill out those settings as you'd like. Take note of the master password you set.
-
-	Set default environment in elastic beanstalk.  The environment name is what we entered during the `eb create -db` process.
-
+5.	**Configuring our Python environment** 
+	Configuring our Python environment
 	```
-	eb use awsbean-dev
+	eb config
 	```
+	This command will open your default editor, editing a configuration file called .elasticbeanstalk/iod-test.env.yml. This file doesn’t actually exist locally; eb pulled it down from the AWS servers and presented it to you so that you can change settings in it. If you make any changes to this pseudo-file and then save and exit, eb will update the corresponding settings in your Beanstalk environment.
+	If you search for the terms ‘WSGI’ in the file, and you should find a configuration section that looks like this:
+	```
+	aws:elasticbeanstalk:container:python:
+    NumProcesses: '1'
+    NumThreads: '15'
+    StaticFiles: /static/=static/
+    WSGIPath: src/srvup/wsgi.py
+	```
+	
+6.	**Configuring a Database** 
+	```
+	eb open
+	```
+	This command will show the deployed application in your default browser. You should see a connection refused error:
+	```	
+	OperationalError at /
+	could not connect to server: Connection refused
+    Is the server running on host "localhost" (127.0.0.1) and accepting
+    TCP/IP connections on port 5432?
+	```
+	
+7.	**Database setup** 
 
+	From there, do the following:
 
-
-
-
+    1. Click the Configuration link.
+    2. Scroll all the way to the bottom of the page, and then under the “Data Tier” section, click the link “create a new RDS database”.
+    3. On the RDS setup page change the “DB Engine” to “postgres”.
+    4. Add a “Master Username” and “Master Password”.
+    5. Save the changes.
 
 
 
@@ -221,135 +188,30 @@ Launching a Django Project on Amazon Web Services (AWS) Elastic Beanstalk.
 		}
 	```
 
+7 **Handling database migrations**
 
-7. **Setup EB Extensions:**
-	1. Create new folder called `.ebextensions` in the root of your virtualenv where the `.elasticbeanstalk` directory is as well.
-	2. Add a new file called `01_awsbean.config` in `.ebextensions` with contents of:
-	```
-	option_settings:
-		  "aws:elasticbeanstalk:application:environment":
-		    DJANGO_SETTINGS_MODULE: "awsbean.settings"
-		    PYTHONPATH: "/opt/python/current/app/src:$PYTHONPATH"
-		  "aws:elasticbeanstalk:container:python":
-		    WSGIPath: "src/awsbean/wsgi.py"
-	```
-	*Note*: `awsbean` above will be replaced with your app name.
 
-	3. Add a new file called `02_packages.config` in `.ebextensions` with contents of:
-	```
-	packages:
-	  yum:
-	    git: []
-	```
-
-	4. Add a new file called `03_python.config` in `.ebextensions` with contents of:
+	1. Add a new file called `02_python.config ` in `.ebextensions` with contents of:
 	```
 	container_commands:
-  		01_migrate:
-    		command: "python src/manage.py migrate --noinput"
-    		leader_only: true
+	  01_migrate:
+	    command: "source /opt/python/run/venv/bin/activate && python iotd/manage.py migrate --noinput"
+	    leader_only: true
+	  02_createsu:
+	    command: "source /opt/python/run/venv/bin/activate && python iotd/manage.py createsu"
+	    leader_only: true
+	  03_collectstatic:
+	    command: "source /opt/python/run/venv/bin/activate && python iotd/manage.py collectstatic --noinput"
 	```
-
-	5. Commit in git:
+	2. Commit in git:
 	```
 	git add .ebextensions/
 	git commit -m "Created EB Extensions"
 	```
 
-8. **Add Django Requirements**
-	Everytime you add new python packages, such as the `Django Rest Framework` or `Requests`, you need to update and commit your requirements.
-
-	**Install MySQL-python**
-
-	```
-	pip install MySQL-python
-	```
-
-	**Update (or create) `requirements.txt`**
-	```
-	pip freeze  #returns what packages are required/installed in your virtualenv.
-	pip freeze > requirements.txt
-	git add requirements.txt
-	git commit -m "Updated requirements.txt"
-	```
-
-
-9. **1st Deploy to Elastic Beanstalk**
+8. **1st Deploy to Elastic Beanstalk**
 	Do Deployment:
 	```
 	eb deploy
 	```
-	**Returns** something like:
-	```
-	Creating application version archive "app-903f-151207_174054".
-	Uploading awsbean/app-903f-151207_174054.zip to S3. This may take a while.
-	Upload Complete.
-	INFO: Environment update is starting.                               
-	INFO: Deploying new version to instance(s).                         
-	INFO: New application version was deployed to running EC2 instances.
-	INFO: Environment update completed successfully.
-	```
-
-
-10. **Create Superuser with Custom Management** 
-	Nice! We have deployed Django to elastic beanstalk! Great work. Now how do we create a superuser? Run collect static? This is when we need to add a few more customizations to the `.ebextensions` folder.
-	
-	1. Create a new Django App
-		```
-		cd src
-		python manage.py startapp accounts
-		cd accounts
-		mkdir management
-		cd management
-		touch __init__.py
-		mkdir commands
-		cd commands
-		touch __init__.py
-		touch makesuper.py
-		open makesuper.py
-		```
-
-	2. Create the `makesuper` Command inside the `makesuper.py` file we just created:
-		```
-		from django.contrib.auth import get_user_model
-		from django.core.management.base import BaseCommand
-
-		class Command(BaseCommand):
-		    def handle(self, *args, **options):
-		        User = get_user_model()
-		        if not User.objects.filter(username="superu").exists():
-		            User.objects.create_superuser("superu", "superu@teamcfe.com", "superuPASS")
-		```
-		This code checks if the `superu` exists and creates it if it doesn't. 
-
-	3. Add the new `accounts` app to `INSTALLED_APPS` in `settings.py` 
-
-	4. Now, we can use `python manage.py makesuper` which will automatcially create a Django super user with the username `superu` and password `superuPASS` -- this means we can login to the Django admin.
-
-
-	5. Add new additions to git:
-		```
-		git add --all
-		git commit -m "Makesuper command & Accounts App"
-		```
-
-	6. Create new EB Extension:
-		Add `04_python.config` to `.ebextensions` folder with the following:
-		```
-		container_commands:
-		  01_migrate:
-		    command: "python src/manage.py makesuper"
-		    leader_only: true
-		```
-
-	7. Add new eb ebextension to git:
-		```
-		git add --all
-		git commit -m "Updated Eb Extensions"
-		```
-	
-11. **Deploy!** 
-
-	`eb deploy`
-
 
