@@ -79,45 +79,46 @@
  		<p><b>Tagged:</b> {% if video.tags %} {% for tag in video.tags.all %}{{ tag }}{% if not forloop.last %},{% endif %} {% endfor %}{% endif %}</p>
 
  	</div>
- 	
  </div><! --/row -->
-
-	<div class='col-sm-12'>
-	    <h1>Comments/Questions</h1>
-		<form method="POST" action='{% url "comment_create" %}'>{% csrf_token %}
-			<input type='hidden' name='video_id' value='{{ video.id }}'/>
-			<input type='hidden' name='origin_path' value='{{ request.get_full_path }}'/>
-	        {% crispy comment_form comment_form.helper %}
-	    </form>
-	    <br/>
-	    <br/>
-	    <table class='table'>
-			{% for comment in comments %}
-			    <tr>
-				    <td>{{ comment.get_comment }} 
-					    <br /> <small> via {{ comment.user }} | {{ comment.timestamp}}</small>
-					    {% if not comment.is_child %}
-					         <ul>
-					             {% for child in comment.get_children %}
-					                 <li>{{ child.get_comment }} 
-					                 	<small>via {{ child.user }} | {{ comment.timestamp|timesince }} ago</small>
-					                 </li>
-					             {% endfor %}
-		                     </ul>
-		                         <a href='{{ comment.get_absolute_url }}'>View Thread</a>
-					             <div class='reply_comment'>                     
-		                            <form method="POST" action="{% url 'comment_create' %}"> {% csrf_token %}
-						                <input type='hidden' name='video_id' value='{{ video.id }}'/>
-						                <input type='hidden' name='origin_path' value='{{ comment.get_origin }}'/>
-						                <input type='hidden' name='parent_id' value='{{ comment.id }}' />
-		                                {% crispy comment_form comment_form.helper %}
-		                            </form>
-					             </div>
-					    {% endif %}
-				    </td>
-			    </tr>
-			{% endfor %}
-		</table>
-	</div>
+	
+	{% if user.is_authenticated %}
+		<div class='col-sm-12'>
+		    <h1>Comments/Questions</h1>
+			<form method="POST" action='{% url "comment_create" %}'>{% csrf_token %}
+				<input type='hidden' name='video_id' value='{{ video.id }}'/>
+				<input type='hidden' name='origin_path' value='{{ request.get_full_path }}'/>
+		        {% crispy comment_form comment_form.helper %}
+		    </form>
+		    <br/>
+		    <br/>
+		    <table class='table'>
+				{% for comment in comments %}
+				    <tr>
+					    <td>{{ comment.get_comment }} 
+						    <br /> <small> via {{ comment.user }} | {{ comment.timestamp}}</small>
+						    {% if not comment.is_child %}
+						         <ul>
+						             {% for child in comment.get_children %}
+						                 <li>{{ child.get_comment }} 
+						                 	<small>via {{ child.user }} | {{ comment.timestamp|timesince }} ago</small>
+						                 </li>
+						             {% endfor %}
+			                     </ul>
+			                         <a href='{{ comment.get_absolute_url }}'>View Thread</a>
+						             <div class='reply_comment'>                     
+			                            <form method="POST" action="{% url 'comment_create' %}"> {% csrf_token %}
+							                <input type='hidden' name='video_id' value='{{ video.id }}'/>
+							                <input type='hidden' name='origin_path' value='{{ comment.get_origin }}'/>
+							                <input type='hidden' name='parent_id' value='{{ comment.id }}' />
+			                                {% crispy comment_form comment_form.helper %}
+			                            </form>
+						             </div>
+						    {% endif %}
+					    </td>
+				    </tr>
+				{% endfor %}
+			</table>
+		</div>
+	{% endif %}
 </div>
 {% endblock %}
