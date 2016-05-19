@@ -2,8 +2,8 @@
 
 content-publisher is a project for selling out video content. All videos we sell are hosted on an external servers(wistia.com) and their links are embedded to a website as a iframe code. If we mark video as a premium then we can sell it out for money by using braintree and payu payment systems.
 
-  - Heroku deyployment along with AWS S3: [http://content-publisher-pro.herokuapp.com](http://content-publisher-pro.herokuapp.com/)
-  - AWS Elastic Beanstalk along with AWS S3: [http://content-publisher-depl.eu-central-1.elasticbeanstalk.com](http://content-publisher-depl.eu-central-1.elasticbeanstalk.com/)
+  - Heroku deyployment with AWS S3: [http://content-publisher-pro.herokuapp.com](http://content-publisher-pro.herokuapp.com/)
+  - AWS Elastic Beanstalk deployment with AWS S3: [http://content-publisher-depl.eu-central-1.elasticbeanstalk.com](http://content-publisher-depl.eu-central-1.elasticbeanstalk.com/)
 
 ### Project features
   - selling premium accounts via Braintree and PayU systems
@@ -18,6 +18,7 @@ content-publisher is a project for selling out video content. All videos we sell
 
 ### Technical features
   - django 1.9.5
+  - configuration for PostgreSQL 9.3 database for production
   - static and media files hosted in AWS S3
   - session caching with Redis
   - OAuth2 implemented along with Facebook athentication
