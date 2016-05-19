@@ -30,6 +30,7 @@ content-publisher is a project for selling out video content. All videos we sell
 ### Todos
   - fixing comment thread with angular.js - top priority
   - newsletter model with async Celery - top priority
+  - AWS EB: Use ElastiCache as your redis host, and SQS as your celery broker
   - add fabric deployment script with filling in site id=1 for facebook socialapp
   - improving user account panel with angular.js
   - deploying project with fabric script for local/stage and production
@@ -52,12 +53,12 @@ content-publisher is a project for selling out video content. All videos we sell
 ```sh
 $ export DJANGO_SECRET_KEY='' # generate new secret key for django project. you can use following command: openssl rand -base64 64
 ```
-* NOTE #3: If you're running project on HEROKU or AWS ELASTIC BEANSTALK then you will have to set up following shell variables. Both heroku and aws has it own applcation admin control to add them as a shell variable.
+* NOTE #3: If you're running project on HEROKU or AWS ELASTIC BEANSTALK or LOCAL then you will have to set up following shell variables. Both Heroku and AWS EB have their own applcation admin control in terms of environment variables.
 ```sh
 $ export AWS_ACCESS_KEY_ID='' # put here AWS AWS_ACCESS_KEY_ID setting
 $ export AWS_SECRET_ACCESS_KEY='' #  put here AWS AWS_SECRET_ACCESS_KEY setting
 ```
-* NOTE #4: Create an account at gmail.com and go to google email and check "turning on access for less secure apps"[link](https://support.google.com/accounts/answer/6010255). Project uses gmail account to send emails so please fill in following linux env variables.
+* NOTE #4: Create an account at gmail.com and go to google email and check "turning on access for less secure apps"[link](https://support.google.com/accounts/answer/6010255). Project uses gmail account to send out emails so please fill in following environment variables:
 if you are running project locally I recommend adding them to shell .profile file:
 ```sh
 $ export EMAIL_USERNAME='' 
@@ -95,7 +96,13 @@ $ python manage.py collectstatic --noinput
 $ python manage.py createsu # it will create superuser with login:admin,pw:admin
 $ python manage.py runserver
 ```
-* NOTE #6: In order to get the project up and running please add Facebook SocialApp to the the Django admin. Do following steps:
+### Heroku Installation
+Link to tutorial will be added here soon
+
+### AWS EB Installation
+Link to tutorial will be added here soon
+
+* NOTE #6: For all config envoirments(local,heroku,aws eb) you will have to setup SocialApp settings. So in order to get the project up and running please add Facebook SocialApp to the the Django admin. Do following steps:
 
 1. Go to admin http://project/admin/ page use login:admin, pw:admin and click at Sites.
 2. DO NOT REMOVE example.com, just edit example.com row and change example.com domain to your current project domain.
