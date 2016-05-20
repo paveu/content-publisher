@@ -105,9 +105,9 @@
 	<!-- *****************************************************************************************************************
 	 PORTFOLIO SECTION
 	 ***************************************************************************************************************** -->
-	 {% if latest_vids %}
 	 <div id="portfoliowrap" style='width: 50%; margin: 0 auto; margin-top: 20px ; margin-bottom: 20px; padding-top: 10px'>
         <h3>Latest videos</h3>
+	 	{% if latest_vids %}
 
         <div class="portfolio-centered">
             <div class="recentitems portfolio">
@@ -127,10 +127,11 @@
                	{% endfor %}
             </div><!-- portfolio -->
         </div><!-- portfolio container -->
+	 	{% else %}
+		<p class="lead text-center">No Videos added</p>
+		{% endif %}
 	 </div><!--/Portfoliowrap -->
-	{% else %}
-	<p class="lead">No Videos added</p>
-	{% endif %}
+
 	
 	<!-- *****************************************************************************************************************
 	 PAYMENT SECTION
