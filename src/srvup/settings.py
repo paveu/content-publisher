@@ -297,6 +297,18 @@ if os.environ.get("CONFIG_ENV") == 'AWS_ELASTIC_BEANSTALK':
                 'PORT': os.environ['RDS_PORT'],
             }
         }
+
+    CACHES = {
+        "default": {
+             "BACKEND": "redis_cache.RedisCache",
+             "LOCATION": "redis://django-redis.srdatz.0001.euc1.cache.amazonaws.com:6379", # taken from https://eu-central-1.console.aws.amazon.com/elasticache/home?region=eu-central-1#cache-nodes:id=django-redis;nodes
+             "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+                "DB": 0,
+             }
+        }
+    }
+
     
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
