@@ -20,7 +20,7 @@ content-publisher is a project for selling out video content. All videos we sell
   - django 1.9.5
   - configuration for PostgreSQL 9.3 database for production
   - static and media files hosted in AWS S3
-  - session caching with Redis
+  - session caching with Redis for heroku and ElastiCache Redis for AWS EB
   - OAuth2 implemented along with Facebook athentication
   - django Rest Framework and JWT
   - email service via Gmail account
@@ -30,7 +30,7 @@ content-publisher is a project for selling out video content. All videos we sell
 ### Todos
   - fixing comment thread with angular.js - top priority
   - newsletter model with async Celery - top priority
-  - AWS EB: Use ElastiCache as your redis host, and SQS as your celery broker
+  - AWS EB: (Use ElastiCache as your redis host<--already done), and SQS as your celery broker
   - add fabric deployment script with filling in site id=1 for facebook socialapp
   - improving user account panel with angular.js
   - deploying project with fabric script for local/stage and production
