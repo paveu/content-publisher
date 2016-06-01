@@ -317,21 +317,20 @@ if os.environ.get("CONFIG_ENV") == 'AWS_ELASTIC_BEANSTALK':
 
     # Celery deffered tasks
     # BROKER_URL = 'redis://localhost:6379/1'
-    # BROKER_TRANSPORT = 'sqs'
+    BROKER_TRANSPORT = 'sqs'
     
     BROKER_URL = 'sqs://{0}:{1}@'.format(
     urllib.quote(AWS_ACCESS_KEY_ID, safe=''),
     urllib.quote(AWS_SECRET_ACCESS_KEY, safe='')
     )
     
-    # CELERY_RESULT_BACKEND = 'sqs://%s:%s@' % (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
-    # CELERY_ACCEPT_CONTENT = ['application/json']
-    # CELERY_TASK_SERIALIZER = 'json'
-    # CELERY_RESULT_SERIALIZER = 'json'
-    # CELERY_ACCEPT_CONTENT = ['pickle', 'json'] # usdToPln bulling function
+    CELERY_ACCEPT_CONTENT = ['application/json']
+    CELERY_TASK_SERIALIZER = 'json'
+    CELERY_RESULT_SERIALIZER = 'json'
+    CELERY_ACCEPT_CONTENT = ['pickle', 'json'] # usdToPln bulling function
 
-    # CELERY_ENABLE_UTC = True
-    # CELERY_TIMEZONE = 'Europe/Warsaw'
+    CELERY_ENABLE_UTC = True
+    CELERY_TIMEZONE = 'Europe/Warsaw'
     
     # Keep tasks results for one hour
     BROKER_TRANSPORT_OPTIONS = {
