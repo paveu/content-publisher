@@ -324,8 +324,8 @@ if os.environ.get("CONFIG_ENV") == 'AWS_ELASTIC_BEANSTALK':
     # CELERY_RESULT_SERIALIZER = 'json'
     # CELERY_ACCEPT_CONTENT = ['pickle', 'json'] # usdToPln bulling function
 
-    CELERY_ENABLE_UTC = True
-    CELERY_TIMEZONE = 'Europe/Warsaw'
+    # CELERY_ENABLE_UTC = True
+    # CELERY_TIMEZONE = 'Europe/Warsaw'
     
     # Keep tasks results for one hour
     BROKER_TRANSPORT_OPTIONS = {
@@ -333,8 +333,8 @@ if os.environ.get("CONFIG_ENV") == 'AWS_ELASTIC_BEANSTALK':
         'visibility_timeout': 3600,
         'polling_interval': 3,
     }
-    BROKER_TRANSPORT_OPTIONS['queue_name_prefix'] = 'repricer-stage-'
-    CELERY_SEND_TASK_ERROR_EMAILS = True
+    # BROKER_TRANSPORT_OPTIONS['queue_name_prefix'] = 'repricer-stage-'
+    # CELERY_SEND_TASK_ERROR_EMAILS = True
 
 if os.environ.get("CONFIG_ENV") == 'HEROKU':
     #redis session caching
