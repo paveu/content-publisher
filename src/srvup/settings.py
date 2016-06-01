@@ -317,7 +317,12 @@ if os.environ.get("CONFIG_ENV") == 'AWS_ELASTIC_BEANSTALK':
     # Celery deffered tasks
     # BROKER_URL = 'redis://localhost:6379/1'
     # BROKER_TRANSPORT = 'sqs'
-    BROKER_URL = 'sqs://%s:%s@' % (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+    
+    BROKER_URL = 'sqs://{0}:{1}@'.format(
+    urllib.quote(AWS_ACCESS_KEY_ID, safe=''),
+    urllib.quote(AWS_SECRET_ACCESS_KEY, safe='')
+    )
+    
     # CELERY_RESULT_BACKEND = 'sqs://%s:%s@' % (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     # CELERY_ACCEPT_CONTENT = ['application/json']
     # CELERY_TASK_SERIALIZER = 'json'
@@ -330,11 +335,14 @@ if os.environ.get("CONFIG_ENV") == 'AWS_ELASTIC_BEANSTALK':
     # Keep tasks results for one hour
     BROKER_TRANSPORT_OPTIONS = {
         'region': 'eu-central-1',
-        'visibility_timeout': 3600,
         'polling_interval': 3,
+        'visibility_timeout': 3600,
+    }
+
     }
     # BROKER_TRANSPORT_OPTIONS['queue_name_prefix'] = 'repricer-stage-'
-    # CELERY_SEND_TASK_ERROR_EMAILS = True
+    
+    CELERY_SEND_TASK_ERROR_EMAILS = True
 
 if os.environ.get("CONFIG_ENV") == 'HEROKU':
     #redis session caching
