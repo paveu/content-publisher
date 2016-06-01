@@ -316,7 +316,7 @@ if os.environ.get("CONFIG_ENV") == 'AWS_ELASTIC_BEANSTALK':
 
     # Celery deffered tasks
     # BROKER_URL = 'redis://localhost:6379/1'
-    BROKER_TRANSPORT = 'sqs'
+    # BROKER_TRANSPORT = 'sqs'
     BROKER_URL = 'sqs://%s:%s@' % (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     # CELERY_RESULT_BACKEND = 'sqs://%s:%s@' % (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     # CELERY_ACCEPT_CONTENT = ['application/json']
