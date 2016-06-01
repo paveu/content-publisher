@@ -24,7 +24,6 @@ content-publisher is a project for selling out video content. All videos we sell
   - Amazon SQS is used for celery broker in elasticbeanstalk
   - for session caching AWS ElastiCache(Redis) is used for elasticbeanstalk
   - for session caching Redis is used for heroku
-  - session caching with Redis for heroku and ElastiCache Redis for AWS EB
   - OAuth2 implemented along with Facebook athentication
   - django Rest Framework and JWT
   - email service via Gmail account
