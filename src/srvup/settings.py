@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import urllib
 import urlparse
 import datetime
 import dj_database_url
