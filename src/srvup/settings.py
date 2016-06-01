@@ -340,7 +340,6 @@ if os.environ.get("CONFIG_ENV") == 'AWS_ELASTIC_BEANSTALK':
         'visibility_timeout': 3600,
     }
 
-    }
     # BROKER_TRANSPORT_OPTIONS['queue_name_prefix'] = 'repricer-stage-'
     
     CELERY_SEND_TASK_ERROR_EMAILS = True
