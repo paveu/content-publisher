@@ -19,7 +19,12 @@ content-publisher is a project for selling out video content. All videos we sell
 ### Technical features
   - django 1.9.5
   - configuration for PostgreSQL 9.3 database for production
-  - static and media files hosted in AWS S3
+  - static and media files hosted in AWS S3 (for both AWS EB and Heroku)
+  - Redis is used for celery broker in heroku
+  - Amazon SQS is used for celery broker in elasticbeanstalk
+  - for session caching AWS ElastiCache(Redis) is used for elasticbeanstalk
+  - for session caching Redis is used for heroku
+  - AWS EB: (ElastiCache as a redis host<--already done), and SQS as your celery broker
   - session caching with Redis for heroku and ElastiCache Redis for AWS EB
   - OAuth2 implemented along with Facebook athentication
   - django Rest Framework and JWT
@@ -27,12 +32,11 @@ content-publisher is a project for selling out video content. All videos we sell
   - posibility to host project source code on heroku with static and media files on AWS S3 bucket
   - django-debug-toolbar implemented
 
+
 ### Todos
-  - fixing comment thread with angular.js - top priority
-  - newsletter model with async Celery - top priority
-  - AWS EB: (Use ElastiCache as your redis host<--already done), and SQS as your celery broker
-  - add fabric deployment script with filling in site id=1 for facebook socialapp
   - add Flower for monitor Celery tasks
+  - fixing comment thread with angular.js - top priority
+  - add fabric deployment script with filling in site id=1 for facebook socialapp
   - add celery for getting exchange rate from usd->pln. do it periodicaly and save a result to database
   - add Sentry for monitoring exepctions happen within the project
   - improving user account panel with angular.js
@@ -115,6 +119,17 @@ heroku logs -t -p worker
 ```
 ### AWS EB Installation
 Link to tutorial will be added here soon
+
+1. add redis service with permission
+
+2. add SQS queue with permission: https://www.calazan.com/using-amazon-sqs-with-django-and-celery/
+ssh to the bean and run celery worker in a background
+```sh
+eb ssh
+source /opt/python/run/venv/bin/activate
+cd /opt/python/current/app
+celery worker --workdir=src --app=srvup.celery:app --loglevel=INFO & 
+```
 
 In order to set up Celery for AWS SQS, please follow this tutorial:
 http://docs.celeryproject.org/en/latest/getting-started/brokers/sqs.html
