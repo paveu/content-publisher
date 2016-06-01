@@ -115,6 +115,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = os.environ['EMAIL_USERNAME']
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_PASSWORD']
+
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
@@ -315,31 +316,25 @@ if os.environ.get("CONFIG_ENV") == 'AWS_ELASTIC_BEANSTALK':
 
     # Celery deffered tasks
     # BROKER_URL = 'redis://localhost:6379/1'
-    BROKER_URL = 'sqs://%s:%s@' % (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
     BROKER_TRANSPORT = 'sqs'
-    CELERY_RESULT_BACKEND = 'sqs://%s:%s@' % (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
-    CELERY_ACCEPT_CONTENT = ['application/json']
-    CELERY_TASK_SERIALIZER = 'json'
-    CELERY_RESULT_SERIALIZER = 'json'
-    CELERY_ACCEPT_CONTENT = ['pickle', 'json'] # usdToPln bulling function
+    BROKER_URL = 'sqs://%s:%s@' % (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+    # CELERY_RESULT_BACKEND = 'sqs://%s:%s@' % (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+    # CELERY_ACCEPT_CONTENT = ['application/json']
+    # CELERY_TASK_SERIALIZER = 'json'
+    # CELERY_RESULT_SERIALIZER = 'json'
+    # CELERY_ACCEPT_CONTENT = ['pickle', 'json'] # usdToPln bulling function
 
     CELERY_ENABLE_UTC = True
     CELERY_TIMEZONE = 'Europe/Warsaw'
     
     # Keep tasks results for one hour
     BROKER_TRANSPORT_OPTIONS = {
-        'visibility_timeout': 3600,
         'region': 'eu-central-1',
-        'polling_interval': 0.3,
+        'visibility_timeout': 3600,
+        'polling_interval': 3,
     }
-    CELERY_DEFAULT_QUEUE = 'production_queue'
-    CELERY_QUEUES = {
-        CELERY_DEFAULT_QUEUE: {
-            'exchange': CELERY_DEFAULT_QUEUE,
-            'binding_key': CELERY_DEFAULT_QUEUE,
-        }
-    }
-
+    BROKER_TRANSPORT_OPTIONS['queue_name_prefix'] = 'repricer-stage-'
+    CELERY_SEND_TASK_ERROR_EMAILS = True
 
 if os.environ.get("CONFIG_ENV") == 'HEROKU':
     #redis session caching

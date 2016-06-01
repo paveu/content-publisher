@@ -119,6 +119,8 @@ Link to tutorial will be added here soon
 In order to set up Celery for AWS SQS, please follow this tutorial:
 http://docs.celeryproject.org/en/latest/getting-started/brokers/sqs.html
 
+AWS troubleshooting:
+https://realpython.com/blog/python/deploying-a-django-app-to-aws-elastic-beanstalk/
 
 * NOTE #6: For all config envoirments(local,heroku,aws eb) you will have to setup SocialApp settings. So in order to get the project up and running please add Facebook SocialApp to the the Django admin. Do following steps:
 
