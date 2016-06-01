@@ -147,7 +147,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Warsaw'
 
 USE_I18N = True
 
@@ -370,8 +370,41 @@ if os.environ.get("CONFIG_ENV") == 'local':
     
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "media")
+    
+    # Celery deffered tasks
+    # BROKER_URL = 'redis://localhost:6379/1'
+    BROKER_URL = 'redis://localhost:6379/1'
+    BROKER_TRANSPORT = 'redis'
+    CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
+    CELERY_ACCEPT_CONTENT = ['application/json']
+    CELERY_TASK_SERIALIZER = 'json'
+    CELERY_RESULT_SERIALIZER = 'json'
+    CELERY_ACCEPT_CONTENT = ['pickle', 'json'] # usdToPln bulling function
 
+    CELERY_ENABLE_UTC = True
+    CELERY_TIMEZONE = 'Europe/Warsaw'
+    
+    # Keep tasks results for one hour
+    BROKER_TRANSPORT_OPTIONS = {
+        'visibility_timeout': 3600
+    }
 
+    # Because we have CELERY_ALWAYS_EAGER = True, this is setup for local development and debugging. 
+    # This setting tells Celery to process all tasks synchronously which is perfect for running our 
+    # tests and working locally so we don't have to run a separate worker process. You'll obviously 
+    # want to turn that off in production.
+    # If this is True, all tasks will be executed locally by blocking until the task returns. 
+    # apply_async() and Task.delay() will return an EagerResult instance, which emulates the API 
+    # and behavior of AsyncResult,  #except the result is already evaluated.
+    # That is, tasks will be executed locally instead of being sent to the queue.
+    CELERY_ALWAYS_EAGER = False
+    
+    # If this is True, eagerly executed tasks (applied by task.apply(), 
+    # or when the CELERY_ALWAYS_EAGER setting is enabled), will propagate exceptions.
+    # It's the same as always running apply() with throw=True.
+    CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
+    
+# For all environments: Local, Heroku, AWS. It points to static_dirs them it's being copied to static_root for http server
 STATICFILES_DIRS = (
     os.path.join(os.path.dirname(BASE_DIR), "static", "static_dirs"),
 )

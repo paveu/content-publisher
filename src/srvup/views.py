@@ -1,6 +1,8 @@
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Count
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponseRedirect
+from django.contrib import messages
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response as RestResponse
 from rest_framework.reverse import reverse as api_reverse
@@ -10,6 +12,9 @@ from videos.models import Video, Category
 from analytics.signals import page_view
 from analytics.models import PageView
 from comments.models import Comment
+from .forms import FeedbackForm
+from .tasks import sendFeedbackEmail
+
 
 @api_view(["GET"])
 def get_api_home(request):
@@ -43,13 +48,11 @@ def home(request):
     """
     Main view function, it is displayed everytime when a user hits "/" root website
     """
-    
     # Log a hit to a website into "page_view" page
     page_view.send(request.user, page_path=request.get_full_path())
     
     # Folowing content will be displayed only for those users who are logged in
     if request.user.is_authenticated():
-        
         # Filter five recent added videos to categories taken from all viewed videos
         page_view_obj = request.user.pageview_set.get_videos()[:5]
         recent_videos = []
@@ -77,6 +80,7 @@ def home(request):
         context = {"recent_videos": recent_videos,
                    "recent_comments": recent_comments,
                    "popular_videos": popular_videos,
+                   "feedback_form": FeedbackForm(request=request),
                    }
         template = "account/home_logged_in.html"
     else:
@@ -96,3 +100,21 @@ def home(request):
         template = "account/home_visitor.html"
     return render(request, template, context)
 
+def send_feedback(request):
+    """
+    Description will be added soon
+    """
+    if request.method == "POST":
+
+        form = FeedbackForm(request.POST, request=request)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            if form.cleaned_data['honeypot']:
+                return 
+            sendFeedbackEmail.delay(email, message)
+
+            messages.success(request, "Your feedback has been sent")
+            template = "srvup/feedback.html"
+            context = {}
+        return render(request, template, context)

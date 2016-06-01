@@ -19,11 +19,13 @@ xmltodict==0.10.1
 dj-database-url #heroku 
 dj-static #heroku
 django-toolbelt #heroku
-gunicorn #heroku
-psycopg2 #heroku
+gunicorn # heroku
+psycopg2 # heroku
 redis # for django session caching
 django-redis-cache #for django session caching
 boto # for getting an access to aws
 #django-storages # old aws S3 media files handler
 django-storages-redux # aws S3 media files handler
 awsebcli # for aws elastic beanstalk
+celery[redis] # for deferred tasks 
+#django-celery # celery cron, for executig periodic tasks

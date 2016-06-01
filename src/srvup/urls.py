@@ -10,6 +10,7 @@ from billing.views import braintree_upgrade, billing_history, braintree_cancel_s
 from accounts.views import account_home
 from comments.views import comment_thread, comment_create_view
 from notifications.views import all, get_notifications_ajax, read
+from srvup.views import send_feedback
 
 from rest_framework import routers 
 from rest_framework_jwt.views import obtain_jwt_token
@@ -51,6 +52,8 @@ urlpatterns = [
     url(r'^categories/(?P<cat_slug>[\w-]+)/$', category_detail, name='cat_detail'),
     url(r'^categories/(?P<cat_slug>[\w-]+)/(?P<vid_slug>[\w-]+)/$', video_detail, name='video_detail'),
     url(r'^admin/', admin.site.urls),
+    url(r'^send_feedback/$', send_feedback, name='send_feedback'),
+
     ]
 
 if settings.DEBUG:
@@ -69,7 +72,7 @@ urlpatterns += [
 
 # auth login/logout/register
 urlpatterns += [
-    url(r'^account/home/$', account_home, name='account_home'),
+    url(r'^accounts/home/$', account_home, name='account_home'),
     # url(r'^account/login/$', auth_login, name='login'),
     # url(r'^account/logout/$', auth_logout, name='logout'),
     # url(r'^account/register/$', auth_register, name='register'),

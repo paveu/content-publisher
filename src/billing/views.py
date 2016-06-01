@@ -336,6 +336,8 @@ def payu_upgrade(request):
             print("Status code is different than 302:", resp.status_code)
     
     usd = exchangeRateUSD()
+    # print(obj)
+    # usd = obj.result
     context = {"form": UpgradePayuForm, 
                 "action_url": reverse("payu_upgrade"), 
                 "dateOfListing": usd[0],

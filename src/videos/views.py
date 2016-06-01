@@ -14,7 +14,6 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework import permissions
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
-
 class VideoDetailAPIView(generics.RetrieveAPIView):
     """
     new REST view:
@@ -116,6 +115,7 @@ def category_list(request):
     """
     Get all created categories
     """
+
     all_cat = Category.objects.all()
     context = {"all_cat": all_cat }
     return render(request, "videos/category_list.html", context)

@@ -32,6 +32,9 @@ content-publisher is a project for selling out video content. All videos we sell
   - newsletter model with async Celery - top priority
   - AWS EB: Use ElastiCache as your redis host, and SQS as your celery broker
   - add fabric deployment script with filling in site id=1 for facebook socialapp
+  - add Flower for monitor Celery tasks
+  - add celery for getting exchange rate from usd->pln. do it periodicaly and save a result to database
+  - add Sentry for monitoring exepctions happen within the project
   - improving user account panel with angular.js
   - deploying project with fabric script for local/stage and production
   - braintree and payu tutorials for those who wants to run it in production mode

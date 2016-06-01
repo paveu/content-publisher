@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class='row' style="width: 50%; margin: 0 auto; margin-top: 75px; margin-bottom: 75;">
+  {% for message in messages %}
+      <br />
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    <br />
+    <p class="lead">Back to dashboard <a href="/">*Click here*</a></p>
+</div>
+{% endblock %}
