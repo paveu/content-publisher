@@ -120,8 +120,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 #from django.conf import settings
 #from django.core.mail import send_mail
-#send_mail('Subject here', 'Here is the message.', settings.EMAIL_HOST_USER,
-#         ['to@example.com'], fail_silently=False)
+#send_mail('Subject here', 'Here is the message.', settings.EMAIL_HOST_USER, ['to@example.com'], fail_silently=False)
 
 
 # Password validation
@@ -340,6 +339,25 @@ if os.environ.get("CONFIG_ENV") == 'HEROKU':
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
     FULL_DOMAIN_NAME = 'content-publisher-depl.eu-central-1.elasticbeanstalk.com'
+
+    # Celery deffered tasks
+    # BROKER_URL = 'redis://localhost:6379/1'
+    BROKER_URL = BROKER_URL=os.environ['REDIS_URL']
+    BROKER_TRANSPORT = 'redis'
+    CELERY_RESULT_BACKEND = os.environ['REDIS_URL']
+    CELERY_ACCEPT_CONTENT = ['application/json']
+    CELERY_TASK_SERIALIZER = 'json'
+    CELERY_RESULT_SERIALIZER = 'json'
+    CELERY_ACCEPT_CONTENT = ['pickle', 'json'] # usdToPln bulling function
+
+    CELERY_ENABLE_UTC = True
+    CELERY_TIMEZONE = 'Europe/Warsaw'
+    
+    # Keep tasks results for one hour
+    BROKER_TRANSPORT_OPTIONS = {
+        'visibility_timeout': 3600
+    }
+
 
 if os.environ.get("CONFIG_ENV") == 'local':
     DEBUG_TOOLBAR_CONFIG = {
