@@ -311,7 +311,34 @@ if os.environ.get("CONFIG_ENV") == 'AWS_ELASTIC_BEANSTALK':
     
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
-    FULL_DOMAIN_NAME = 'http://content-publisher-pro.herokuapp.com'
+    FULL_DOMAIN_NAME = 'http://content-publisher-depl.eu-central-1.elasticbeanstalk.com/'
+
+    # Celery deffered tasks
+    # BROKER_URL = 'redis://localhost:6379/1'
+    BROKER_URL = 'sqs://%s:%s@' % (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+    BROKER_TRANSPORT = 'sqs'
+    CELERY_RESULT_BACKEND = 'sqs://%s:%s@' % (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+    CELERY_ACCEPT_CONTENT = ['application/json']
+    CELERY_TASK_SERIALIZER = 'json'
+    CELERY_RESULT_SERIALIZER = 'json'
+    CELERY_ACCEPT_CONTENT = ['pickle', 'json'] # usdToPln bulling function
+
+    CELERY_ENABLE_UTC = True
+    CELERY_TIMEZONE = 'Europe/Warsaw'
+    
+    # Keep tasks results for one hour
+    BROKER_TRANSPORT_OPTIONS = {
+        'visibility_timeout': 3600,
+        'region': 'eu-central-1',
+        'polling_interval': 0.3,
+    }
+    CELERY_DEFAULT_QUEUE = 'production_queue'
+    CELERY_QUEUES = {
+        CELERY_DEFAULT_QUEUE: {
+            'exchange': CELERY_DEFAULT_QUEUE,
+            'binding_key': CELERY_DEFAULT_QUEUE,
+        }
+    }
 
 
 if os.environ.get("CONFIG_ENV") == 'HEROKU':

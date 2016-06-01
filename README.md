@@ -102,8 +102,23 @@ $ python manage.py runserver
 ### Heroku Installation
 Link to tutorial will be added here soon
 
+In order to setup Celery for Heroku, please follow this tutoria:
+https://devcenter.heroku.com/articles/celery-heroku
+
+for celery you will have to scale your worker, please type this command in the console:
+```sh
+heroku ps:scale worker=1
+```
+to get worker logs please type:
+```sh
+heroku logs -t -p worker
+```
 ### AWS EB Installation
 Link to tutorial will be added here soon
+
+In order to set up Celery for AWS SQS, please follow this tutorial:
+http://docs.celeryproject.org/en/latest/getting-started/brokers/sqs.html
+
 
 * NOTE #6: For all config envoirments(local,heroku,aws eb) you will have to setup SocialApp settings. So in order to get the project up and running please add Facebook SocialApp to the the Django admin. Do following steps:
 
