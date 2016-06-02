@@ -272,3 +272,13 @@
 	* Go to 'Social applications' tab and fill in facebook authentication keys. Those keys can be found in facebook developer page
 	* After you filled in these four steps project should be up and running.
 
+
+15. **Troubleshooting**
+
+Don’t forget the very helpful eb ssh command, which will get you into the EC2 instance so you can poke around and see what’s going on. When troubleshooting, there are a few directories you should be aware of:
+
+    /opt/python – Root of where you application will end up.
+    /opt/python/current/app – The current application that is hosted in the environment.
+    /opt/python/on-deck/app – The app is initially put in on-deck and then, after all the deployment is complete, it will be moved to current. If you are getting failures in your container_commands, check out out the on-deck folder and not the current folder.
+    /opt/python/current/env – All the env variables that eb will set up for you. If you are trying to reproduce an error, you may first need to source /opt/python/current/env to get things set up as they would be when eb deploy is running.
+    opt/python/run/venv – The virtual env used by your application; you will also need to run source /opt/python/run/venv/bin/activate if you are trying to reproduce an error
