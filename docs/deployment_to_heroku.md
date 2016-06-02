@@ -1,4 +1,5 @@
 1. Setup Virtual Environment, GIT, & Django.
+
 	**Create Virtualenv**
 	```
 	$ pip install virtualenv
