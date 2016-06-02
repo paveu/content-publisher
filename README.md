@@ -71,33 +71,39 @@ $ export EMAIL_PASSWORD=''
 $ export CONFIG_ENV='local' # for local development
 ```
 
+* NOTE #4: Set your FULL DOMAIN NAME. If you are running project locally I recommend adding it to shell .profile file:
+
+```sh
+$ export FULL_DOMAIN_NAME=''
+```
+
 ### Local Installation for Python 2.7.x
 
 **Create Virtualenv**
-```
+```sh
 $ pip install virtualenv
 $ virtualenv content-publisher
 ```
 
 **Activate Virtualenv** 
-```
+```sh
 $ cd content-publisher
 $ source bin/activate
 ```
 
 **git clone project**
-```
+```sh
 $ mkdir proj && cd proj
 $ git clone https://github.com/paveu/content-publisher.git .
 ```
 
 **Install pip packages**
-```
+```sh
 $ sudo pip install -r requirements.txt
 ```
 
 **Apply migration, create user, collectstatic**
-```
+```sh
   $ cd src
   $ python manage.py makemigrations
   $ python manage.py migrate
@@ -106,7 +112,7 @@ $ sudo pip install -r requirements.txt
   $ python manage.py runserver
   ```
 
-- NOTE #4 For all config envoirments(local,heroku,aws eb) you will have to setup SocialApp settings. So in order to get the project up and running please add Facebook SocialApp to the the Django admin. Do following steps:
+* NOTE #5 For all config envoirments(local,heroku,aws eb) you will have to setup SocialApp settings. So in order to get the project up and running please add Facebook SocialApp to the the Django admin. Do following steps:
 	* Go to admin http://project/admin/ page use login:admin, pw:admin and click at Sites.
 	* DO NOT REMOVE example.com, just edit example.com row and change example.com domain to your current project domain.
 	* Click save.
