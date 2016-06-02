@@ -146,9 +146,10 @@
         }
 	```
 
-9 **Handling pacakages**
+9.	**Handling pacakages**
 
-	1. file called `01_packages.config` in `.ebextensions` with contents of:
+	* file called `01_packages.config` in `.ebextensions` with contents of:
+
 	```
 	packages:
 	  yum:
@@ -157,7 +158,7 @@
 	    libjpeg-turbo-devel: []
 	```	
 	
-	2. file called `02_python.config ` in `.ebextensions` with contents of:
+	* file called `02_python.config ` in `.ebextensions` with contents of:
 
 	```
 	container_commands:
@@ -180,11 +181,18 @@
 	    NumThreads: 20
 	```
 
-11. **1st Deploy to Elastic Beanstalk**
-	Do Deployment:
+11. **Deploy to Elastic Beanstalk**
+
+	Do Staging:
 	```
-	eb deploy
+	eb deploy content-publisher-stage
 	```
+
+	Do Production:
+	```
+	eb deploy content-publisher-prod
+	```
+
 11. **For all config envoirments(local,heroku,aws eb) you will have to setup SocialApp settings. So in order to get the project up and running please add Facebook SocialApp to the the Django admin. Do following steps:**
 
 	* Go to admin http://project/admin/ page use login:admin, pw:admin and click at Sites.
