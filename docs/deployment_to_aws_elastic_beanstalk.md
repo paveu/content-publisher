@@ -233,7 +233,19 @@
 	Tutorial how to add SQS to django project:
 	https://www.calazan.com/using-amazon-sqs-with-django-and-celery/
 
-13. **Add celery worker in the background**
+13. **Deploy to Elastic Beanstalk**
+
+	Do Staging:
+	```
+	eb deploy content-publisher-stage
+	```
+
+	Do Production:
+	```
+	eb deploy content-publisher-prod
+	```
+
+14. **Add celery worker in the background**
 
 	Do Staging:
 	```
@@ -251,20 +263,7 @@
 	celery worker --workdir=src --app=srvup.celery:app --loglevel=INFO & 
 	```	
 
-
-13. **Deploy to Elastic Beanstalk**
-
-	Do Staging:
-	```
-	eb deploy content-publisher-stage
-	```
-
-	Do Production:
-	```
-	eb deploy content-publisher-prod
-	```
-
-14. **For all config envoirments(local,heroku,aws eb) you will have to setup SocialApp settings. So in order to get the project up and running please add Facebook SocialApp to the the Django admin. Do following steps:**
+15. **For all config envoirments(local,heroku,aws eb) you will have to setup SocialApp settings. So in order to get the project up and running please add Facebook SocialApp to the the Django admin. Do following steps:**
 
 	* Go to admin http://project/admin/ page use login:admin, pw:admin and click at Sites.
 	* DO NOT REMOVE example.com, just edit example.com row and change example.com domain to your current project domain.
@@ -273,7 +272,7 @@
 	* After you filled in these four steps project should be up and running.
 
 
-15. **Troubleshooting**
+16. **Troubleshooting**
 
 Don’t forget the very helpful eb ssh command, which will get you into the EC2 instance so you can poke around and see what’s going on. When troubleshooting, there are a few directories you should be aware of:
 
