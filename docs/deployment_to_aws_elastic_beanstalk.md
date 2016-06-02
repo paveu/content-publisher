@@ -219,7 +219,7 @@
 	    DJANGO_SETTINGS_MODULE: "srvup.settings"
 	    "PYTHONPATH": "/opt/python/current/app/src:$PYTHONPATH"
 	  "aws:elasticbeanstalk:container:python":
-	    WSGIPath: src/srvup/wsgi.py"
+	    WSGIPath: src/srvup/wsgi.py
 	    NumProcesses: 3
 	    NumThreads: 20
 	```
