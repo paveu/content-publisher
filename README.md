@@ -73,31 +73,31 @@ $ export CONFIG_ENV='local' # for local development
 
 ### Local Installation for Python 2.7.x
 
-	**Create Virtualenv**
-	```
-	$ pip install virtualenv
-	$ virtualenv content-publisher
-	```
-	
-	**Activate Virtualenv** 
-	```
-	$ cd content-publisher
-	$ source bin/activate
-	```
+**Create Virtualenv**
+```
+$ pip install virtualenv
+$ virtualenv content-publisher
+```
 
-	**git clone project**
-	```
-	$ mkdir proj && cd proj
-	$ git clone https://github.com/paveu/content-publisher.git .
-	```
-	
-	**Install pip packages**
-	```
-	$ sudo pip install -r requirements.txt
-	```
-	
-	**Apply migration, create user, collectstatic**
-	```
+**Activate Virtualenv** 
+```
+$ cd content-publisher
+$ source bin/activate
+```
+
+**git clone project**
+```
+$ mkdir proj && cd proj
+$ git clone https://github.com/paveu/content-publisher.git .
+```
+
+**Install pip packages**
+```
+$ sudo pip install -r requirements.txt
+```
+
+**Apply migration, create user, collectstatic**
+```
   $ cd src
   $ python manage.py makemigrations
   $ python manage.py migrate
@@ -106,7 +106,7 @@ $ export CONFIG_ENV='local' # for local development
   $ python manage.py runserver
   ```
 
-NOTE #4 For all config envoirments(local,heroku,aws eb) you will have to setup SocialApp settings. So in order to get the project up and running please add Facebook SocialApp to the the Django admin. Do following steps:
+- NOTE #4 For all config envoirments(local,heroku,aws eb) you will have to setup SocialApp settings. So in order to get the project up and running please add Facebook SocialApp to the the Django admin. Do following steps:
 	* Go to admin http://project/admin/ page use login:admin, pw:admin and click at Sites.
 	* DO NOT REMOVE example.com, just edit example.com row and change example.com domain to your current project domain.
 	* Click save.
