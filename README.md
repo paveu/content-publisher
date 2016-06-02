@@ -51,7 +51,7 @@ content-publisher is a project for selling out video content. All videos we sell
   - https://docs.travis-ci.com/user/status-images/
   - http://shields.io/ (reelase image)
 
-### Setting up config variables and plugins
+### Setting up config variables
 
 * NOTE #1: You will have to set up django secret key, use 'openssl rand -base64 64' to generate your key and export it as a linux variable. If you're running it locally keep it safe in shell .profile file.
 
@@ -59,7 +59,7 @@ content-publisher is a project for selling out video content. All videos we sell
 $ export DJANGO_SECRET_KEY='' # generate new secret key for django project. you can use following command: openssl rand -base64 64
 ```
 
-* NOTE #2: Create an account at gmail.com and go to google email settings and selecet "turning on access for less secure apps"[link](https://support.google.com/accounts/answer/6010255). If you are running project locally I recommend adding gmail login/pw to shell .profile file. 
+* NOTE #2: Create an account at gmail.com and go to google email settings and selecet "turning on access for less secure apps" -> [link](https://support.google.com/accounts/answer/6010255). If you are running project locally I recommend adding gmail login/pw to shell .profile file. 
 ```sh
 $ export EMAIL_USERNAME='' 
 $ export EMAIL_PASSWORD=''
@@ -119,12 +119,12 @@ $ sudo pip install -r requirements.txt
 	* Go to 'Social applications' tab and fill in facebook authentication keys. Those keys can be found in facebook developer page
 	* After you filled in these four steps project should be up and running.
 
-### Heroku Installation
+### Heroku deployment tutorial
 
-[https://github.com/paveu/content-publisher/blob/master/docs/deployment_to_heroku.md](https://github.com/paveu/content-publisher/blob/master/docs/deployment_to_heroku.md)
+[---> Link <---](https://github.com/paveu/content-publisher/blob/master/docs/deployment_to_heroku.md)
 
-### AWS EB Installation
-Link to tutorial will be added here soon
+### AWS Elastic Beanstalk deployment tutorial
+**Link to tutorial will be added here soon** 
 
 1. add redis service with permission
 
