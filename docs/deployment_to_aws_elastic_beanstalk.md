@@ -96,7 +96,7 @@
 	FULL_DOMAIN_NAME='' # full domain for example: http://localhost.com
 	```
 	
-	Wait until 'Health' turns into "OK". It may take 10-15min
+	Wait until 'Health' turns into "OK". It may take 10-20min
 	
 6.	**Configuring our Python environment** 
 
@@ -125,6 +125,7 @@
     5. Add a "Master Username" and "Master Password".
     6. Save the changes.
 
+	Wait until 'Health' turns into "OK". It may take 10-20min
 
 8. **Django Production `settings.py`:**
 	* These credentials are needed for deployment* 
@@ -181,7 +182,35 @@
 	    NumThreads: 20
 	```
 
-11. **Deploy to Elastic Beanstalk**
+11. **Add AWS Elasticache service with Redis**
+
+	To be added
+
+12. **Add AWS SQS for Celery**
+	
+	Tutorial how to add SQS to django project:
+	https://www.calazan.com/using-amazon-sqs-with-django-and-celery/
+
+13. **Add celery worker in the background**
+
+	Do Staging:
+	```
+	eb ssh content-publisher-stage
+	source /opt/python/run/venv/bin/activate
+	cd /opt/python/current/app
+	celery worker --workdir=src --app=srvup.celery:app --loglevel=INFO & 
+	```	
+
+	Do Production:
+	```
+	eb ssh content-publisher-prod
+	source /opt/python/run/venv/bin/activate
+	cd /opt/python/current/app
+	celery worker --workdir=src --app=srvup.celery:app --loglevel=INFO & 
+	```	
+
+
+13. **Deploy to Elastic Beanstalk**
 
 	Do Staging:
 	```
@@ -193,7 +222,7 @@
 	eb deploy content-publisher-prod
 	```
 
-11. **For all config envoirments(local,heroku,aws eb) you will have to setup SocialApp settings. So in order to get the project up and running please add Facebook SocialApp to the the Django admin. Do following steps:**
+14. **For all config envoirments(local,heroku,aws eb) you will have to setup SocialApp settings. So in order to get the project up and running please add Facebook SocialApp to the the Django admin. Do following steps:**
 
 	* Go to admin http://project/admin/ page use login:admin, pw:admin and click at Sites.
 	* DO NOT REMOVE example.com, just edit example.com row and change example.com domain to your current project domain.
