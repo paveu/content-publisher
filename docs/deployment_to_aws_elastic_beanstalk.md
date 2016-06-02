@@ -48,35 +48,13 @@
 
 3. Create Elastic Beanstalk Application via Command Line (aka Terminal/Command Prompt)
 
-	**config.yml had been already created. Please edit below file according to your AWS settings**
-	.elasticbeanstalk/config.yml
-
-	```
-	branch-defaults:
-	  master:
-	    environment: content-publisher-prod
-	    group_suffix: null
-	  prod:
-	    environment: content-publisher-prod
-	  stage:
-	    environment: content-publisher-stage
-	    group_suffix: null
-	global:
-	  application_name: content-publisher
-	  default_ec2_keyname: aws-eb
-	  default_platform: Python 2.7
-	  default_region: eu-central-1
-	  profile: eb-cli
-	  sc: git
-	```
-
 	**Initialize EB**
 
 	```
 	eb init -i
 	```
 
-	Answer on following questions according to your location and settings:
+	Answer on following questions according to your location and settings. Create keys with name: aws-deploy-keys
 
 	```
 	(content-publisher)pawelste:~/workspace/content-publisher/proj (master) $ eb init -i
@@ -114,11 +92,37 @@
 	(y/n): y
 	```
 
-4.	**Create Elastic Beanstalk environments (stage and production)** 
+	**config.yml had been already created. Please edit below file according to your AWS settings**
+	.elasticbeanstalk/config.yml
+
+	```
+	branch-defaults:
+	  master:
+	    environment: content-publisher-prod
+	    group_suffix: null
+	  prod:
+	    environment: content-publisher-prod
+	  stage:
+	    environment: content-publisher-stage
+	    group_suffix: null
+	global:
+	  application_name: content-publisher
+	  default_ec2_keyname: aws-deploy-keys
+	  default_platform: Python 2.7
+	  default_region: eu-central-1
+	  profile: eb-cli
+	  sc: git
+	```
+
+
+4.	**Create Elastic Beanstalk environments (stage and production)**
+
 	```
 	eb create content-publisher-prod
 	eb create content-publisher-stage
 	```
+	
+	In your environment/configuration/instances/EC2 key pair - check whether 'aws-deploy-keys' is used for this env(prod and stage)
 
 5. 	**Both environments(production and stage) WILL fail because of lack of linux environment settings. So you will have to go to your envoirments(for both production and stage) and add those varaibles to -> Configuration > Software Configuration > Environment Properties**
 	
