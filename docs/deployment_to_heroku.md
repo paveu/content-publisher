@@ -38,7 +38,7 @@
 	```
 
 5. Create two new heroku apps:
-6. 
+
 	**One for production**
 	```
 	$ heroku create contentpub-pro
@@ -69,6 +69,7 @@
 	```
 
 8. Creating plugins for heroku (production and staging)
+
 	**One for production**
 	```
 	$ heroku addons:create heroku-postgresql:hobby-dev --app contentpub-pro
@@ -121,7 +122,8 @@
 	$ heroku run python src/manage.py migrate --noinput --app contentpub-pro
 	$ heroku run python src/manage.py createsu --app contentpub-pro # it will create superuser with login:admin,pw:admin
 	$ heroku run python src/manage.py collectstatic --noinput --app contentpub-pro
-	```l
+	```
+
 	**One for staging**
 	```
 	$ heroku run python src/manage.py migrate --noinput --app contentpub-stage
