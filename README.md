@@ -51,7 +51,9 @@ content-publisher is a project for selling out video content. All videos we sell
   - https://docs.travis-ci.com/user/status-images/
   - http://shields.io/ (reelase image)
 
-### Setting up config variables
+### Local deployment tutorial
+
+**Setting up config variables**
 
 * NOTE #1: You will have to set up django secret key, use 'openssl rand -base64 64' to generate your key and export it as a linux variable. If you're running it locally keep it safe in shell .profile file.
 
@@ -76,8 +78,6 @@ $ export CONFIG_ENV='local' # for local development
 ```sh
 $ export FULL_DOMAIN_NAME=''
 ```
-
-### Local Installation for Python 2.7.x
 
 **Create Virtualenv**
 ```sh
