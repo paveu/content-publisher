@@ -48,73 +48,51 @@
 
 3. Create Elastic Beanstalk Application via Command Line (aka Terminal/Command Prompt)
 
+	** config.yml had been already created. Please edit below file according to your AWS settings**
+	.elasticbeanstalk/config.yml
+
+	```
+	branch-defaults:
+	  master:
+	    environment: null
+	    group_suffix: null
+	  prod:
+	    environment: content-publisher-prod
+	  stage:
+	    environment: content-publisher-stage
+	    group_suffix: null
+	global:
+	  application_name: content-publisher
+	  default_ec2_keyname: cp-eb
+	  default_platform: Python 2.7
+	  default_region: eu-central-1
+	  profile: eb-cli
+	  sc: git
+	```
+
 	**Initialize EB**
 
 	```
 	eb init 
 	```
 
-	**Here's what we did. If you don't see this questions don't worry config.yml had been already set up for you.**
+4.	**Create Elastic Beanstalk environments (stage and production)** 
 	```
-		Select a default region
-		1) us-east-1 : US East (N. Virginia)
-		2) us-west-1 : US West (N. California)
-		3) us-west-2 : US West (Oregon)
-		4) eu-west-1 : EU (Ireland)
-		5) eu-central-1 : EU (Frankfurt)
-		6) ap-southeast-1 : Asia Pacific (Singapore)
-		7) ap-southeast-2 : Asia Pacific (Sydney)
-		8) ap-northeast-1 : Asia Pacific (Tokyo)
-		9) sa-east-1 : South America (Sao Paulo)
-		10) cn-north-1 : China (Beijing)
-		(default is 3): 5               # this is my answer
-
-		You have not yet set up your credentials or your credentials are incorrect
-		You must provide your credentials.
-		(aws-access-id): <your_access_key_id>
-		(aws-secret-key): <your_secret_access_key>
-
-		Select an application to use
-		1) [ Create new Application ]
-		(default is 1): 1                # We created a new one
-
-		Enter Application Name
-		(default is "content-publisher"):           # We pressed enter to use the default
-		Application content-publisher has been created.
-
-		Select a platform.
-		1) Node.js
-		2) PHP
-		3) Python
-		4) Ruby
-		5) Tomcat
-		6) IIS
-		7) Docker
-		8) Multi-container Docker
-		9) GlassFish
-		10) Go
-		11) Java
-		(default is 1): 3                  # Select 3 for Python.
-
-		Select a platform version.
-		1) Python 3.4
-		2) Python
-		3) Python 2.7
-		4) Python 3.4 (Preconfigured - Docker)
-		(default is 1): 3					# Select 3 for 2.7 if that is what you use locally
-		Do you want to set up SSH for your instances?
-		(y/n): y                            # Optional, not needed at this point.
-
-		Select a keypair.
-		1) aws-eb
-		2) aws-eb2
-		3) [ Create new KeyPair ]           # If you said yes to SSH, this is required.
+	eb create content-publisher-prod --instance_type t2.micro --database --database.engine postgresql --database.instance db.t2.micro 
+	eb create content-publisher-stage --instance_type t2.micro --database --database.engine postgresql --database.instance db.t2.micro
 	```
 
-4.	**Create Elastic Beanstalk** 
+5. 	**Both environments WILL faill because of lack of linux environment settings. So you will have to go to your envoirments(for both production and stage) and add those varaibles to -> Configuration > Software Configuration > Environment Properties **
 	```
-	eb create
+	AWS_ACCESS_KEY_ID=''
+	AWS_SECRET_ACCESS_KEY=''
+	CONFIG_ENV='AWS_ELASTIC_BEANSTALK'
+	DJANGO_SECRET_KEY=''
+	EMAIL_PASSWORD=''
+	EMAIL_USERNAME=''
+	FULL_DOMAIN_NAME=''
 	```
+
 
 5.	**Configuring our Python environment** 
 	Configuring our Python environment
@@ -125,10 +103,10 @@
 	If you search for the terms ‘WSGI’ in the file, and you should find a configuration section that looks like this:
 	```
 	aws:elasticbeanstalk:container:python:
-    NumProcesses: '1'
-    NumThreads: '15'
-    StaticFiles: /static/=static/
-    WSGIPath: src/srvup/wsgi.py
+	NumProcesses: '1'
+	NumThreads: '15'
+	StaticFiles: /static/=static/
+	WSGIPath: src/srvup/wsgi.py
 	```
 	
 6.	**Configuring a Database** 
