@@ -6,15 +6,20 @@ Launching a Django Project on Amazon Web Services (AWS) Elastic Beanstalk.
 1. Setup Virtual Environment, GIT, & Django.
 	**Create Virtualenv**
 	```
+	pip install virtualenv
 	virtualenv content-publisher
 	```
 	
 	**Activate Virtualenv** 
-	`source bin/activate`
+	```
+	cd content-publisher
+	source bin/activate
+	```
 
 	**git clone project**
 	```
-	git clone https://github.com/paveu/content-publisher.git tmp && mv tmp/.git . && rm -rf tmp && git reset --hard
+	mkdir proj && cd proj
+	git clone https://github.com/paveu/content-publisher.git .
 	```
 	
 	**Install pip packages**
