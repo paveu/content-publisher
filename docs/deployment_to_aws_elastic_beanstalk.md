@@ -1,74 +1,60 @@
-# Elastic Beanstalk Django
 
-Launching a Django Project on Amazon Web Services (AWS) Elastic Beanstalk.
-
+## Launching a Django Project on Amazon Web Services (AWS) Elastic Beanstalk.
 
 1. Setup Virtual Environment, GIT, & Django.
+
 	**Create Virtualenv**
-	```
-	pip install virtualenv
-	virtualenv content-publisher
+	```sh
+	$ pip install virtualenv
+	$ virtualenv content-publisher
 	```
 	
 	**Activate Virtualenv** 
-	```
-	cd content-publisher
-	source bin/activate
+	```sh
+	$ cd content-publisher
+	$ source bin/activate
 	```
 
 	**git clone project**
 	```
-	mkdir proj && cd proj
-	git clone https://github.com/paveu/content-publisher.git .
+	$ mkdir proj && cd proj
+	$ git clone https://github.com/paveu/content-publisher.git .
 	```
 	
 	**Install pip packages**
 	```
-	sudo pip install -r requirements.txt
+	$ sudo pip install -r requirements.txt
 	```
 		
-	__Test installation__
+	**Test installation**
 	
 	```
-	eb --version
+	$ eb --version
 	```
 	
 	**Returns** something like 
 	```
-	EB CLI 3.6.1 (Python 2.7.9)
+	EB CLI 3.7.6 (Python 2.7.6)
 	```
 
-2. **Create AWS User Credentials**
-	
+2. Create AWS User Credentials
 	1. Navigate to [IAM Users](https://console.aws.amazon.com/iam/home?#users)
-	
 	2. Select `Create New Users`
-	
 	3. Enter `awsbean` as a username (or whatever you prefer)
-	
 	4. Ensure `Generate an access key for each user` is **selected**.
-	
 	5. Select `Download credentials` and keep them safe. 
-	
 	6. Open the `credentials.csv` file that was just downloaded/created 
-
 	7. Note the `Access Key Id` and `Secret Access Key` as they are needed for a future step. These will be referred to as `<your_access_key_id>` and `<your_secret_access_key>`
 
+3. Create Elastic Beanstalk Application via Command Line (aka Terminal/Command Prompt)
 
-3. **Create Elastic Beanstalk Application via Command Line (aka Terminal/Command Prompt)**
-	** Ensure virtualenv is activated **
-	```
-	cd /path/to/root/of/your/virtualenv/
-	source bin/activate # if Mac/Linux
-	.\Scripts\activate * if Windows
-	```
-	Initialize EB:
+	**Initialize EB**
 
 	```
 	eb init 
 	```
 
-	Here's what we did. If you don't see this questions don't worry config.yml had been already set up for you.
+	**Here's what we did. If you don't see this questions don't worry config.yml had been already set up for you.**
 	```
 		Select a default region
 		1) us-east-1 : US East (N. Virginia)
