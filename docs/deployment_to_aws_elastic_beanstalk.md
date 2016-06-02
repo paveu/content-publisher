@@ -54,7 +54,7 @@
 	```
 	branch-defaults:
 	  master:
-	    environment: null
+	    environment: content-publisher-prod
 	    group_suffix: null
 	  prod:
 	    environment: content-publisher-prod
@@ -63,7 +63,7 @@
 	    group_suffix: null
 	global:
 	  application_name: content-publisher
-	  default_ec2_keyname: cp-eb
+	  default_ec2_keyname: aws-eb
 	  default_platform: Python 2.7
 	  default_region: eu-central-1
 	  profile: eb-cli
@@ -73,7 +73,45 @@
 	**Initialize EB**
 
 	```
-	eb init 
+	eb init -i
+	```
+
+	Answer on following questions according to your location and settings:
+
+	```
+	(content-publisher)pawelste:~/workspace/content-publisher/proj (master) $ eb init -i
+	
+	Select a default region
+	1) us-east-1 : US East (N. Virginia)
+	2) us-west-1 : US West (N. California)
+	3) us-west-2 : US West (Oregon)
+	4) eu-west-1 : EU (Ireland)
+	5) eu-central-1 : EU (Frankfurt)
+	6) ap-southeast-1 : Asia Pacific (Singapore)
+	7) ap-southeast-2 : Asia Pacific (Sydney)
+	8) ap-northeast-1 : Asia Pacific (Tokyo)
+	9) ap-northeast-2 : Asia Pacific (Seoul)
+	10) sa-east-1 : South America (Sao Paulo)
+	11) cn-north-1 : China (Beijing)
+	(default is 3): 5
+	
+	Select an application to use
+	1) content-publisher
+	2) content-publisher-deploy
+	3) [ Create new Application ]
+	(default is 3): 1
+	
+	It appears you are using Python. Is this correct?
+	(y/n): y
+	
+	Select a platform version.
+	1) Python 3.4
+	2) Python
+	3) Python 2.7
+	4) Python 3.4 (Preconfigured - Docker)
+	(default is 1): 3
+	Do you want to set up SSH for your instances?
+	(y/n): y
 	```
 
 4.	**Create Elastic Beanstalk environments (stage and production)** 
