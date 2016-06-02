@@ -92,6 +92,8 @@
     $ heroku config:set DJANGO_SECRET_KEY='' --app contentpub-pro # openssl rand -base64 32
     $ heroku config:set EMAIL_PASSWORD='' --app contentpub-pro
     $ heroku config:set EMAIL_USERNAME='' --app contentpub-pro
+    $ heroku config:set FULL_DOMAIN_NAME='' --app contentpub-pro
+    
 	```	
 
 	**One for staging**
@@ -102,6 +104,8 @@
     $ heroku config:set DJANGO_SECRET_KEY='' --app contentpub-stage
     $ heroku config:set EMAIL_PASSWORD='' --app contentpub-stage
     $ heroku config:set EMAIL_USERNAME='' --app contentpub-stage
+    $ heroku config:set FULL_DOMAIN_NAME='' --app contentpub-stage
+
 	```	
 
 10. Now we can push both of our apps live to Heroku.

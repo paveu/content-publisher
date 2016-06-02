@@ -1,11 +1,16 @@
 branch-defaults:
   master:
-    environment: content-publisher-depl
+    environment: content-publisher-prod
+    group_suffix: null
+  prod:
+    environment: content-publisher-prod
+  stage:
+    environment: content-publisher-stage
     group_suffix: null
 global:
-  application_name: content-publisher-deploy
+  application_name: content-publisher
   default_ec2_keyname: cp-eb
   default_platform: Python 2.7
   default_region: eu-central-1
-  profile: null
+  profile: eb-cli
   sc: git
