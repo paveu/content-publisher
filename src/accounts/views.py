@@ -22,7 +22,6 @@ def account_home(request):
         "braintreeHistory": braintreeHistory,
         "payuHistory": payuHistory,
         "notifications": notifications,
-        "FeedbackForm": FeedbackForm
     })
 
 
