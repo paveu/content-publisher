@@ -5,5 +5,5 @@ from django.core.mail import send_mail
 
 @app.task()
 def sendFeedbackEmail(email, message):
-    return send_mail('Feedback', str(message), settings.EMAIL_HOST_USER, [str(email)], fail_silently=False)
+    return send_mail('Feedback from content-publisher', str(message), str(email), ['omega8@o2.pl'], fail_silently=False)
     
