@@ -313,7 +313,7 @@ if os.environ.get("CONFIG_ENV") == 'AWS_ELASTIC_BEANSTALK':
     
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
-    FULL_DOMAIN_NAME = 'http://content-publisher-depl.eu-central-1.elasticbeanstalk.com/'
+    FULL_DOMAIN_NAME = os.environ['FULL_DOMAIN_NAME']
 
     # Celery deffered tasks
     # BROKER_URL = 'redis://localhost:6379/1'
@@ -368,7 +368,7 @@ if os.environ.get("CONFIG_ENV") == 'HEROKU':
     
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
-    FULL_DOMAIN_NAME = 'content-publisher-depl.eu-central-1.elasticbeanstalk.com'
+    FULL_DOMAIN_NAME = os.environ['FULL_DOMAIN_NAME']
 
     # Celery deffered tasks
     # BROKER_URL = 'redis://localhost:6379/1'
@@ -411,7 +411,7 @@ if os.environ.get("CONFIG_ENV") == 'local':
     }
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = True
-    FULL_DOMAIN_NAME = 'https://content-publisher-pawelste.c9users.io/'
+    FULL_DOMAIN_NAME = os.environ['FULL_DOMAIN_NAME']
     
     STATIC_URL = '/static/'
     STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static_root")

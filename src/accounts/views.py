@@ -9,7 +9,6 @@ from billing.models import Transaction, TransactionPayu
 from notifications.models import Notification
 
 from .models import MyUser
-from .forms import LoginForm, RegisterForm
 # Create your views here.
 
 

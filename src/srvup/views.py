@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response as RestResponse
 from rest_framework.reverse import reverse as api_reverse
 
-from accounts.forms import RegisterForm, LoginForm
+from accounts.forms import MySignupForm, MyLoginForm
 from videos.models import Video, Category
 from analytics.signals import page_view
 from analytics.models import PageView
@@ -88,8 +88,8 @@ def home(request):
         # If visitor is not logged in then:
         featured_categories = Category.objects.get_featured()
         featured_videos = Video.objects.get_featured()
-        login_form = LoginForm()
-        register_form = RegisterForm()
+        login_form = MyLoginForm()
+        register_form = MySignupForm()
         context = {
                 "latest_vids": latest_vids,
                 "register_form": register_form,
