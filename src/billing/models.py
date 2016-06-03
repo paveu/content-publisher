@@ -6,7 +6,6 @@ from django.contrib.auth.signals import user_logged_in
 from django.db import models
 from django.db.models.signals import post_save
 from django.utils import timezone
-# from django.contrib.messages.api import success
 
 from .signals import membership_dates_update
 from .utils import update_braintree_membership
