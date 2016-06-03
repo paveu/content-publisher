@@ -2,33 +2,32 @@
 
 content-publisher is a project for selling out video content. All videos we sell are hosted on an external servers(wistia.com) and their links are embedded to a website as a iframe code. If we mark video as a premium then we can sell it out for money by using braintree and payu payment systems.
 
-  - Heroku deyployment with AWS S3: [http://contentpub-pro.herokuapp.com](http://contentpub-pro.herokuapp.com)
-  - AWS Elastic Beanstalk deployment with AWS S3: [http://content-publisher-prod.mrcd6tpmj3.eu-central-1.elasticbeanstalk.com/](http://content-publisher-prod.mrcd6tpmj3.eu-central-1.elasticbeanstalk.com/)
+  - Heroku deyployment with AWS S3: [Link](http://contentpub-pro.herokuapp.com)
+  - AWS Elastic Beanstalk deployment with AWS S3: [Link](http://content-publisher-prod.mrcd6tpmj3.eu-central-1.elasticbeanstalk.com/)
 
 ### Project features
-  - selling premium accounts via Braintree and PayU systems
-  - full user account system
+  - selling out premium accounts via Braintree and PayU systems
+  - full user authentication system
   - posibility to register/login with facebook
   - full REST API for category, video and comment models
   - transaction history for braintree and payu systems
   - posibility to embed vimeo and youtube, wistia iframes
   - videos can be commented by users
-  - notification when action happens
-  - analytics system implemented
+  - notification when action happens(e.g. comments is made in a thread)
+  - analytic systems are implemented
 
 ### Technical features
   - django 1.9.5
-  - configuration for PostgreSQL 9.3 database for production
-  - static and media files hosted in AWS S3 (for both AWS EB and Heroku)
-  - Redis is used for celery broker in heroku
-  - Amazon SQS is used for celery broker in elasticbeanstalk
-  - for session caching AWS ElastiCache(Redis) is used for elasticbeanstalk
-  - for session caching Redis is used for heroku
-  - OAuth2 implemented along with Facebook athentication
-  - django Rest Framework and JWT
-  - email service via Gmail account
-  - posibility to host project source code on heroku with static and media files on AWS S3 bucket
-  - django-debug-toolbar implemented
+  - PostgreSQL 9.3 configuration database for production
+  - static and media files are hosted in AWS S3 (for both AWS Elastic Beanstalk and Heroku)
+  - Redis is used as a Celery broker for Heroku
+  - Amazon SQS is used as a Celery broker for AWS Elastic Beanstalk
+  - AWS ElastiCache(Redis) is used for session caching in AWS Elastic Beanstalk
+  - Redis is used for session caching in Heroku
+  - OAuth2 is implemented with Facebook authentication
+  - Rest api is expoed vbia django Rest Framework with JWT token
+  - email service is provied via Google Gmail account
+  - django-debug-toolbar is implemented
 
 ### Local deployment tutorial
 
