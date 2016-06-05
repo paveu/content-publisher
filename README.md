@@ -6,7 +6,7 @@ content-publisher is a project for selling out video content. All videos we sell
   - AWS Elastic Beanstalk deployment with AWS S3: [Link](http://content-publisher-prod.mrcd6tpmj3.eu-central-1.elasticbeanstalk.com/)
 
 ### Project features
-  - Selling out premium accounts via Braintree(Credit Card, PayPal) and PayU(Polish bank trasfer)
+  - Selling out premium accounts via Braintree(Credit Card, PayPal) and PayU(Polish bank transfer)
   - Full user authentication system
   - Posibility to register/login with facebook
   - Full REST API for category, video and comment models
@@ -19,6 +19,7 @@ content-publisher is a project for selling out video content. All videos we sell
 ### Technical features
   - Django framework 1.9.5
   - PostgreSQL 9.3 configuration database for production
+  - REST API Exposed at this link -> [Link](http://contentpub-pro.herokuapp.com/api/)
   - static and media files are hosted in AWS S3 (for both AWS Elastic Beanstalk and Heroku)
   - Redis is used as a Celery broker for Heroku
   - Amazon SQS is used as a Celery broker for AWS Elastic Beanstalk
