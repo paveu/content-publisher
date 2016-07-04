@@ -57,118 +57,118 @@ def braintree_upgrade(request):
     It upgrades regular user account into premium one. It is done based
     on transaction information.
     """
-    if request.user.is_authenticated():
-        try:
-            # get the UserMerchantId object where braintree 'customer id' is stored
-            # UserMerchantId object is created in accounts/models.py in new_user_receiver()
-            merchant_obj = UserMerchantId.objects.get(user=request.user)
-        except:
-            messages.error(request, "There was an error with your account. Please contact us.")
-            return redirect("contact_us")
+    try:
+        # get the UserMerchantId object where braintree 'customer id' is stored
+        # UserMerchantId object is created in accounts/models.py in new_user_receiver()
+        merchant_obj = UserMerchantId.objects.get(user=request.user)
+    except:
+        messages.error(request, "There was an error with your account. Please contact us.")
+        return render(request, "company/contact_us.html", {})
+
+    # get braintree 'customer_id' stored in merchant_obj
+    merchant_customer_id = merchant_obj.customer_id
     
-        # get braintree 'customer_id' stored in merchant_obj
-        merchant_customer_id = merchant_obj.customer_id
-        
-        # client_taken is needed for javascript frontend.
-        # it's gonna be rendered into JS code based on 'merchant_customer_id'.
-        # client token is useful to identify customer already existed in database
-        client_token = braintree.ClientToken.generate({
-                                                       "customer_id": merchant_customer_id
-                                                    })
-        if request.method == "POST":
-            # 'nonce' is a unique token of credit card generated after filling in
-            # braintree java script payment form
-            nonce = request.POST.get("payment_method_nonce", None)
-            if nonce is None:
-                messages.error(request, "An error occured, please try again filling in braintree form")
-                return redirect("account_upgrade")
-            else:
-                # create a payment method for the new subscription
-                # we need it because we have few payment methods: credit card or paypal
-                payment_method_result = braintree.PaymentMethod.create({
-                    "customer_id": merchant_customer_id,
-                    "payment_method_nonce": nonce,
-                    "options": {
-                                "make_default": True
-                    }
+    # client_taken is needed for javascript frontend.
+    # it's gonna be rendered into JS code based on 'merchant_customer_id'.
+    # client token is useful to identify customer already existed in database
+    client_token = braintree.ClientToken.generate({
+                                                   "customer_id": merchant_customer_id
+                                                })
+    if request.method == "POST":
+        # 'nonce' is a unique token of credit card generated after filling in
+        # braintree java script payment form
+        nonce = request.POST.get("payment_method_nonce", None)
+        if nonce is None:
+            messages.error(request, "An error occured, please try again filling in braintree form")
+            return render(request, "billing/account_upgrade.html", {})
+        else:
+            # create a payment method for the new subscription
+            # we need it because we have few payment methods: credit card or paypal
+            payment_method_result = braintree.PaymentMethod.create({
+                "customer_id": merchant_customer_id,
+                "payment_method_nonce": nonce,
+                "options": {
+                            "make_default": True
+                }
+            })
+            if not payment_method_result.is_success:
+                messages.error(request, "An error occured: %s" % payment_method_result.message)
+                return render(request, "billing/account_upgrade.html", {})
+
+            # payment method token which turns out to be a default one
+            the_token = payment_method_result.payment_method.token
+            
+            # current_sub_id and current_plan_id will be used to check
+            # whether a merchant has an active subscription, if it's not 
+            # active then we gonna charge his Credit Card or Paypal
+            # if it is active then nothing happens.
+            # To check this out we need merchant play_id and sub_uid
+            current_sub_id = merchant_obj.subscription_id
+            current_plan_id = merchant_obj.plan_id
+            
+            did_create_sub = False
+            did_update_sub = False
+            # trans_success = False
+            # trans_timestamp = None
+
+            try:
+                # find current subscription and get its status
+                current_subscription = braintree.Subscription.find(current_sub_id)
+                sub_status = current_subscription.status
+            except:
+                current_subscription = None
+                sub_status = None
+            
+            # if there is an active subscription then update braintree subscription
+            # and take its status
+            if current_subscription and sub_status == "Active":
+                update_sub = braintree.Subscription.update(current_sub_id, {
+                        "payment_method_token": the_token,
                 })
-                if not payment_method_result.is_success:
-                    messages.error(request, "An error occured: %s" % payment_method_result.message)
-                    return redirect("account_upgrade")
-                
-                # payment method token which turns out to be a default one
-                the_token = payment_method_result.payment_method.token
-                
-                # current_sub_id and current_plan_id will be used to check
-                # whether a merchant has an active subscription, if it's not 
-                # active then we gonna charge his Credit Card or Paypal
-                # if it is active then nothing happens.
-                # To check this out we need merchant play_id and sub_uid
-                current_sub_id = merchant_obj.subscription_id
-                current_plan_id = merchant_obj.plan_id
-                
-                did_create_sub = False
-                did_update_sub = False
-                # trans_success = False
-                # trans_timestamp = None
+                did_update_sub = True
+            # if subscription expired then charge him/her again based on 
+            # payment token and PLAN_ID(monthly).
+            else:
+                create_sub = braintree.Subscription.create({
+                        "payment_method_token": the_token,
+                        "plan_id": PLAN_ID
+                })
+                did_create_sub = True
 
-                try:
-                    # find current subscription and get its status
-                    current_subscription = braintree.Subscription.find(current_sub_id)
-                    sub_status = current_subscription.status
-                except:
-                    current_subscription = None
-                    sub_status = None
+            if did_create_sub or did_update_sub:
+                membership_instance, created = Membership.objects.get_or_create(user=request.user)
+
+            if did_update_sub and not did_create_sub:
+                messages.success(request, "Your plan has been updated")
+                # membership_dates_update signal is used to update membership
+                # premium account with start time
+                membership_dates_update.send(membership_instance,
+                                             new_date_start=timezone.now())
+                return render(request, "billing/account_upgrade.html", {})
+
+            elif did_create_sub and not did_update_sub:
+                merchant_obj.subscription_id = create_sub.subscription.id
+                merchant_obj.plan_id = PLAN_ID
+                merchant_obj.save()
                 
-                # if there is an active subscription then update braintree subscription
-                # and take its status
-                if current_subscription and sub_status == "Active":
-                    update_sub = braintree.Subscription.update(current_sub_id, {
-                            "payment_method_token": the_token,
-                    })
-                    did_update_sub = True
-                # if subscription expired then charge him/her again based on 
-                # payment token and PLAN_ID(monthly).
-                else:
-                    create_sub = braintree.Subscription.create({
-                            "payment_method_token": the_token,
-                            "plan_id": PLAN_ID
-                    })
-                    did_create_sub = True
+                # get most recent transaction bound to subscription
+                bt_tran = create_sub.subscription.transactions[0]
+                # create a new transaction instance in project Transaction model
+                new_tran, created = get_or_create_model_transaction(request.user, bt_tran)
+                trans_success = False
+                trans_timestamp = None
+                
+                if created:
+                    trans_timestamp = new_tran.timestamp
+                    trans_success = new_tran.success
 
-                if did_create_sub or did_update_sub:
-                    membership_instance, created = Membership.objects.get_or_create(user=request.user)
-
-                if did_update_sub and not did_create_sub:
-                    messages.success(request, "Your plan has been updated")
-                    # membership_dates_update signal is used to update membership
-                    # premium account with start time
-                    membership_dates_update.send(membership_instance,
-                                                 new_date_start=timezone.now())
-                    return redirect("account_upgrade")
-                elif did_create_sub and not did_update_sub:
-                    merchant_obj.subscription_id = create_sub.subscription.id
-                    merchant_obj.plan_id = PLAN_ID
-                    merchant_obj.save()
-                    
-                    # get most recent transaction bound to subscription
-                    bt_tran = create_sub.subscription.transactions[0]
-                    # create a new transaction instance in project Transaction model
-                    new_tran, created = get_or_create_model_transaction(request.user, bt_tran)
-                    trans_success = False
-                    trans_timestamp = None
-                    
-                    if created:
-                        trans_timestamp = new_tran.timestamp
-                        trans_success = new_tran.success
-
-                    membership_dates_update.send(membership_instance,
-                                                 new_date_start=trans_timestamp)
-                    messages.success(request, "Welcome to our service")
-                    return redirect("billing_history")
-                else:
-                    messages.error(request, "An error occured, please try again.")
-                    return redirect("account_upgrade")
+                membership_dates_update.send(membership_instance,
+                                             new_date_start=trans_timestamp)
+                messages.success(request, "Welcome to our service")
+                return render(request, "billing/account_upgrade.html", {})
+            else:
+                messages.error(request, "An error occured, please try again.")
+                return render(request, "billing/account_upgrade.html", {})
 
     context = {"client_token": client_token}
     return render(request, "billing/braintree_upgrade.html", context)
@@ -332,12 +332,14 @@ def payu_upgrade(request):
                 return redirect(redirectUri)
             else:
                 print("Error redirect statusCode:", statusCode)
+                messages.error(request, "Error redirect statusCode: %s" % statusCode)
+                return render(request, "billing/payu_upgrade.html", {})
         else:
             print("Status code is different than 302:", resp.status_code)
-    
+            messages.error(request, "Status code is different than 302: %s" % resp.status_code)
+            return render(request, "billing/payu_upgrade.html", {})
+
     usd = exchangeRateUSD()
-    # print(obj)
-    # usd = obj.result
     context = {"form": UpgradePayuForm, 
                 "action_url": reverse("payu_upgrade"), 
                 "dateOfListing": usd[0],
@@ -345,8 +347,8 @@ def payu_upgrade(request):
                 "sellingRate": usd[2],
                 "totalAmount": settings.TOTAL_AMOUNT,
     }
-
     return render(request, "billing/payu_upgrade.html", context)
+
 
 @require_http_methods(['POST'])
 @csrf_exempt

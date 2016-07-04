@@ -115,6 +115,4 @@ def send_feedback(request):
             sendFeedbackEmail.delay(email, message)
 
             messages.success(request, "Your feedback has been sent")
-            template = "srvup/feedback.html"
-            context = {}
-        return render(request, template, context)
+        return render(request, "srvup/feedback.html", {})

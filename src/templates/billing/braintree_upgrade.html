@@ -19,6 +19,15 @@
 {% block content %}
 <div class='row' style='width: 50%; margin: 0 auto; margin-top: 100px; margin-bottom: 100px;'>
 	<div class='col-sm-12' style='text-align:center;'>
+		{% if messages %}
+		<ul class="messages">
+		    {% for message in messages %}
+		    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+		    {% endfor %}
+		</ul>
+		{% endif %}
+
+
 		<h1>Upgrade your account with Braintree!</h1>
 	</div>
 	<hr />

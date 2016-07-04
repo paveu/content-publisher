@@ -1,9 +1,9 @@
 from django import forms
-
-from .models import MyUser
+from django.dispatch import receiver
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from allauth.account.forms import LoginForm, SignupForm
-
+from allauth.account.signals import user_signed_up
+from .models import MyUser
 
 class UserCreationForm(forms.ModelForm):
     """
@@ -89,3 +89,11 @@ class MySignupForm(SignupForm):
         self.fields['password1'].widget = forms.PasswordInput()
 
         self.fields['password2'].widget = forms.PasswordInput()
+
+
+
+@receiver(user_signed_up, dispatch_uid="some.unique.string.id.for.allauth.user_signed_up")
+def user_signed_up_(request, user, **kwargs):
+    # user signed up now send email
+    # send email part - do your self
+    print("new user")

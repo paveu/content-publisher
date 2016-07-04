@@ -20,6 +20,11 @@
 {% block content %}
 <div class='row' style='width: 50%; margin: 0 auto; margin-top: 100px; margin-bottom: 100px;'>
 	<div class='col-sm-12' style='text-align:center;'>
+	    {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+	    
+	    
 		<h1>Upgrade your account</h1>
 		<p class='lead'>For $25/month get unlimited access</p>
 		<a href="{% url 'payu_upgrade' %}"><img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Logo_payU.jpg" alt="PayU" /></a><br/>
