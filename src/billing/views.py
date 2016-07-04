@@ -48,7 +48,7 @@ def braintree_cancel_subscription(request):
             messages.error(request, "There was an error with your account, please contact us")
     else:
         messages.success(request, "You do not have an active subscription")
-    return redirect("billing_history")
+    return render(request, "billing/account_upgrade.html", {})
 
 
 @login_required
