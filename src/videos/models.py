@@ -1,6 +1,6 @@
-import urllib2
 from django.conf import settings
-from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.fields import GenericForeignKey, \
+                                                GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -19,7 +19,9 @@ class VideoQuerySet(models.query.QuerySet):
         return self.filter(featured=True)
 
     def has_embed(self):
-        return self.filter(embed_code__isnull=False).exclude(embed_code__exact="")
+        return self.filter(embed_code__isnull=False).exclude(
+            embed_code__exact=""
+            )
 
 
 class VideoManager(models.Manager):
@@ -61,7 +63,7 @@ class Video(models.Model):
         unique_together = ('slug', 'category')
         ordering = ['order', '-timestamp']
         verbose_name_plural = "Videos"
-        
+
     def __unicode__(self):
         return self.title
 
@@ -73,11 +75,6 @@ class Video(models.Model):
         full_url = "%s%s" % (settings.FULL_DOMAIN_NAME,
                              self.get_absolute_url())
         return full_url
-
-    # def get_share_message(self):
-    #     full_url = "%s%s" % (settings.FULL_DOMAIN_NAME,
-    #                          self.get_absolute_url())
-    #     return urllib2.quote("%s%s" % (full_url, self.description))
 
     def get_next_url(self):
         video = get_vid_for_direction(self, "next")
@@ -100,9 +97,10 @@ class Video(models.Model):
     def get_image_url(self):
         return "%s%s" % (settings.MEDIA_URL, self.image)
 
+
 def video_post_save_receiver(sender, instance, created, *args, **kwargs):
     """
-        Automatically create a slug for newly created Video
+    Automatically create a slug for newly created Video
     """
     if created:
         slug_title = slugify(instance.title)
@@ -110,8 +108,6 @@ def video_post_save_receiver(sender, instance, created, *args, **kwargs):
                                  instance.category.slug,
                                  instance.id)
         try:
-            obj_exists = Video.objects.get(slug=slug_title,
-                                           category=instance.category)
             instance.slug = slugify(new_slug)
             instance.save()
             print "model exists, new slug generated"
@@ -181,6 +177,7 @@ TAG_CHOICES = (
     ("bootstrap", "bootstrap"),
     ("music", "music"),
 )
+
 
 class TaggedItem(models.Model):
     """
