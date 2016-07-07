@@ -1,0 +1,138 @@
+src/srvup/__init__.py:5:1: F401 '.celery.app as celery_app' imported but unused
+src/srvup/__init__.py:5:38: W292 no newline at end of file
+src/srvup/celery.py:22:49: W292 no newline at end of file
+src/srvup/customstorages.py:7:1: E302 expected 2 blank lines, found 1
+src/srvup/customstorages.py:10:5: E301 expected 1 blank line, found 0
+src/srvup/customstorages.py:29:32: W292 no newline at end of file
+src/srvup/forms.py:5:1: E302 expected 2 blank lines, found 1
+src/srvup/forms.py:14:64: E251 unexpected spaces around keyword / parameter equals
+src/srvup/forms.py:14:66: E251 unexpected spaces around keyword / parameter equals
+src/srvup/forms.py:14:80: E501 line too long (96 > 79 characters)
+src/srvup/forms.py:15:1: W293 blank line contains whitespace
+src/srvup/forms.py:15:1: W391 blank line at end of file
+src/srvup/settings.py:17:1: F401 'django.core.urlresolvers.reverse' imported but unused
+src/srvup/settings.py:33:16: E261 at least two spaces before inline comment
+src/srvup/settings.py:70:53: E261 at least two spaces before inline comment
+src/srvup/settings.py:70:54: E262 inline comment should start with '# '
+src/srvup/settings.py:84:56: E261 at least two spaces before inline comment
+src/srvup/settings.py:84:56: E262 inline comment should start with '# '
+src/srvup/settings.py:106:8: E131 continuation line unaligned for hanging indent
+src/srvup/settings.py:123:1: E265 block comment should start with '# '
+src/srvup/settings.py:124:1: E265 block comment should start with '# '
+src/srvup/settings.py:125:1: E265 block comment should start with '# '
+src/srvup/settings.py:125:80: E501 line too long (117 > 79 characters)
+src/srvup/settings.py:133:80: E501 line too long (91 > 79 characters)
+src/srvup/settings.py:136:80: E501 line too long (81 > 79 characters)
+src/srvup/settings.py:139:80: E501 line too long (82 > 79 characters)
+src/srvup/settings.py:142:80: E501 line too long (83 > 79 characters)
+src/srvup/settings.py:181:80: E501 line too long (83 > 79 characters)
+src/srvup/settings.py:182:69: W291 trailing whitespace
+src/srvup/settings.py:183:80: W291 trailing whitespace
+src/srvup/settings.py:184:70: W291 trailing whitespace
+src/srvup/settings.py:185:47: W291 trailing whitespace
+src/srvup/settings.py:191:29: E261 at least two spaces before inline comment
+src/srvup/settings.py:208:8: E127 continuation line over-indented for visual indent
+src/srvup/settings.py:224:23: E272 multiple spaces before keyword
+src/srvup/settings.py:227:8: E124 closing bracket does not match visual indentation
+src/srvup/settings.py:230:1: E266 too many leading '#' for block comment
+src/srvup/settings.py:245:80: E501 line too long (127 > 79 characters)
+src/srvup/settings.py:248:44: E261 at least two spaces before inline comment
+src/srvup/settings.py:249:16: E261 at least two spaces before inline comment
+src/srvup/settings.py:257:1: E302 expected 2 blank lines, found 1
+src/srvup/settings.py:258:80: E501 line too long (83 > 79 characters)
+src/srvup/settings.py:266:80: E501 line too long (103 > 79 characters)
+src/srvup/settings.py:267:5: E266 too many leading '#' for block comment
+src/srvup/settings.py:269:32: E261 at least two spaces before inline comment
+src/srvup/settings.py:269:80: E501 line too long (114 > 79 characters)
+src/srvup/settings.py:274:1: W293 blank line contains whitespace
+src/srvup/settings.py:276:80: E501 line too long (101 > 79 characters)
+src/srvup/settings.py:277:80: E501 line too long (99 > 79 characters)
+src/srvup/settings.py:285:1: W293 blank line contains whitespace
+src/srvup/settings.py:288:1: W293 blank line contains whitespace
+src/srvup/settings.py:305:80: E501 line too long (218 > 79 characters)
+src/srvup/settings.py:305:91: E261 at least two spaces before inline comment
+src/srvup/settings.py:313:1: W293 blank line contains whitespace
+src/srvup/settings.py:314:5: E303 too many blank lines (2)
+src/srvup/settings.py:321:1: W293 blank line contains whitespace
+src/srvup/settings.py:323:5: E122 continuation line missing indentation or outdented
+src/srvup/settings.py:324:5: E122 continuation line missing indentation or outdented
+src/srvup/settings.py:326:1: W293 blank line contains whitespace
+src/srvup/settings.py:330:47: E261 at least two spaces before inline comment
+src/srvup/settings.py:334:1: W293 blank line contains whitespace
+src/srvup/settings.py:342:1: W293 blank line contains whitespace
+src/srvup/settings.py:343:5: E303 too many blank lines (2)
+src/srvup/settings.py:344:1: W293 blank line contains whitespace
+src/srvup/settings.py:348:5: E265 block comment should start with '# '
+src/srvup/settings.py:350:1: W293 blank line contains whitespace
+src/srvup/settings.py:363:1: W293 blank line contains whitespace
+src/srvup/settings.py:368:1: W293 blank line contains whitespace
+src/srvup/settings.py:375:28: E225 missing whitespace around operator
+src/srvup/settings.py:381:47: E261 at least two spaces before inline comment
+src/srvup/settings.py:385:1: W293 blank line contains whitespace
+src/srvup/settings.py:398:1: W293 blank line contains whitespace
+src/srvup/settings.py:405:1: W293 blank line contains whitespace
+src/srvup/settings.py:415:1: W293 blank line contains whitespace
+src/srvup/settings.py:417:80: E501 line too long (82 > 79 characters)
+src/srvup/settings.py:418:1: W293 blank line contains whitespace
+src/srvup/settings.py:421:1: W293 blank line contains whitespace
+src/srvup/settings.py:430:47: E261 at least two spaces before inline comment
+src/srvup/settings.py:434:1: W293 blank line contains whitespace
+src/srvup/settings.py:440:80: E501 line too long (100 > 79 characters)
+src/srvup/settings.py:440:101: W291 trailing whitespace
+src/srvup/settings.py:441:80: E501 line too long (99 > 79 characters)
+src/srvup/settings.py:441:100: W291 trailing whitespace
+src/srvup/settings.py:442:80: E501 line too long (99 > 79 characters)
+src/srvup/settings.py:442:100: W291 trailing whitespace
+src/srvup/settings.py:444:80: E501 line too long (93 > 79 characters)
+src/srvup/settings.py:444:94: W291 trailing whitespace
+src/srvup/settings.py:445:80: E501 line too long (96 > 79 characters)
+src/srvup/settings.py:445:97: W291 trailing whitespace
+src/srvup/settings.py:447:80: E501 line too long (81 > 79 characters)
+src/srvup/settings.py:449:1: W293 blank line contains whitespace
+src/srvup/settings.py:450:72: W291 trailing whitespace
+src/srvup/settings.py:451:80: E501 line too long (85 > 79 characters)
+src/srvup/settings.py:454:1: W293 blank line contains whitespace
+src/srvup/settings.py:455:80: E501 line too long (122 > 79 characters)
+src/srvup/tasks.py:1:1: F401 'os' imported but unused
+src/srvup/tasks.py:2:1: F401 'django.conf.settings' imported but unused
+src/srvup/tasks.py:6:1: E302 expected 2 blank lines, found 1
+src/srvup/tasks.py:9:80: E501 line too long (94 > 79 characters)
+src/srvup/tasks.py:10:1: W293 blank line contains whitespace
+src/srvup/tasks.py:10:1: W391 blank line at end of file
+src/srvup/urls.py:2:1: F401 'django.conf.urls.patterns' imported but unused
+src/srvup/urls.py:9:80: E501 line too long (135 > 79 characters)
+src/srvup/urls.py:15:35: W291 trailing whitespace
+src/srvup/urls.py:19:80: E501 line too long (87 > 79 characters)
+src/srvup/urls.py:20:80: E501 line too long (89 > 79 characters)
+src/srvup/urls.py:30:80: E501 line too long (83 > 79 characters)
+src/srvup/urls.py:31:80: E501 line too long (101 > 79 characters)
+src/srvup/urls.py:32:80: E501 line too long (92 > 79 characters)
+src/srvup/urls.py:33:80: E501 line too long (116 > 79 characters)
+src/srvup/urls.py:37:80: E501 line too long (88 > 79 characters)
+src/srvup/urls.py:38:80: E501 line too long (109 > 79 characters)
+src/srvup/urls.py:39:80: E501 line too long (128 > 79 characters)
+src/srvup/urls.py:40:80: E501 line too long (83 > 79 characters)
+src/srvup/urls.py:41:80: E501 line too long (94 > 79 characters)
+src/srvup/urls.py:42:80: E501 line too long (99 > 79 characters)
+src/srvup/urls.py:50:80: E501 line too long (108 > 79 characters)
+src/srvup/urls.py:52:80: E501 line too long (83 > 79 characters)
+src/srvup/urls.py:53:80: E501 line too long (103 > 79 characters)
+src/srvup/urls.py:60:80: E501 line too long (80 > 79 characters)
+src/srvup/urls.py:61:80: E501 line too long (82 > 79 characters)
+src/srvup/urls.py:67:80: E501 line too long (86 > 79 characters)
+src/srvup/urls.py:68:80: E501 line too long (108 > 79 characters)
+src/srvup/urls.py:88:80: E501 line too long (89 > 79 characters)
+src/srvup/urls.py:91:1: W391 blank line at end of file
+src/srvup/views.py:3:1: F401 'django.shortcuts.HttpResponseRedirect' imported but unused
+src/srvup/views.py:41:1: E302 expected 2 blank lines, found 1
+src/srvup/views.py:47:1: E302 expected 2 blank lines, found 1
+src/srvup/views.py:49:80: E501 line too long (83 > 79 characters)
+src/srvup/views.py:53:1: W293 blank line contains whitespace
+src/srvup/views.py:56:80: E501 line too long (84 > 79 characters)
+src/srvup/views.py:62:1: W293 blank line contains whitespace
+src/srvup/views.py:68:80: E501 line too long (188 > 79 characters)
+src/srvup/views.py:69:80: E501 line too long (166 > 79 characters)
+src/srvup/views.py:103:1: E302 expected 2 blank lines, found 1
+src/srvup/views.py:114:23: W291 trailing whitespace
+src/srvup/wsgi.py:16:1: E402 module level import not at top of file
+src/srvup/wsgi.py:28:24: W292 no newline at end of file

@@ -14,12 +14,12 @@ from .models import MyUser
 
 
 @login_required
-def account_home(request):
+def account_dashboard(request):
     notifications = Notification.objects.get_recent_for_user(request.user)
     braintreeHistory = Transaction.objects.get_recent_for_user(request.user, 3)
     payuHistory = TransactionPayu.objects.get_recent_for_user(request.user, 3)
     
-    return render(request, "account/account_home.html", {
+    return render(request, "account/account_dashboard.html", {
         "braintreeHistory": braintreeHistory,
         "payuHistory": payuHistory,
         "notifications": notifications,
