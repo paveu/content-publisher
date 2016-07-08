@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.signals import user_logged_in
@@ -59,17 +60,20 @@ class MyUser(AbstractBaseUser):
         unique=True,
     )
     email = models.EmailField(
-        verbose_name='email address',
+        verbose_name='Email address',
         max_length=255,
         unique=True,
     )
-    first_name = models.CharField(max_length=120,
-                                  null=True,
-                                  blank=True
-                                  )
-    last_name = models.CharField(max_length=120,
-                                 null=True,
-                                 blank=True)
+    first_name = models.CharField(max_length=120,\
+                                    verbose_name='First name',\
+                                    null=True,\
+                                    blank=True
+                                    )
+    last_name = models.CharField(max_length=120,\
+                                    verbose_name='Last name',\
+                                    null=True,\
+                                    blank=True
+                                    )
     is_member = models.BooleanField(default=False,
                                     verbose_name="Is Paid Member")
     is_active = models.BooleanField(default=True)

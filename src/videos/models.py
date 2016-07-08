@@ -1,5 +1,6 @@
+from __future__ import unicode_literals
 from django.conf import settings
-from django.contrib.contenttypes.fields import GenericForeignKey, \
+from django.contrib.contenttypes.fields import GenericForeignKey,\
                                                 GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
@@ -7,7 +8,6 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.utils.text import slugify
 from accounts.models import MyUser
-
 from .utils import get_vid_for_direction
 
 
@@ -62,8 +62,9 @@ class Video(models.Model):
     class Meta:
         unique_together = ('slug', 'category')
         ordering = ['order', '-timestamp']
-        verbose_name_plural = "Videos"
-
+        verbose_name = 'Video'
+        verbose_name_plural = 'Videos'
+        
     def __unicode__(self):
         return self.title
 
@@ -168,13 +169,11 @@ class Category(models.Model):
         return "%s%s" % (settings.MEDIA_URL, self.image)
 
     class Meta:
+        verbose_name = 'Category'
         verbose_name_plural = "Categories"
-
+        
 TAG_CHOICES = (
-    ("python", "python"),
-    ("django", "django"),
-    ("css", "css"),
-    ("bootstrap", "bootstrap"),
+    ("coding", "coding"),
     ("music", "music"),
 )
 
@@ -194,4 +193,5 @@ class TaggedItem(models.Model):
         return self.tag
 
     class Meta:
-        verbose_name_plural = "tags"
+        verbose_name = 'Tag'
+        verbose_name_plural = "Tags"

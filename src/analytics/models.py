@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from django.db import models
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
@@ -59,7 +60,8 @@ class PageView(models.Model):
 
     class Meta:
         ordering = ['-timestamp']
-        verbose_name_plural = "PageViews"
+        verbose_name = 'Page View'
+        verbose_name_plural = "Page Views"
         
 def page_view_received(sender, **kwargs):
     """

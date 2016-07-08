@@ -1,6 +1,6 @@
+from __future__ import unicode_literals
 import datetime
 import random
-
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
 from django.db import models
@@ -57,7 +57,8 @@ class Membership(models.Model):
         
     class Meta:
         verbose_name_plural = "Memberships"
-        
+     
+   
 def update_membership_status(sender, **kwargs):
     """
     Update membership status just after you save changes on the
@@ -70,6 +71,7 @@ def update_membership_status(sender, **kwargs):
         instance.update_status()
 
 post_save.connect(update_membership_status, sender=Membership)
+
 
 def update_membership_dates(sender, new_date_start, **kwargs):
     """
@@ -174,8 +176,8 @@ class Transaction(models.Model):
 
     class Meta:
         ordering = ['-timestamp']
-        verbose_name = 'braintree_payment'
-        verbose_name_plural = 'braintree_payments'
+        verbose_name = 'Transactions - Braintree'
+        verbose_name_plural = 'Transactions - Braintree'
 
 
 class TransactionPayuManager(models.Manager):
@@ -196,6 +198,7 @@ STATUS_CHOICES = (
     ('CANCELED', 'Canceled'),
     ('REJECTED', 'Rejected'),
 )
+
 
 class TransactionPayu(models.Model):
     """
@@ -220,11 +223,12 @@ class TransactionPayu(models.Model):
     
     class Meta:
         ordering = ('-timestamp',)
-        verbose_name = 'payu_payment'
-        verbose_name_plural = 'payu_payments'
+        verbose_name = 'Transactions - PayU'
+        verbose_name_plural = 'Transactions - PayU'
 
     def __unicode__(self):
         return self.order_id
+
 
 class UserMerchantId(models.Model):
     """
@@ -248,5 +252,5 @@ class UserMerchantId(models.Model):
         return self.customer_id
 
     class Meta:
-        verbose_name = 'UserMerchantId'
-        verbose_name_plural = 'UserMerchantIds'
+        verbose_name = 'Transactions - Braintree merchant'
+        verbose_name_plural = 'Transactions - Braintree merchant'

@@ -1,8 +1,8 @@
+from __future__ import unicode_literals
 from django.conf import settings
 from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.core.urlresolvers import reverse
-
 from accounts.models import MyUser
 from videos.models import Video
 # Create your models here.
@@ -62,6 +62,7 @@ class Comment(models.Model):
         ordering = ['-timestamp']
         verbose_name = 'Comment'
         verbose_name_plural = 'Comments'
+
     def __unicode__(self):
         return self.get_comment
 
