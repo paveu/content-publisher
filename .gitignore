@@ -1,5 +1,4 @@
 static/static_root
-static/media
 *.pyc
 .project
 .pydevproject
