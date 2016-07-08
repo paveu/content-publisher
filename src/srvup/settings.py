@@ -227,7 +227,8 @@ SOCIALACCOUNT_PROVIDERS = \
        }}
 # ACCOUNT_ADAPTER = 'accounts.adapter.MyAccountAdapter'
 
-### PAYMENT PAYU SECTION
+# PAYMENT PAYU SECTION
+# TODO save those keys in env path
 TEST_POS_ID = 145227
 TEST_MD5_KEY = '12f071174cb7eb79d4aac5bc2f07563f'
 TEST_SECOND_MD5_KEY = '13a980d4f851f3d9a1cfc792fb1f5e50'

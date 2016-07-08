@@ -16,8 +16,8 @@ from .models import MyUser
 @login_required
 def account_dashboard(request):
     notifications = Notification.objects.get_recent_for_user(request.user)
-    braintreeHistory = Transaction.objects.get_recent_for_user(request.user, 3)
-    payuHistory = TransactionPayu.objects.get_recent_for_user(request.user, 3)
+    braintreeHistory = Transaction.objects.get_recent_for_user(request.user, 5)
+    payuHistory = TransactionPayu.objects.get_recent_for_user(request.user, 5)
     
     return render(request, "account/account_dashboard.html", {
         "braintreeHistory": braintreeHistory,
@@ -28,4 +28,7 @@ def account_dashboard(request):
 #TODO
 @receiver(user_signed_up, dispatch_uid="some.unique.string.id.for.allauth.user_signed_up")
 def user_signed_up_(request, user, **kwargs):
-    print("welcome email after signing in")
+    # user signed up now send email
+    # send email part - do your self
+    print("new user")
+

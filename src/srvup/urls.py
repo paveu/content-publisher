@@ -53,13 +53,7 @@ urlpatterns = [
     url(r'^categories/(?P<cat_slug>[\w-]+)/(?P<vid_slug>[\w-]+)/$', video_detail, name='video_detail'),
     url(r'^admin/', admin.site.urls),
     url(r'^send_feedback/$', send_feedback, name='send_feedback'),
-
-    ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
+]
 # enrollment
 urlpatterns += [
     url(r'^billing/upgrade/$', account_upgrade, name='account_upgrade'),
@@ -89,3 +83,6 @@ urlpatterns += [
     url(r'^notifications/read/(?P<id>\d+)/$', read, name='notifications_read'),
 ]
 
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
