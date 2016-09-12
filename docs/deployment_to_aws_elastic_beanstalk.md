@@ -115,11 +115,18 @@
 	```
 
 
-4.	**Create Elastic Beanstalk environments (stage and production)**
+4.	**Create Elastic Beanstalk environments (stage and production) .**
 
 	```
 	eb create content-publisher-prod
 	eb create content-publisher-stage
+	```
+
+4a.	** You could create Elastic Beanstalk environments by providing database engine. If you do it here at this step then you don't have to follow step #7**
+	
+	```
+	eb create content-publisher-prod --scale 1 -db -db.engine postgres
+	eb create content-publisher-stage --scale 1 -db -db.engine postgres
 	```
 	
 	In your environment/configuration/instances/EC2 key pair - check whether 'aws-deploy-keys' is used for this env(prod and stage)
@@ -205,13 +212,15 @@
 
 	```
 	container_commands:
-	  01_migrate:
+	  01_makemigrations:
+	    command: "source /opt/python/run/venv/bin/activate && python src/manage.py makemigrations --noinput"
+	  02_migrate:
 	    command: "source /opt/python/run/venv/bin/activate && python src/manage.py migrate --noinput"
 	    leader_only: true
-	  02_createsu:
+	  03_createsu:
 	    command: "source /opt/python/run/venv/bin/activate && python src/manage.py createsu"
 	    leader_only: true
-	  03_collectstatic:
+	  04_collectstatic:
 	    command: "source /opt/python/run/venv/bin/activate && python src/manage.py collectstatic --noinput"
 	
 	option_settings:
